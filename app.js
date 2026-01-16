@@ -1,11 +1,15 @@
-// Database (tạm thời dùng localStorage)
-let database = {
+// ============================================
+// HỆ THỐNG QUẢN LÝ CÔNG TÁC ĐẢNG
+// Phiên bản 1.0 - App Logic
+// ============================================
+
+// Cơ sở dữ liệu tạm thời
+const database = {
     chibos: [
         {
             id: 1,
             maChiBo: "CB_TB_TTDD",
             tenChiBo: "Chi bộ Đội Thiết bị Thông tin Dẫn đường",
-            dangBoId: 1,
             soDangVien: 15,
             diaChi: "Cảng HKQT Nội Bài",
             ngayThanhLap: "2010-01-01"
@@ -30,24 +34,69 @@ let database = {
             chiBoId: 1,
             chucVuTrongDang: "Phó Bí thư",
             chucVuChuyenMon: "Phó đội"
+        },
+        {
+            id: 3,
+            maDangVien: "DV-003",
+            hoVaTen: "Lê Thị B",
+            gioiTinh: "Nữ",
+            chiBoId: 1,
+            chucVuTrongDang: "Chi ủy viên"
         }
     ],
     nghiquyets: [
         {
             id: 1,
             soHieu: "DTNQ/CB-01-2026",
-            chiBoId: 1,
-            loai: "THANG",
             tieuDe: "lãnh đạo thực hiện nhiệm vụ tháng 01 năm 2026",
             thang: 1,
             nam: 2026,
             trangThai: "DA_DUYET",
-            nguoiTaoId: 1
+            loai: "THANG"
+        },
+        {
+            id: 2,
+            soHieu: "DTNQ/CB-02-2026",
+            tieuDe: "lãnh đạo thực hiện nhiệm vụ tháng 02 năm 2026",
+            thang: 2,
+            nam: 2026,
+            trangThai: "CHO_DUYET",
+            loai: "THANG"
         }
     ]
 };
 
-// Load trang
+// Khởi tạo
+document.addEventListener('DOMContentLoaded', function() {
+    updateStats();
+    setupEventListeners();
+});
+
+// Cập nhật thống kê
+function updateStats() {
+    document.getElementById('countChiBo').textContent = database.chibos.length;
+    document.getElementById('countDangVien').textContent = database.dangviens.length;
+    document.getElementById('countNghiQuyet').textContent = database.nghiquyets.length;
+    
+    document.getElementById('sideChiBo').textContent = database.chibos.length;
+    document.getElementById('sideDangVien').textContent = database.dangviens.length;
+    document.getElementById('sideNghiQuyet').textContent = database.nghiquyets.length;
+}
+
+// Thiết lập sự kiện
+function setupEventListeners() {
+    // Menu click
+    document.querySelectorAll('.list-group-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.list-group-item').forEach(i => {
+                i.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+}
+
+// Điều hướng trang
 function loadPage(page) {
     updateStats();
     
@@ -64,71 +113,82 @@ function loadPage(page) {
     }
 }
 
-// Cập nhật thống kê
-function updateStats() {
-    document.getElementById('count-chibo').textContent = database.chibos.length;
-    document.getElementById('count-dangvien').textContent = database.dangviens.length;
-    document.getElementById('count-nghiquyet').textContent = database.nghiquyets.length;
-    
-    document.getElementById('stats-chibo').textContent = database.chibos.length;
-    document.getElementById('stats-dangvien').textContent = database.dangviens.length;
-    document.getElementById('stats-nghiquyet').textContent = database.nghiquyets.length;
-}
-
 // Trang chủ
 function loadHome() {
     document.getElementById('content').innerHTML = `
-        <h2 class="mb-4">Tổng quan hệ thống</h2>
-        <div class="row">
+        <h2 class="mb-4"><i class="bi bi-house-door text-danger"></i> Tổng quan hệ thống</h2>
+        
+        <div class="row mb-4">
             <div class="col-md-4 mb-3">
-                <div class="card text-white bg-primary">
+                <div class="card card-stat text-white bg-primary">
                     <div class="card-body text-center">
-                        <h1>${database.chibos.length}</h1>
+                        <h1 class="display-4">${database.chibos.length}</h1>
                         <p class="card-text">Chi bộ</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <div class="card text-white bg-success">
+                <div class="card card-stat text-white bg-success">
                     <div class="card-body text-center">
-                        <h1>${database.dangviens.length}</h1>
+                        <h1 class="display-4">${database.dangviens.length}</h1>
                         <p class="card-text">Đảng viên</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
-                <div class="card text-white bg-warning">
+                <div class="card card-stat text-white bg-warning">
                     <div class="card-body text-center">
-                        <h1>${database.nghiquyets.length}</h1>
+                        <h1 class="display-4">${database.nghiquyets.length}</h1>
                         <p class="card-text">Nghị quyết</p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="row mt-4">
+
+        <div class="row">
             <div class="col-md-6">
-                <h4>Chi bộ hiện có</h4>
-                <ul class="list-group">
-                    ${database.chibos.map(cb => `
-                        <li class="list-group-item">
-                            <strong>${cb.maChiBo}</strong>: ${cb.tenChiBo}
-                            <span class="badge bg-primary float-end">${cb.soDangVien} ĐV</span>
-                        </li>
-                    `).join('')}
-                </ul>
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="bi bi-building me-2"></i>Chi bộ hiện có</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            ${database.chibos.map(cb => `
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">${cb.maChiBo}</h6>
+                                        <span class="badge bg-primary">${cb.soDangVien} ĐV</span>
+                                    </div>
+                                    <p class="mb-1">${cb.tenChiBo}</p>
+                                    <small>${cb.diaChi}</small>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
             </div>
+            
             <div class="col-md-6">
-                <h4>Hoạt động gần đây</h4>
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <small class="text-muted">Hôm nay</small><br>
-                        Thêm 01 đảng viên mới
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <small class="text-muted">01/02/2026</small><br>
-                        Ban hành Nghị quyết tháng 1/2026
-                    </a>
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Hoạt động gần đây</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <small class="text-muted">Hôm nay</small>
+                                <p class="mb-1">Đang soạn thảo Nghị quyết tháng 02/2026</p>
+                            </div>
+                            <div class="list-group-item">
+                                <small class="text-muted">03/01/2026</small>
+                                <p class="mb-1">Ban hành Nghị quyết tháng 01/2026</p>
+                            </div>
+                            <div class="list-group-item">
+                                <small class="text-muted">15/12/2025</small>
+                                <p class="mb-1">Hoàn thành báo cáo tổng kết năm 2025</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,137 +199,111 @@ function loadHome() {
 function loadChiBo() {
     document.getElementById('content').innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Quản lý Chi bộ</h2>
-            <button class="btn btn-success" onclick="themChiBo()">
-                <i class="bi bi-plus-circle"></i> Thêm Chi bộ mới
+            <h2><i class="bi bi-building text-danger me-2"></i>Quản lý Chi bộ</h2>
+            <button class="btn btn-dang" onclick="themChiBo()">
+                <i class="bi bi-plus-circle me-1"></i>Thêm Chi bộ
             </button>
         </div>
         
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Mã Chi bộ</th>
-                    <th>Tên Chi bộ</th>
-                    <th>Số Đảng viên</th>
-                    <th>Ngày thành lập</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${database.chibos.map(cb => `
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
                     <tr>
-                        <td><strong>${cb.maChiBo}</strong></td>
-                        <td>${cb.tenChiBo}</td>
-                        <td><span class="badge bg-primary">${cb.soDangVien}</span></td>
-                        <td>${cb.ngayThanhLap || 'N/A'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-info me-1" onclick="suaChiBo(${cb.id})">Sửa</button>
-                            <button class="btn btn-sm btn-danger" onclick="xoaChiBo(${cb.id})">Xóa</button>
-                        </td>
+                        <th>Mã Chi bộ</th>
+                        <th>Tên Chi bộ</th>
+                        <th>Số Đảng viên</th>
+                        <th>Địa chỉ</th>
+                        <th>Thao tác</th>
                     </tr>
-                `).join('')}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    ${database.chibos.map(cb => `
+                        <tr>
+                            <td><strong>${cb.maChiBo}</strong></td>
+                            <td>${cb.tenChiBo}</td>
+                            <td><span class="badge bg-primary">${cb.soDangVien}</span></td>
+                            <td><small>${cb.diaChi}</small></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
     `;
-}
-
-function themChiBo() {
-    document.getElementById('content').innerHTML = `
-        <h2 class="mb-4">Thêm Chi bộ mới</h2>
-        <form onsubmit="return luuChiBoMoi(event)">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Mã Chi bộ *</label>
-                    <input type="text" class="form-control" id="maChiBo" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Tên Chi bộ *</label>
-                    <input type="text" class="form-control" id="tenChiBo" required>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Ngày thành lập</label>
-                    <input type="date" class="form-control" id="ngayThanhLap">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label class="form-label">Số Đảng viên</label>
-                    <input type="number" class="form-control" id="soDangVien" value="0">
-                </div>
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label">Địa chỉ</label>
-                <textarea class="form-control" id="diaChi" rows="2"></textarea>
-            </div>
-            
-            <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Lưu Chi bộ</button>
-                <button type="button" class="btn btn-secondary" onclick="loadChiBo()">Hủy</button>
-            </div>
-        </form>
-    `;
-}
-
-function luuChiBoMoi(event) {
-    event.preventDefault();
-    
-    const newId = Math.max(...database.chibos.map(c => c.id)) + 1;
-    
-    database.chibos.push({
-        id: newId,
-        maChiBo: document.getElementById('maChiBo').value,
-        tenChiBo: document.getElementById('tenChiBo').value,
-        ngayThanhLap: document.getElementById('ngayThanhLap').value,
-        soDangVien: parseInt(document.getElementById('soDangVien').value) || 0,
-        diaChi: document.getElementById('diaChi').value,
-        dangBoId: 1
-    });
-    
-    alert('Đã thêm Chi bộ mới thành công!');
-    loadChiBo();
-    updateStats();
-    return false;
 }
 
 // Quản lý Đảng viên
 function loadDangVien() {
     document.getElementById('content').innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Quản lý Đảng viên</h2>
-            <button class="btn btn-success" onclick="themDangVien()">
-                <i class="bi bi-person-plus"></i> Thêm Đảng viên
+            <h2><i class="bi bi-people text-danger me-2"></i>Quản lý Đảng viên</h2>
+            <button class="btn btn-dang" onclick="themDangVien()">
+                <i class="bi bi-person-plus me-1"></i>Thêm Đảng viên
             </button>
         </div>
         
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>Mã ĐV</th>
-                    <th>Họ và tên</th>
-                    <th>Giới tính</th>
-                    <th>Chức vụ Đảng</th>
-                    <th>Chi bộ</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${database.dangviens.map(dv => `
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
                     <tr>
-                        <td><strong>${dv.maDangVien}</strong></td>
-                        <td>${dv.hoVaTen}</td>
-                        <td>${dv.gioiTinh}</td>
-                        <td>${dv.chucVuTrongDang || ''}</td>
-                        <td>${database.chibos.find(cb => cb.id === dv.chiBoId)?.tenChiBo || ''}</td>
-                        <td>
-                            <button class="btn btn-sm btn-info me-1">Sửa</button>
-                            <button class="btn btn-sm btn-danger">Xóa</button>
-                        </td>
+                        <th>Mã ĐV</th>
+                        <th>Họ và tên</th>
+                        <th>Giới tính</th>
+                        <th>Chức vụ Đảng</th>
+                        <th>Ngày vào Đảng</th>
+                        <th>Thao tác</th>
                     </tr>
-                `).join('')}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    ${database.dangviens.map(dv => `
+                        <tr>
+                            <td><strong class="text-primary">${dv.maDangVien}</strong></td>
+                            <td>${dv.hoVaTen}</td>
+                            <td>${dv.gioiTinh}</td>
+                            <td>${dv.chucVuTrongDang || '-'}</td>
+                            <td>${dv.ngayVaoDang || '-'}</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Phân bố Đảng viên</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Chi bộ Thiết bị:</span>
+                            <span class="badge bg-primary">${database.dangviens.length} đảng viên</span>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar bg-primary" style="width: 100%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     `;
 }
 
@@ -277,40 +311,136 @@ function loadDangVien() {
 function loadNghiQuyet() {
     document.getElementById('content').innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Quản lý Nghị quyết</h2>
-            <button class="btn btn-success" onclick="themNghiQuyet()">
-                <i class="bi bi-file-earmark-plus"></i> Thêm Nghị quyết
+            <h2><i class="bi bi-file-text text-danger me-2"></i>Quản lý Nghị quyết</h2>
+            <button class="btn btn-dang" onclick="themNghiQuyet()">
+                <i class="bi bi-file-earmark-plus me-1"></i>Thêm Nghị quyết
             </button>
         </div>
         
-        <div class="mb-3">
-            <div class="btn-group">
-                <button class="btn btn-outline-primary active">Tất cả</button>
-                <button class="btn btn-outline-primary">Tháng</button>
-                <button class="btn btn-outline-primary">Quý</button>
-                <button class="btn btn-outline-primary">Năm</button>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Tìm nghị quyết...">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select">
+                    <option>Tất cả trạng thái</option>
+                    <option>Bản nháp</option>
+                    <option>Chờ duyệt</option>
+                    <option>Đã duyệt</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select">
+                    <option>Tất cả loại</option>
+                    <option>Tháng</option>
+                    <option>Quý</option>
+                    <option>Năm</option>
+                </select>
             </div>
         </div>
         
         <div class="list-group">
-            ${database.nghiquyets.map(nq => `
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">${nq.soHieu} - ${nq.tieuDe}</h5>
-                        <span class="badge ${nq.trangThai === 'DA_DUYET' ? 'bg-success' : 'bg-warning'}">
-                            ${nq.trangThai}
-                        </span>
+            ${database.nghiquyets.map(nq => {
+                const badgeClass = nq.trangThai === 'DA_DUYET' ? 'bg-success' : 
+                                 nq.trangThai === 'CHO_DUYET' ? 'bg-warning' : 'bg-secondary';
+                return `
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <div>
+                                <h5 class="mb-1">
+                                    <span class="badge ${badgeClass} me-2">${nq.trangThai}</span>
+                                    ${nq.soHieu}
+                                </h5>
+                                <p class="mb-1">${nq.tieuDe}</p>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Tháng ${nq.thang}/${nq.nam} | 
+                                    <i class="bi bi-tag"></i> ${nq.loai}
+                                </small>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <p class="mb-1">Tháng ${nq.thang}/${nq.nam} - Chi bộ: ${database.chibos.find(cb => cb.id === nq.chiBoId)?.tenChiBo}</p>
-                    <small class="text-muted">Người tạo: ${database.dangviens.find(dv => dv.id === nq.nguoiTaoId)?.hoVaTen}</small>
-                </a>
-            `).join('')}
+                `;
+            }).join('')}
         </div>
     `;
 }
 
-// Khởi động
-document.addEventListener('DOMContentLoaded', function() {
-    updateStats();
-    loadHome();
-});
+// Báo cáo
+function loadBaoCao() {
+    document.getElementById('content').innerHTML = `
+        <h2 class="mb-4"><i class="bi bi-bar-chart text-danger me-2"></i>Báo cáo thống kê</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Thống kê Đảng viên</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartDangVien" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Thống kê Nghị quyết</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartNghiQuyet" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-white">
+                <h5 class="mb-0">Báo cáo nhanh</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <div class="display-6 text-primary">${database.chibos.length}</div>
+                        <small>Chi bộ</small>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-6 text-success">${database.dangviens.length}</div>
+                        <small>Đảng viên</small>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-6 text-warning">${database.nghiquyets.length}</div>
+                        <small>Nghị quyết</small>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="display-6 text-danger">${database.nghiquyets.filter(nq => nq.trangThai === 'DA_DUYET').length}</div>
+                        <small>Đã duyệt</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Các hàm thêm mới (đơn giản)
+function themChiBo() {
+    alert('Chức năng Thêm Chi bộ - Đang phát triển');
+}
+
+function themDangVien() {
+    alert('Chức năng Thêm Đảng viên - Đang phát triển');
+}
+
+function themNghiQuyet() {
+    alert('Chức năng Thêm Nghị quyết - Đang phát triển');
+}
