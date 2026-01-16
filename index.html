@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QL Công tác Đảng - Đội Thiết bị</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand { font-weight: bold; }
+        .list-group-item.active { background-color: #dc3545; border-color: #dc3545; }
+        .card { transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-danger shadow">
+        <div class="container">
+            <span class="navbar-brand">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/20px-Flag_of_Vietnam.svg.png" alt="" class="me-2">
+                ĐẢNG BỘ TRUNG TÂM KHAI THÁC KHU BAY NỘI BÀI<br>
+                <small>CHI BỘ ĐỘI THIẾT BỊ THÔNG TIN DẪN ĐƯỜNG</small>
+            </span>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="list-group">
+                    <button class="list-group-item list-group-item-action active" onclick="loadPage('home')">
+                        📊 Tổng quan
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="loadPage('chibo')">
+                        🏛️ Quản lý Chi bộ
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="loadPage('dangvien')">
+                        👥 Quản lý Đảng viên
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="loadPage('nghiquyet')">
+                        📄 Nghị quyết
+                    </button>
+                    <button class="list-group-item list-group-item-action" onclick="loadPage('baocao')">
+                        📈 Báo cáo
+                    </button>
+                </div>
+                
+                <div class="mt-3 p-3 border rounded bg-light">
+                    <h6>Thống kê nhanh</h6>
+                    <div class="small">
+                        <div>Chi bộ: <span id="stats-chibo" class="badge bg-primary">0</span></div>
+                        <div>Đảng viên: <span id="stats-dangvien" class="badge bg-success">0</span></div>
+                        <div>Nghị quyết: <span id="stats-nghiquyet" class="badge bg-warning">0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <div id="content">
+                    <h2 class="mb-4">Chào mừng đến Hệ thống Quản lý Công tác Đảng</h2>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body text-center">
+                                    <h1 id="count-chibo">0</h1>
+                                    <p class="card-text">Chi bộ</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body text-center">
+                                    <h1 id="count-dangvien">0</h1>
+                                    <p class="card-text">Đảng viên</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body text-center">
+                                    <h1 id="count-nghiquyet">0</h1>
+                                    <p class="card-text">Nghị quyết</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4>Hướng dẫn sử dụng</h4>
+                        <ol>
+                            <li>Chọn chức năng từ menu bên trái</li>
+                            <li>Quản lý Chi bộ: Thêm, sửa, xóa thông tin chi bộ</li>
+                            <li>Quản lý Đảng viên: Quản lý hồ sơ đảng viên</li>
+                            <li>Nghị quyết: Tạo và quản lý nghị quyết tháng/quý/năm</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 bg-light text-center border-top">
+        <div class="container">
+            <small>© 2026 - Hệ thống Quản lý Công tác Đảng - Phiên bản 1.0</small>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
