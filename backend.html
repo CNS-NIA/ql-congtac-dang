@@ -3,267 +3,482 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Backend API - Hệ thống QL Công tác Đảng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <title>Đăng nhập - Hệ thống Quản lý Công tác Đảng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .header {
-            background: linear-gradient(135deg, #dc3545, #c82333);
-            color: white;
-            padding: 40px 0;
-            margin-bottom: 40px;
-            border-bottom: 5px solid #a71d2a;
-        }
-        .card-api {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            margin-bottom: 20px;
-            height: 100%;
-        }
-        .card-api:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        .badge-method {
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        .badge-get { background: #28a745; color: white; }
-        .badge-post { background: #007bff; color: white; }
-        .badge-put { background: #ffc107; color: black; }
-        .badge-delete { background: #dc3545; color: white; }
-        .endpoint-url {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            border-left: 4px solid #dc3545;
-        }
-        .btn-back {
-            background: #6c757d;
-            color: white;
-            padding: 10px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-flex;
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a4a8c, #3a6aac);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
             align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-left {
+            flex: 1;
+            background: linear-gradient(to bottom right, #1a2a6c, #2a4a8c);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-left h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .login-left p {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .features-list i {
+            margin-right: 12px;
+            color: #4dabf7;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-right {
+            flex: 1;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 28px;
+        }
+
+        .logo h2 {
+            color: #1a2a6c;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a2a6c;
+            font-size: 18px;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
             transition: all 0.3s;
         }
-        .btn-back:hover {
-            background: #5a6268;
+
+        .input-with-icon input:focus {
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
+            outline: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+            accent-color: #1a2a6c;
+        }
+
+        .forgot-password {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: #2a4a8c;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
             color: white;
-            transform: translateX(-5px);
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(to right, #2a4a8c, #3a6aac);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .login-left, .login-right {
+                padding: 40px 30px;
+            }
+            
+            .login-left {
+                order: 2;
+            }
+            
+            .login-right {
+                order: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                border-radius: 15px;
+            }
+            
+            .login-left, .login-right {
+                padding: 30px 20px;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-10">
-                    <h1><i class="bi bi-server"></i> Quản lý Backend API</h1>
-                    <p class="lead mb-0">Hệ thống Quản lý Công tác Đảng - Backend Management</p>
-                    <small>Chi bộ Đội Thiết bị Thông tin Dẫn đường</small>
+    <div class="login-container">
+        <div class="login-left">
+            <h1>Hệ thống Quản lý Công tác Đảng</h1>
+            <p>Hệ thống hỗ trợ công tác quản lý, theo dõi và đánh giá các hoạt động Đảng một cách hiệu quả và minh bạch.</p>
+            
+            <ul class="features-list">
+                <li><i class="fas fa-shield-alt"></i> Bảo mật thông tin tuyệt đối</li>
+                <li><i class="fas fa-chart-line"></i> Báo cáo thống kê trực quan</li>
+                <li><i class="fas fa-users"></i> Quản lý đảng viên toàn diện</li>
+                <li><i class="fas fa-calendar-check"></i> Theo dõi công tác Đảng</li>
+                <li><i class="fas fa-file-contract"></i> Quản lý hồ sơ, văn bản Đảng</li>
+            </ul>
+        </div>
+        
+        <div class="login-right">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-landmark"></i>
                 </div>
-                <div class="col-md-2 text-end">
-                    <span class="badge bg-light text-danger fs-6">API v1.0</span>
-                </div>
+                <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
+                <p>Hệ thống Quản lý công tác Đảng - CNS NIA</p>
             </div>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+                    </div>
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Ghi nhớ đăng nhập</label>
+                    </div>
+                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP
+                </button>
+                
+                <div class="footer">
+                    <p>© 2023 Hệ thống Quản lý công tác Đảng - CNS NIA</p>
+                    <p>Liên hệ hỗ trợ: <a href="mailto:support@cns-nia.gov.vn">support@cns-nia.gov.vn</a></p>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <!-- API Status -->
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="alert alert-info">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="alert-heading mb-1"><i class="bi bi-info-circle"></i> Backend Status</h5>
-                            <p class="mb-0">API server đang được xây dựng. Sẽ deploy lên <strong>Render.com</strong> với PostgreSQL database.</p>
-                        </div>
-                        <div class="text-end">
-                            <span class="badge bg-warning text-dark fs-6">Đang phát triển</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- API Documentation -->
-        <div class="row">
-            <div class="col-md-12 mb-4">
-                <h3 class="border-bottom pb-2"><i class="bi bi-book"></i> API Documentation</h3>
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- Chi bộ API -->
-            <div class="col-md-6">
-                <div class="card card-api">
-                    <div class="card-header bg-danger text-white">
-                        <h5 class="mb-0"><i class="bi bi-building"></i> Chi bộ API</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <span class="badge-method badge-get">GET</span>
-                            <span class="badge-method badge-post">POST</span>
-                            <div class="endpoint-url mt-2">/api/chibo</div>
-                            <p class="mt-2">Quản lý thông tin Chi bộ</p>
-                        </div>
-                        <h6>Parameters:</h6>
-                        <ul class="small">
-                            <li><code>?page=1</code> - Trang số</li>
-                            <li><code>?limit=50</code> - Số bản ghi/trang</li>
-                            <li><code>?search=text</code> - Tìm kiếm</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Đảng viên API -->
-            <div class="col-md-6">
-                <div class="card card-api">
-                    <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="bi bi-people"></i> Đảng viên API</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <span class="badge-method badge-get">GET</span>
-                            <span class="badge-method badge-post">POST</span>
-                            <span class="badge-method badge-put">PUT</span>
-                            <span class="badge-method badge-delete">DELETE</span>
-                            <div class="endpoint-url mt-2">/api/dangvien</div>
-                            <p class="mt-2">Quản lý thông tin Đảng viên (CRUD đầy đủ)</p>
-                        </div>
-                        <h6>Features:</h6>
-                        <ul class="small">
-                            <li>Phân trang (Pagination)</li>
-                            <li>Tìm kiếm đa tiêu chí</li>
-                            <li>Sắp xếp (Sorting)</li>
-                            <li>Filter theo Chi bộ</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <!-- Nghị quyết API -->
-            <div class="col-md-6">
-                <div class="card card-api">
-                    <div class="card-header bg-warning text-dark">
-                        <h5 class="mb-0"><i class="bi bi-file-text"></i> Nghị quyết API</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <span class="badge-method badge-get">GET</span>
-                            <span class="badge-method badge-post">POST</span>
-                            <div class="endpoint-url mt-2">/api/nghiquyet</div>
-                            <p class="mt-2">Quản lý Nghị quyết tháng/quý/năm</p>
-                        </div>
-                        <h6>Loại Nghị quyết:</h6>
-                        <ul class="small">
-                            <li>Nghị quyết tháng</li>
-                            <li>Nghị quyết quý</li>
-                            <li>Nghị quyết năm</li>
-                            <li>Nghị quyết chuyên đề</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Health Check -->
-            <div class="col-md-6">
-                <div class="card card-api">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="bi bi-heart-pulse"></i> Health Check</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <span class="badge-method badge-get">GET</span>
-                            <div class="endpoint-url mt-2">/health</div>
-                            <p class="mt-2">Kiểm tra tình trạng server và database</p>
-                        </div>
-                        <h6>Response:</h6>
-                        <pre class="bg-light p-2 small">{
-  "status": "healthy",
-  "service": "QL Công tác Đảng API",
-  "version": "1.0.0",
-  "database": "connected",
-  "timestamp": "2026-01-16T10:30:00Z"
-}</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Deployment Info -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0"><i class="bi bi-cloud-upload"></i> Deployment Information</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h6><i class="bi bi-hdd text-primary"></i> Server</h6>
-                                <p class="small">Render.com Web Service<br>Node.js + Express</p>
-                            </div>
-                            <div class="col-md-4">
-                                <h6><i class="bi bi-database text-success"></i> Database</h6>
-                                <p class="small">PostgreSQL (Render)<br>Full CRUD operations</p>
-                            </div>
-                            <div class="col-md-4">
-                                <h6><i class="bi bi-shield-check text-warning"></i> Security</h6>
-                                <p class="small">JWT Authentication<br>CORS Enabled<br>Input Validation</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation Buttons -->
-        <div class="row mt-5">
-            <div class="col-md-12 text-center">
-                <a href="index.html" class="btn btn-secondary btn-lg me-3">
-                    <i class="bi bi-house-door"></i> Trang chủ
-                </a>
-                <a href="frontend/index.html" class="btn btn-primary btn-lg me-3">
-                    <i class="bi bi-display"></i> Vào Frontend
-                </a>
-                <a href="https://render.com" class="btn btn-outline-primary btn-lg" target="_blank">
-                    <i class="bi bi-cloud-arrow-up"></i> Deploy trên Render
-                </a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="mt-5 pt-4 border-top text-center text-muted">
-            <p class="mb-1">
-                <strong>Hệ thống Quản lý Công tác Đảng</strong><br>
-                Chi bộ Đội Thiết bị Thông tin Dẫn đường<br>
-                Đảng bộ Trung tâm Khai thác Khu bay Nội Bài
-            </p>
-            <p class="small">© 2026 - Phiên bản 1.0.0 | API Backend Documentation</p>
-        </footer>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Hiển thị/ẩn mật khẩu
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Xử lý form đăng nhập
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const usernameError = document.getElementById('usernameError');
+            const passwordError = document.getElementById('passwordError');
+            
+            // Reset thông báo lỗi
+            usernameError.style.display = 'none';
+            passwordError.style.display = 'none';
+            
+            let isValid = true;
+            
+            // Kiểm tra tên đăng nhập
+            if (!username) {
+                usernameError.textContent = 'Vui lòng nhập tên đăng nhập';
+                usernameError.style.display = 'block';
+                isValid = false;
+            }
+            
+            // Kiểm tra mật khẩu
+            if (!password) {
+                passwordError.textContent = 'Vui lòng nhập mật khẩu';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else if (password.length < 6) {
+                passwordError.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+                passwordError.style.display = 'block';
+                isValid = false;
+            }
+            
+            // Nếu thông tin hợp lệ, gửi dữ liệu đăng nhập
+            if (isValid) {
+                const loginBtn = document.querySelector('.login-btn');
+                const originalText = loginBtn.innerHTML;
+                
+                // Hiệu ứng loading
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...';
+                loginBtn.disabled = true;
+                
+                // Giả lập gửi dữ liệu đến backend
+                setTimeout(() => {
+                    // Ở đây sẽ là AJAX call đến backend API
+                    // Ví dụ: fetch('/api/login', { method: 'POST', body: JSON.stringify({username, password}) })
+                    
+                    // Giả lập đăng nhập thành công
+                    alert(`Đăng nhập thành công!\nTên đăng nhập: ${username}`);
+                    
+                    // Reset form và button
+                    loginBtn.innerHTML = originalText;
+                    loginBtn.disabled = false;
+                    
+                    // Chuyển hướng đến trang chính sau khi đăng nhập thành công
+                    // window.location.href = '/dashboard.html';
+                }, 1500);
+            }
+        });
+        
+        // Xử lý link quên mật khẩu
+        document.querySelector('.forgot-password').addEventListener('click', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            
+            if (username) {
+                alert(`Yêu cầu đặt lại mật khẩu đã được gửi đến tài khoản: ${username}\nVui lòng kiểm tra email để hướng dẫn đặt lại mật khẩu.`);
+            } else {
+                alert('Vui lòng nhập tên đăng nhập của bạn trước khi yêu cầu đặt lại mật khẩu.');
+                document.getElementById('username').focus();
+            }
+        });
+        
+        // Kiểm tra xem có thông tin đăng nhập đã lưu hay không
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUsername = localStorage.getItem('savedUsername');
+            const savedPassword = localStorage.getItem('savedPassword');
+            const rememberMe = document.getElementById('remember');
+            
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+            }
+            
+            if (savedPassword && rememberMe.checked) {
+                document.getElementById('password').value = savedPassword;
+            }
+            
+            // Lưu thông tin đăng nhập nếu checkbox được chọn
+            rememberMe.addEventListener('change', function() {
+                if (!this.checked) {
+                    localStorage.removeItem('savedUsername');
+                    localStorage.removeItem('savedPassword');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
