@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập - Hệ thống Quản lý Công tác Đảng</title>
+    <title>Quản lý Backend API - Hệ thống Quản lý Công tác Đảng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
     <style>
         * {
             margin: 0;
@@ -14,471 +15,566 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2a4a8c, #3a6aac);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
 
-        .login-container {
-            display: flex;
-            max-width: 1000px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .login-left {
-            flex: 1;
-            background: linear-gradient(to bottom right, #1a2a6c, #2a4a8c);
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
             color: white;
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 40px 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(26, 42, 108, 0.2);
+            text-align: center;
         }
 
-        .login-left h1 {
-            font-size: 28px;
+        .header h1 {
+            font-size: 2.8rem;
             margin-bottom: 15px;
             font-weight: 700;
-            line-height: 1.3;
         }
 
-        .login-left p {
-            font-size: 16px;
+        .header .subtitle {
+            font-size: 1.2rem;
             opacity: 0.9;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .features-list {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .features-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
-        .features-list i {
-            margin-right: 12px;
-            color: #4dabf7;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-right {
-            flex: 1;
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-icon {
-            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
-            color: white;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 28px;
-        }
-
-        .logo h2 {
-            color: #1a2a6c;
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .logo p {
-            color: #666;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .login-form {
-            width: 100%;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 15px;
-        }
-
-        .input-with-icon {
-            position: relative;
-        }
-
-        .input-with-icon i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #1a2a6c;
-            font-size: 18px;
-        }
-
-        .input-with-icon input {
-            width: 100%;
-            padding: 15px 15px 15px 50px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .input-with-icon input:focus {
-            border-color: #1a2a6c;
-            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
-            outline: none;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #777;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 14px;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-        }
-
-        .remember-me input {
-            margin-right: 8px;
-            accent-color: #1a2a6c;
-        }
-
-        .forgot-password {
-            color: #1a2a6c;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: #2a4a8c;
-            text-decoration: underline;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .login-btn:hover {
-            background: linear-gradient(to right, #2a4a8c, #3a6aac);
-            transform: translateY(-2px);
-            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.3);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .footer a {
-            color: #1a2a6c;
-            text-decoration: none;
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 15px;
             font-weight: 600;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
+        /* Content Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
         @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-                max-width: 500px;
-            }
-            
-            .login-left, .login-right {
-                padding: 40px 30px;
-            }
-            
-            .login-left {
-                order: 2;
-            }
-            
-            .login-right {
-                order: 1;
+            .content-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
-            .login-container {
-                border-radius: 15px;
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            color: #1a2a6c;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #2a4a8c;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            background: #2a4a8c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* API Endpoints */
+        .api-endpoint {
+            background: #f8f9fa;
+            border-left: 5px solid #2a4a8c;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s;
+        }
+
+        .api-endpoint:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .method {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 15px;
+        }
+
+        .method.get {
+            background: #61affe;
+            color: white;
+        }
+
+        .method.post {
+            background: #49cc90;
+            color: white;
+        }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .endpoint-description {
+            color: #666;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        /* Deploy Status */
+        .status-card {
+            background: #fff8e1;
+            border-left: 5px solid #ffb300;
+            padding: 25px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 25px;
+        }
+
+        .status-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ff8f00;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .tech-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-item i {
+            color: #2a4a8c;
+            font-size: 1.5rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            color: #1a2a6c;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 15px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #444;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #f0f7ff;
+            color: #2a4a8c;
+            transform: translateX(5px);
+        }
+
+        .nav-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-links a.active {
+            background: #2a4a8c;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .org-info {
+            color: #1a2a6c;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .dept-info {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #2a4a8c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a2a6c;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f7ff;
+            color: #2a4a8c;
+            border: 2px solid #2a4a8c;
+        }
+
+        .btn-secondary:hover {
+            background: #2a4a8c;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f1f3f5;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
             }
             
-            .login-left, .login-right {
-                padding: 30px 20px;
+            .header .subtitle {
+                font-size: 1rem;
             }
             
-            .options {
+            .main-content, .sidebar {
+                padding: 25px 20px;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            }
+            
+            .btn {
+                justify-content: center;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-left">
-            <h1>Hệ thống Quản lý Công tác Đảng</h1>
-            <p>Hệ thống hỗ trợ công tác quản lý, theo dõi và đánh giá các hoạt động Đảng một cách hiệu quả và minh bạch.</p>
-            
-            <ul class="features-list">
-                <li><i class="fas fa-shield-alt"></i> Bảo mật thông tin tuyệt đối</li>
-                <li><i class="fas fa-chart-line"></i> Báo cáo thống kê trực quan</li>
-                <li><i class="fas fa-users"></i> Quản lý đảng viên toàn diện</li>
-                <li><i class="fas fa-calendar-check"></i> Theo dõi công tác Đảng</li>
-                <li><i class="fas fa-file-contract"></i> Quản lý hồ sơ, văn bản Đảng</li>
-            </ul>
-        </div>
-        
-        <div class="login-right">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-landmark"></i>
-                </div>
-                <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
-                <p>Hệ thống Quản lý công tác Đảng - CNS NIA</p>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Quản lý Backend API</h1>
+            <p class="subtitle">Hệ thống Quản lý Công tác Đảng - Backend Management</p>
+            <div class="badge">
+                <i class="fas fa-code-branch"></i> Phiên bản 1.0.0
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Left Column - Main Content -->
+            <div class="main-content">
+                <!-- API Endpoints Section -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-code"></i>
+                        API Endpoints
+                    </h2>
+                    
+                    <div class="api-endpoint">
+                        <span class="method get">GET</span>
+                        <div class="endpoint-path">/api/chibo</div>
+                        <p class="endpoint-description">
+                            Lấy danh sách Chi bộ. Có hỗ trợ các tham số phân trang và lọc.
+                        </p>
+                        <pre><code>// Request example
+GET /api/chibo?page=1&limit=10&search=
+                        
+// Response example
+{
+  "success": true,
+  "data": [...],
+  "pagination": {...}
+}</code></pre>
+                    </div>
+                    
+                    <div class="api-endpoint">
+                        <span class="method get">GET</span>
+                        <div class="endpoint-path">/api/dangvien</div>
+                        <p class="endpoint-description">
+                            Lấy danh sách Đảng viên (có phân trang). Hỗ trợ tìm kiếm và sắp xếp.
+                        </p>
+                    </div>
+                    
+                    <div class="api-endpoint">
+                        <span class="method post">POST</span>
+                        <div class="endpoint-path">/api/dangvien</div>
+                        <p class="endpoint-description">
+                            Thêm Đảng viên mới vào hệ thống. Yêu cầu xác thực JWT.
+                        </p>
+                        <pre><code>// Request body
+{
+  "ho_ten": "Nguyễn Văn A",
+  "ma_dang_vien": "DV001",
+  "chi_bo": "Chi bộ 1",
+  "chuc_vu": "Đảng viên",
+  "ngay_vao_dang": "2020-05-15"
+}</code></pre>
+                    </div>
+                    
+                    <div class="api-endpoint">
+                        <span class="method get">GET</span>
+                        <div class="endpoint-path">/api/health</div>
+                        <p class="endpoint-description">
+                            Kiểm tra tình trạng server và kết nối database.
+                        </p>
+                    </div>
+                </section>
+                
+                <!-- Deploy Status Section -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-server"></i>
+                        Deploy Status
+                    </h2>
+                    
+                    <div class="status-card">
+                        <div class="status-title">
+                            <i class="fas fa-tools"></i>
+                            <span>Backend đang được xây dựng</span>
+                        </div>
+                        <p>API server sẽ được deploy lên <strong>Render.com</strong> hoặc <strong>Vercel</strong> với cấu hình tự động deploy từ GitHub.</p>
+                        
+                        <div class="tech-list">
+                            <div class="tech-item">
+                                <i class="fab fa-node-js"></i>
+                                <span>Node.js + Express</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-database"></i>
+                                <span>PostgreSQL Database</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-code"></i>
+                                <span>RESTful API</span>
+                            </div>
+                            <div class="tech-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>JWT Authentication</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="index.html" class="btn btn-primary">
+                            <i class="fas fa-home"></i> Trang chủ
+                        </a>
+                        <a href="frontend.html" class="btn btn-secondary">
+                            <i class="fas fa-external-link-alt"></i> Vào Hệ thống Frontend
+                        </a>
+                        <a href="https://render.com" target="_blank" class="btn btn-secondary">
+                            <i class="fas fa-cloud-upload-alt"></i> Deploy trên Render
+                        </a>
+                    </div>
+                </section>
             </div>
             
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
-                    </div>
-                    <div class="error-message" id="usernameError"></div>
-                </div>
+            <!-- Right Column - Sidebar -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title">Quick Navigation</h3>
+                <ul class="nav-links">
+                    <li><a href="#api-endpoints" class="active"><i class="fas fa-code"></i> API Endpoints</a></li>
+                    <li><a href="#deploy-status"><i class="fas fa-server"></i> Deploy Status</a></li>
+                    <li><a href="#authentication"><i class="fas fa-key"></i> Authentication</a></li>
+                    <li><a href="#database"><i class="fas fa-database"></i> Database Schema</a></li>
+                    <li><a href="#testing"><i class="fas fa-vial"></i> API Testing</a></li>
+                    <li><a href="#logs"><i class="fas fa-clipboard-list"></i> System Logs</a></li>
+                </ul>
                 
-                <div class="form-group">
-                    <label for="password">Mật khẩu</label>
-                    <div class="input-with-icon">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
-                        <button type="button" class="password-toggle" id="togglePassword">
-                            <i class="far fa-eye"></i>
-                        </button>
-                    </div>
-                    <div class="error-message" id="passwordError"></div>
+                <div style="margin-top: 30px; padding: 20px; background: #f0f7ff; border-radius: 10px;">
+                    <h4 style="color: #1a2a6c; margin-bottom: 10px;">
+                        <i class="fas fa-info-circle"></i> API Documentation
+                    </h4>
+                    <p style="font-size: 0.9rem; color: #666;">
+                        Tài liệu API đầy đủ sẽ được cập nhật tại: 
+                        <code>/api-docs</code>
+                    </p>
                 </div>
-                
-                <div class="options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Ghi nhớ đăng nhập</label>
-                    </div>
-                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
-                </div>
-                
-                <button type="submit" class="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP
-                </button>
-                
-                <div class="footer">
-                    <p>© 2023 Hệ thống Quản lý công tác Đảng - CNS NIA</p>
-                    <p>Liên hệ hỗ trợ: <a href="mailto:support@cns-nia.gov.vn">support@cns-nia.gov.vn</a></p>
-                </div>
-            </form>
+            </aside>
         </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="org-info">Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+            <p class="dept-info">Đảng bộ Trung tâm Khai thác Khu bay Nội Bài</p>
+            <p style="margin-top: 15px; color: #888; font-size: 0.9rem;">
+                © 2025 Hệ thống Quản lý Công tác Đảng - CNS - NAOC. All rights reserved.
+            </p>
+        </footer>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script>
-        // Hiển thị/ẩn mật khẩu
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
+        // Syntax highlighting
+        hljs.highlightAll();
         
-        // Xử lý form đăng nhập
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const usernameError = document.getElementById('usernameError');
-            const passwordError = document.getElementById('passwordError');
-            
-            // Reset thông báo lỗi
-            usernameError.style.display = 'none';
-            passwordError.style.display = 'none';
-            
-            let isValid = true;
-            
-            // Kiểm tra tên đăng nhập
-            if (!username) {
-                usernameError.textContent = 'Vui lòng nhập tên đăng nhập';
-                usernameError.style.display = 'block';
-                isValid = false;
-            }
-            
-            // Kiểm tra mật khẩu
-            if (!password) {
-                passwordError.textContent = 'Vui lòng nhập mật khẩu';
-                passwordError.style.display = 'block';
-                isValid = false;
-            } else if (password.length < 6) {
-                passwordError.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
-                passwordError.style.display = 'block';
-                isValid = false;
-            }
-            
-            // Nếu thông tin hợp lệ, gửi dữ liệu đăng nhập
-            if (isValid) {
-                const loginBtn = document.querySelector('.login-btn');
-                const originalText = loginBtn.innerHTML;
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
                 
-                // Hiệu ứng loading
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...';
-                loginBtn.disabled = true;
-                
-                // Giả lập gửi dữ liệu đến backend
-                setTimeout(() => {
-                    // Ở đây sẽ là AJAX call đến backend API
-                    // Ví dụ: fetch('/api/login', { method: 'POST', body: JSON.stringify({username, password}) })
-                    
-                    // Giả lập đăng nhập thành công
-                    alert(`Đăng nhập thành công!\nTên đăng nhập: ${username}`);
-                    
-                    // Reset form và button
-                    loginBtn.innerHTML = originalText;
-                    loginBtn.disabled = false;
-                    
-                    // Chuyển hướng đến trang chính sau khi đăng nhập thành công
-                    // window.location.href = '/dashboard.html';
-                }, 1500);
-            }
-        });
-        
-        // Xử lý link quên mật khẩu
-        document.querySelector('.forgot-password').addEventListener('click', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            
-            if (username) {
-                alert(`Yêu cầu đặt lại mật khẩu đã được gửi đến tài khoản: ${username}\nVui lòng kiểm tra email để hướng dẫn đặt lại mật khẩu.`);
-            } else {
-                alert('Vui lòng nhập tên đăng nhập của bạn trước khi yêu cầu đặt lại mật khẩu.');
-                document.getElementById('username').focus();
-            }
-        });
-        
-        // Kiểm tra xem có thông tin đăng nhập đã lưu hay không
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedUsername = localStorage.getItem('savedUsername');
-            const savedPassword = localStorage.getItem('savedPassword');
-            const rememberMe = document.getElementById('remember');
-            
-            if (savedUsername) {
-                document.getElementById('username').value = savedUsername;
-            }
-            
-            if (savedPassword && rememberMe.checked) {
-                document.getElementById('password').value = savedPassword;
-            }
-            
-            // Lưu thông tin đăng nhập nếu checkbox được chọn
-            rememberMe.addEventListener('change', function() {
-                if (!this.checked) {
-                    localStorage.removeItem('savedUsername');
-                    localStorage.removeItem('savedPassword');
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
+        
+        // Set active nav link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Auto-update deployment status
+        function updateDeployStatus() {
+            const statusElement = document.querySelector('.status-title span');
+            const statuses = [
+                "Backend đang được xây dựng",
+                "Đang chạy thử nghiệm",
+                "Sẵn sàng deploy"
+            ];
+            
+            let currentIndex = 0;
+            setInterval(() => {
+                statusElement.textContent = statuses[currentIndex];
+                currentIndex = (currentIndex + 1) % statuses.length;
+            }, 5000);
+        }
+        
+        // Uncomment to enable auto-update
+        // updateDeployStatus();
     </script>
 </body>
 </html>
