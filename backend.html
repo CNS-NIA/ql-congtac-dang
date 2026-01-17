@@ -1,72 +1,269 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Backend Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Backend API - Hệ thống QL Công tác Đảng</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
-        body { padding: 30px; background: #f8f9fa; }
-        .card { margin: 20px 0; }
-        .api-badge { background: #6c757d; color: white; padding: 3px 8px; border-radius: 4px; }
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            border-bottom: 5px solid #a71d2a;
+        }
+        .card-api {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+            height: 100%;
+        }
+        .card-api:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .badge-method {
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .badge-get { background: #28a745; color: white; }
+        .badge-post { background: #007bff; color: white; }
+        .badge-put { background: #ffc107; color: black; }
+        .badge-delete { background: #dc3545; color: white; }
+        .endpoint-url {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid #dc3545;
+        }
+        .btn-back {
+            background: #6c757d;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        .btn-back:hover {
+            background: #5a6268;
+            color: white;
+            transform: translateX(-5px);
+        }
     </style>
 </head>
-<body class="container">
-    <h1 class="text-danger">🔧 Quản lý Backend API</h1>
-    <p class="lead">Hệ thống Quản lý Công tác Đảng - Backend Management</p>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">API Endpoints</h5>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-10">
+                    <h1><i class="bi bi-server"></i> Quản lý Backend API</h1>
+                    <p class="lead mb-0">Hệ thống Quản lý Công tác Đảng - Backend Management</p>
+                    <small>Chi bộ Đội Thiết bị Thông tin Dẫn đường</small>
                 </div>
-                <div class="card-body">
-                    <h6><span class="api-badge">GET</span> /api/chibo</h6>
-                    <p>Lấy danh sách Chi bộ</p>
-                    
-                    <h6><span class="api-badge">GET</span> /api/dangvien</h6>
-                    <p>Lấy danh sách Đảng viên (có phân trang)</p>
-                    
-                    <h6><span class="api-badge">POST</span> /api/dangvien</h6>
-                    <p>Thêm Đảng viên mới</p>
-                    
-                    <h6><span class="api-badge">GET</span> /health</h6>
-                    <p>Kiểm tra tình trạng server</p>
+                <div class="col-md-2 text-end">
+                    <span class="badge bg-light text-danger fs-6">API v1.0</span>
                 </div>
             </div>
         </div>
-        
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Deploy Status</h5>
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
-                        <strong>Backend đang được xây dựng</strong><br>
-                        Sẽ deploy lên Render.com
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- API Status -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="alert-heading mb-1"><i class="bi bi-info-circle"></i> Backend Status</h5>
+                            <p class="mb-0">API server đang được xây dựng. Sẽ deploy lên <strong>Render.com</strong> với PostgreSQL database.</p>
+                        </div>
+                        <div class="text-end">
+                            <span class="badge bg-warning text-dark fs-6">Đang phát triển</span>
+                        </div>
                     </div>
-                    
-                    <h6>Công nghệ sử dụng:</h6>
-                    <ul>
-                        <li>Node.js + Express</li>
-                        <li>PostgreSQL Database</li>
-                        <li>RESTful API</li>
-                        <li>JWT Authentication</li>
-                    </ul>
                 </div>
             </div>
         </div>
+
+        <!-- API Documentation -->
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <h3 class="border-bottom pb-2"><i class="bi bi-book"></i> API Documentation</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Chi bộ API -->
+            <div class="col-md-6">
+                <div class="card card-api">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="bi bi-building"></i> Chi bộ API</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="badge-method badge-get">GET</span>
+                            <span class="badge-method badge-post">POST</span>
+                            <div class="endpoint-url mt-2">/api/chibo</div>
+                            <p class="mt-2">Quản lý thông tin Chi bộ</p>
+                        </div>
+                        <h6>Parameters:</h6>
+                        <ul class="small">
+                            <li><code>?page=1</code> - Trang số</li>
+                            <li><code>?limit=50</code> - Số bản ghi/trang</li>
+                            <li><code>?search=text</code> - Tìm kiếm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Đảng viên API -->
+            <div class="col-md-6">
+                <div class="card card-api">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-people"></i> Đảng viên API</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="badge-method badge-get">GET</span>
+                            <span class="badge-method badge-post">POST</span>
+                            <span class="badge-method badge-put">PUT</span>
+                            <span class="badge-method badge-delete">DELETE</span>
+                            <div class="endpoint-url mt-2">/api/dangvien</div>
+                            <p class="mt-2">Quản lý thông tin Đảng viên (CRUD đầy đủ)</p>
+                        </div>
+                        <h6>Features:</h6>
+                        <ul class="small">
+                            <li>Phân trang (Pagination)</li>
+                            <li>Tìm kiếm đa tiêu chí</li>
+                            <li>Sắp xếp (Sorting)</li>
+                            <li>Filter theo Chi bộ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <!-- Nghị quyết API -->
+            <div class="col-md-6">
+                <div class="card card-api">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-file-text"></i> Nghị quyết API</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="badge-method badge-get">GET</span>
+                            <span class="badge-method badge-post">POST</span>
+                            <div class="endpoint-url mt-2">/api/nghiquyet</div>
+                            <p class="mt-2">Quản lý Nghị quyết tháng/quý/năm</p>
+                        </div>
+                        <h6>Loại Nghị quyết:</h6>
+                        <ul class="small">
+                            <li>Nghị quyết tháng</li>
+                            <li>Nghị quyết quý</li>
+                            <li>Nghị quyết năm</li>
+                            <li>Nghị quyết chuyên đề</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Check -->
+            <div class="col-md-6">
+                <div class="card card-api">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-heart-pulse"></i> Health Check</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <span class="badge-method badge-get">GET</span>
+                            <div class="endpoint-url mt-2">/health</div>
+                            <p class="mt-2">Kiểm tra tình trạng server và database</p>
+                        </div>
+                        <h6>Response:</h6>
+                        <pre class="bg-light p-2 small">{
+  "status": "healthy",
+  "service": "QL Công tác Đảng API",
+  "version": "1.0.0",
+  "database": "connected",
+  "timestamp": "2026-01-16T10:30:00Z"
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deployment Info -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="bi bi-cloud-upload"></i> Deployment Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6><i class="bi bi-hdd text-primary"></i> Server</h6>
+                                <p class="small">Render.com Web Service<br>Node.js + Express</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6><i class="bi bi-database text-success"></i> Database</h6>
+                                <p class="small">PostgreSQL (Render)<br>Full CRUD operations</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h6><i class="bi bi-shield-check text-warning"></i> Security</h6>
+                                <p class="small">JWT Authentication<br>CORS Enabled<br>Input Validation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <a href="index.html" class="btn btn-secondary btn-lg me-3">
+                    <i class="bi bi-house-door"></i> Trang chủ
+                </a>
+                <a href="frontend/index.html" class="btn btn-primary btn-lg me-3">
+                    <i class="bi bi-display"></i> Vào Frontend
+                </a>
+                <a href="https://render.com" class="btn btn-outline-primary btn-lg" target="_blank">
+                    <i class="bi bi-cloud-arrow-up"></i> Deploy trên Render
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 pt-4 border-top text-center text-muted">
+            <p class="mb-1">
+                <strong>Hệ thống Quản lý Công tác Đảng</strong><br>
+                Chi bộ Đội Thiết bị Thông tin Dẫn đường<br>
+                Đảng bộ Trung tâm Khai thác Khu bay Nội Bài
+            </p>
+            <p class="small">© 2026 - Phiên bản 1.0.0 | API Backend Documentation</p>
+        </footer>
     </div>
-    
-    <div class="mt-4">
-        <a href="index.html" class="btn btn-secondary">← Trang chủ</a>
-        <a href="frontend/index.html" class="btn btn-primary">Vào Hệ thống Frontend</a>
-        <a href="https://render.com" class="btn btn-outline-primary" target="_blank">Deploy trên Render</a>
-    </div>
-    
-    <footer class="mt-5 text-center text-muted">
-        <p>Chi bộ Đội Thiết bị Thông tin Dẫn đường<br>
-        Đảng bộ Trung tâm Khai thác Khu bay Nội Bài</p>
-    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
