@@ -6,90 +6,180 @@
     <title>Đăng nhập - Hệ thống Quản lý Công tác Đảng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-dark: #0d1b3e;
+            --primary: #1a2a6c;
+            --primary-light: #2a4a8c;
+            --secondary: #c62828;
+            --secondary-light: #e53935;
+            --accent: #ffd600;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success: #28a745;
+            --border-radius: 12px;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2a4a8c, #3a6aac);
+            background: linear-gradient(135deg, #0d1b3e 0%, #1a2a6c 50%, #2a4a8c 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Hiệu ứng nền */
+        .background-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
 
         .login-container {
             display: flex;
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.8s ease-out;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .login-left {
             flex: 1;
-            background: linear-gradient(to bottom right, #1a2a6c, #2a4a8c);
+            background: linear-gradient(145deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
             color: white;
-            padding: 50px 40px;
+            padding: 60px 45px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .login-left::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 214, 0, 0.08);
+            border-radius: 50%;
+        }
+
+        .system-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            align-self: flex-start;
+            letter-spacing: 0.5px;
         }
 
         .login-left h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 32px;
+            margin-bottom: 20px;
             font-weight: 700;
             line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-left h1 span {
+            color: var(--accent);
         }
 
         .login-left p {
             font-size: 16px;
             opacity: 0.9;
-            line-height: 1.6;
-            margin-bottom: 30px;
+            line-height: 1.7;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 1;
         }
 
         .features-list {
             list-style: none;
-            margin-top: 20px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
         }
 
         .features-list li {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             font-size: 15px;
+            transition: var(--transition);
+            padding: 8px 0;
+        }
+
+        .features-list li:hover {
+            transform: translateX(5px);
         }
 
         .features-list i {
-            margin-right: 12px;
-            color: #4dabf7;
+            margin-right: 15px;
+            color: var(--accent);
             background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            padding: 10px;
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .features-list li:hover i {
+            background: rgba(255, 214, 0, 0.2);
+            transform: scale(1.05);
         }
 
         .login-right {
             flex: 1;
-            padding: 50px 40px;
+            padding: 60px 45px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -97,32 +187,39 @@
 
         .logo {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .logo-icon {
-            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 28px;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            box-shadow: 0 5px 15px rgba(198, 40, 40, 0.3);
+            transition: var(--transition);
+        }
+
+        .logo-icon:hover {
+            transform: rotate(15deg) scale(1.05);
         }
 
         .logo h2 {
-            color: #1a2a6c;
-            font-size: 24px;
+            color: var(--primary-dark);
+            font-size: 26px;
             font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .logo p {
-            color: #666;
-            font-size: 14px;
-            margin-top: 5px;
+            color: var(--gray);
+            font-size: 15px;
+            line-height: 1.5;
         }
 
         .login-form {
@@ -130,16 +227,23 @@
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #333;
+            color: var(--primary-dark);
             font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: var(--primary);
         }
 
         .input-with-icon {
@@ -148,95 +252,139 @@
 
         .input-with-icon i {
             position: absolute;
-            left: 15px;
+            left: 18px;
             top: 50%;
             transform: translateY(-50%);
-            color: #1a2a6c;
+            color: var(--primary);
             font-size: 18px;
+            z-index: 1;
         }
 
         .input-with-icon input {
             width: 100%;
-            padding: 15px 15px 15px 50px;
-            border: 2px solid #ddd;
+            padding: 17px 20px 17px 55px;
+            border: 2px solid var(--gray-light);
             border-radius: 10px;
             font-size: 16px;
-            transition: all 0.3s;
+            transition: var(--transition);
+            background: white;
+            color: #333;
         }
 
         .input-with-icon input:focus {
-            border-color: #1a2a6c;
-            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 42, 108, 0.15);
             outline: none;
+        }
+
+        .input-with-icon input:focus + i {
+            color: var(--secondary);
         }
 
         .password-toggle {
             position: absolute;
-            right: 15px;
+            right: 18px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: #777;
+            color: var(--gray);
             cursor: pointer;
             font-size: 18px;
+            padding: 5px;
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
         }
 
         .options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             font-size: 14px;
         }
 
         .remember-me {
             display: flex;
             align-items: center;
+            cursor: pointer;
         }
 
         .remember-me input {
-            margin-right: 8px;
-            accent-color: #1a2a6c;
+            margin-right: 10px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .remember-me label {
+            color: var(--gray);
+            cursor: pointer;
+            user-select: none;
         }
 
         .forgot-password {
-            color: #1a2a6c;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s;
+            transition: var(--transition);
+            padding: 5px 0;
+            border-bottom: 1px solid transparent;
         }
 
         .forgot-password:hover {
-            color: #2a4a8c;
-            text-decoration: underline;
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
         }
 
         .login-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(to right, #1a2a6c, #2a4a8c);
+            padding: 18px;
+            background: linear-gradient(to right, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
             border-radius: 10px;
             font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(26, 42, 108, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
 
         .login-btn:hover {
-            background: linear-gradient(to right, #2a4a8c, #3a6aac);
-            transform: translateY(-2px);
-            box-shadow: 0 7px 15px rgba(26, 42, 108, 0.3);
+            background: linear-gradient(to right, var(--primary-dark) 0%, var(--primary) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 42, 108, 0.4);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
         }
 
         .login-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px);
         }
 
         .login-btn:disabled {
@@ -246,56 +394,127 @@
             box-shadow: none;
         }
 
+        .login-btn:disabled:hover::before {
+            display: none;
+        }
+
         .footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #666;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid var(--gray-light);
+            color: var(--gray);
             font-size: 14px;
+            line-height: 1.6;
         }
 
         .footer a {
-            color: #1a2a6c;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            transition: var(--transition);
         }
 
         .footer a:hover {
+            color: var(--secondary);
             text-decoration: underline;
         }
 
         .error-message {
-            color: #e74c3c;
+            color: var(--secondary);
             font-size: 14px;
-            margin-top: 5px;
+            margin-top: 8px;
             display: none;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
         }
 
         .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+            padding: 18px 20px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             display: none;
+            border-left: 4px solid var(--success);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .success-message i {
-            font-size: 20px;
+            font-size: 22px;
+            flex-shrink: 0;
         }
 
-        @media (max-width: 768px) {
+        .demo-accounts {
+            background: rgba(26, 42, 108, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px dashed var(--primary-light);
+        }
+
+        .demo-accounts h4 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-account {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .demo-account:last-child {
+            border-bottom: none;
+        }
+
+        .demo-account .role-badge {
+            background: var(--primary-light);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .copy-btn {
+            background: var(--gray-light);
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        @media (max-width: 992px) {
             .login-container {
                 flex-direction: column;
-                max-width: 500px;
+                max-width: 600px;
             }
             
             .login-left, .login-right {
-                padding: 40px 30px;
+                padding: 50px 35px;
             }
             
             .login-left {
@@ -307,13 +526,25 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
+            body {
+                padding: 15px;
+            }
+            
             .login-container {
-                border-radius: 15px;
+                border-radius: 10px;
             }
             
             .login-left, .login-right {
-                padding: 30px 20px;
+                padding: 40px 25px;
+            }
+            
+            .login-left h1 {
+                font-size: 26px;
+            }
+            
+            .logo h2 {
+                font-size: 22px;
             }
             
             .options {
@@ -321,139 +552,121 @@
                 align-items: flex-start;
                 gap: 15px;
             }
+            
+            .demo-accounts {
+                padding: 15px;
+            }
+        }
+
+        /* Hiệu ứng focus cho input */
+        .input-with-icon input:focus {
+            animation: inputFocus 0.3s ease-out;
+        }
+
+        @keyframes inputFocus {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
+    <div class="background-pattern"></div>
+    
     <div class="login-container">
         <div class="login-left">
-            <h1>Hệ thống Quản lý Công tác Đảng</h1>
-            <p>Hệ thống hỗ trợ công tác quản lý, theo dõi và đánh giá các hoạt động Đảng một cách hiệu quả và minh bạch.</p>
+            <div class="system-badge">HỆ THỐNG CHÍNH THỨC</div>
+            <h1>Quản lý Công tác <span>Đảng</span></h1>
+            <p>Hệ thống hỗ trợ toàn diện cho công tác quản lý, theo dõi và đánh giá hoạt động Đảng. Đảm bảo tính minh bạch, hiệu quả và chính xác trong mọi quy trình công tác.</p>
             
             <ul class="features-list">
-                <li><i class="fas fa-shield-alt"></i> Bảo mật thông tin tuyệt đối</li>
-                <li><i class="fas fa-chart-line"></i> Báo cáo thống kê trực quan</li>
-                <li><i class="fas fa-users"></i> Quản lý đảng viên toàn diện</li>
-                <li><i class="fas fa-calendar-check"></i> Theo dõi công tác Đảng</li>
-                <li><i class="fas fa-file-contract"></i> Quản lý hồ sơ, văn bản Đảng</li>
+                <li><i class="fas fa-user-shield"></i> Bảo mật thông tin đa tầng</li>
+                <li><i class="fas fa-chart-pie"></i> Báo cáo thống kê trực quan</li>
+                <li><i class="fas fa-users-cog"></i> Quản lý đảng viên chuyên sâu</li>
+                <li><i class="fas fa-tasks"></i> Theo dõi công tác Đảng theo thời gian thực</li>
+                <li><i class="fas fa-archive"></i> Lưu trữ văn bản, nghị quyết thông minh</li>
             </ul>
         </div>
         
         <div class="login-right">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-landmark"></i>
+                    <i class="fas fa-flag"></i>
                 </div>
                 <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
-                <p>Hệ thống Quản lý công tác Đảng - CNS NIA</p>
+                <p>Hệ thống Quản lý Công tác Đảng - Phiên bản 1.0.0</p>
             </div>
             
             <div class="success-message" id="successMessage">
                 <i class="fas fa-check-circle"></i>
-                <span>Đăng nhập thành công! Đang chuyển hướng...</span>
+                <span>Đăng nhập thành công! Đang chuyển hướng đến trang quản trị...</span>
             </div>
             
             <form class="login-form" id="loginForm">
                 <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
+                    <label for="username"><i class="fas fa-id-card"></i> Tên đăng nhập</label>
                     <div class="input-with-icon">
-                        <i class="fas fa-user"></i>
-                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+                        <i class="fas fa-user-tie"></i>
+                        <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập của bạn" required>
                     </div>
-                    <div class="error-message" id="usernameError"></div>
+                    <div class="error-message" id="usernameError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="password">Mật khẩu</label>
+                    <label for="password"><i class="fas fa-key"></i> Mật khẩu</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu của bạn" required>
                         <button type="button" class="password-toggle" id="togglePassword">
                             <i class="far fa-eye"></i>
                         </button>
                     </div>
-                    <div class="error-message" id="passwordError"></div>
+                    <div class="error-message" id="passwordError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span></span>
+                    </div>
                 </div>
                 
                 <div class="options">
                     <div class="remember-me">
                         <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Ghi nhớ đăng nhập</label>
+                        <label for="remember">Duy trì đăng nhập</label>
                     </div>
-                    <a href="#" class="forgot-password" id="forgotPassword">Quên mật khẩu?</a>
+                    <a href="#" class="forgot-password" id="forgotPassword">
+                        <i class="fas fa-question-circle"></i> Quên mật khẩu?
+                    </a>
                 </div>
                 
                 <button type="submit" class="login-btn" id="loginButton">
-                    <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP
+                    <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP HỆ THỐNG
                 </button>
                 
+                <div class="demo-accounts">
+                    <h4><i class="fas fa-info-circle"></i> Tài khoản demo (dùng thử)</h4>
+                    <div class="demo-account">
+                        <span><strong>admin</strong> / Admin@123</span>
+                        <span class="role-badge">Quản trị viên</span>
+                    </div>
+                    <div class="demo-account">
+                        <span><strong>dangbo</strong> / Dangbo@2023</span>
+                        <span class="role-badge">Ban chấp hành</span>
+                    </div>
+                    <div class="demo-account">
+                        <span><strong>chibo1</strong> / Chibo@123</span>
+                        <span class="role-badge">Chi bộ trưởng</span>
+                    </div>
+                </div>
+                
                 <div class="footer">
-                    <p>© 2023 Hệ thống Quản lý công tác Đảng - CNS NIA</p>
-                    <p>Liên hệ hỗ trợ: <a href="mailto:support@cns-nia.gov.vn">support@cns-nia.gov.vn</a></p>
+                    <p>© 2026 Bản quyền thuộc về Hệ thống Quản lý Công tác Đảng</p>
+                    <p>Phiên bản 1.0.0 - Phát triển bởi <a href="#" target="_blank">Đội thiết bị Thông tin dẫn đường - Trung tâm Khai thác khu bay Nội Bài</a></p>
+                    <p>Hỗ trợ kỹ thuật: <a href="mailto:naoc.cnst@gmail.com">naoc.cns@gmail.com</a> | Hotline: 091992xxx586</p>
                 </div>
             </form>
         </div>
-    </div>
-
-    <!-- Dashboard Template (Ẩn) -->
-    <div id="dashboardTemplate" style="display: none;">
-        <!DOCTYPE html>
-        <html lang="vi">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dashboard - Hệ thống Quản lý Công tác Đảng</title>
-            <style>
-                body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
-                .dashboard { max-width: 1200px; margin: 0 auto; }
-                .header { background: #1a2a6c; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-                .user-info { float: right; }
-                .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-                .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                .logout-btn { background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
-            </style>
-        </head>
-        <body>
-            <div class="dashboard">
-                <div class="header">
-                    <h1>Dashboard Quản lý Công tác Đảng</h1>
-                    <div class="user-info">
-                        Xin chào, <strong id="dashboardUsername">Admin</strong> | 
-                        <button class="logout-btn" onclick="window.location.href='backend.html'">Đăng xuất</button>
-                    </div>
-                </div>
-                
-                <div class="stats">
-                    <div class="stat-card">
-                        <h3><i class="fas fa-users"></i> Tổng số Đảng viên</h3>
-                        <p class="stat-number">248</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3><i class="fas fa-sitemap"></i> Số Chi bộ</h3>
-                        <p class="stat-number">12</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3><i class="fas fa-calendar-alt"></i> Sự kiện trong tháng</h3>
-                        <p class="stat-number">8</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3><i class="fas fa-file-alt"></i> Văn bản mới</h3>
-                        <p class="stat-number">15</p>
-                    </div>
-                </div>
-                
-                <div class="content">
-                    <h2>Chức năng chính</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
-                        <button style="padding: 15px; background: #2a4a8c; color: white; border: none; border-radius: 8px; cursor: pointer;">Quản lý Đảng viên</button>
-                        <button style="padding: 15px; background: #2a4a8c; color: white; border: none; border-radius: 8px; cursor: pointer;">Quản lý Chi bộ</button>
-                        <button style="padding: 15px; background: #2a4a8c; color: white; border: none; border-radius: 8px; cursor: pointer;">Lịch công tác</button>
-                        <button style="padding: 15px; background: #2a4a8c; color: white; border: none; border-radius: 8px; cursor: pointer;">Báo cáo thống kê</button>
-                    </div>
-                </div>
-            </div>
-        </body>
-        </html>
     </div>
 
     <script>
@@ -466,10 +679,12 @@
                 passwordInput.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
+                this.setAttribute('aria-label', 'Ẩn mật khẩu');
             } else {
                 passwordInput.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
+                this.setAttribute('aria-label', 'Hiện mật khẩu');
             }
         });
         
@@ -479,7 +694,8 @@
                 username: 'admin', 
                 password: 'Admin@123', 
                 role: 'Quản trị viên', 
-                name: 'Nguyễn Văn Admin',
+                name: 'Phạm mInh Quang',
+                avatar: 'A',
                 redirectTo: 'dashboard-admin.html'
             },
             { 
@@ -487,13 +703,15 @@
                 password: 'Dangbo@2023', 
                 role: 'Ban chấp hành', 
                 name: 'Trần Văn Đảng bộ',
+                avatar: 'Đ',
                 redirectTo: 'dashboard-dangbo.html'
             },
             { 
                 username: 'chibo1', 
                 password: 'Chibo@123', 
                 role: 'Chi bộ trưởng', 
-                name: 'Lê Thị Chi bộ',
+                name: 'Trần Đỗ Hải',
+                avatar: 'C',
                 redirectTo: 'dashboard-chibo.html'
             }
         ];
@@ -518,28 +736,32 @@
             
             // Kiểm tra tên đăng nhập
             if (!username) {
-                usernameError.textContent = 'Vui lòng nhập tên đăng nhập';
-                usernameError.style.display = 'block';
+                usernameError.querySelector('span').textContent = 'Vui lòng nhập tên đăng nhập';
+                usernameError.style.display = 'flex';
                 isValid = false;
             }
             
             // Kiểm tra mật khẩu
             if (!password) {
-                passwordError.textContent = 'Vui lòng nhập mật khẩu';
-                passwordError.style.display = 'block';
+                passwordError.querySelector('span').textContent = 'Vui lòng nhập mật khẩu';
+                passwordError.style.display = 'flex';
                 isValid = false;
             } else if (password.length < 6) {
-                passwordError.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
-                passwordError.style.display = 'block';
+                passwordError.querySelector('span').textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+                passwordError.style.display = 'flex';
                 isValid = false;
             }
             
             // Nếu thông tin hợp lệ
             if (isValid) {
                 const originalText = loginBtn.innerHTML;
+                const originalWidth = loginBtn.offsetWidth;
+                
+                // Đặt chiều rộng cố định để không bị co khi thay đổi nội dung
+                loginBtn.style.width = originalWidth + 'px';
                 
                 // Hiệu ứng loading
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...';
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG KIỂM TRA THÔNG TIN...';
                 loginBtn.disabled = true;
                 
                 // Tìm tài khoản khớp
@@ -547,12 +769,21 @@
                     acc.username === username && acc.password === password
                 );
                 
-                // Giả lập xử lý đăng nhập (2 giây)
+                // Giả lập xử lý đăng nhập (1.5 giây)
                 setTimeout(() => {
                     if (account) {
                         // Đăng nhập thành công
                         successMessage.style.display = 'flex';
                         loginBtn.style.display = 'none';
+                        
+                        // Hiệu ứng thành công
+                        successMessage.innerHTML = `
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Đăng nhập thành công!</strong><br>
+                                Xin chào ${account.name} (${account.role}). Đang chuyển hướng...
+                            </div>
+                        `;
                         
                         // Lưu thông tin đăng nhập nếu checkbox được chọn
                         const rememberMe = document.getElementById('remember');
@@ -562,7 +793,8 @@
                             localStorage.setItem('savedName', account.name);
                         } else {
                             localStorage.removeItem('savedUsername');
-                            localStorage.removeItem('savedPassword');
+                            localStorage.removeItem('savedRole');
+                            localStorage.removeItem('savedName');
                         }
                         
                         // Lưu session (giả lập)
@@ -571,28 +803,37 @@
                         
                         // Chuyển hướng sau 2 giây
                         setTimeout(() => {
-                            // THỰC TẾ: Chuyển đến trang dashboard thật
-                            // window.location.href = account.redirectTo;
+                            // Trong thực tế: window.location.href = account.redirectTo;
                             
-                            // DEMO: Hiển thị dashboard ngay trên trang này
-                            showDashboard(account);
+                            // Trong demo: Hiển thị thông báo và reload để demo
+                            alert(`🎉 Đăng nhập thành công với quyền: ${account.role}\n\nTrong hệ thống thực, bạn sẽ được chuyển đến trang: ${account.redirectTo}`);
+                            location.reload();
                         }, 2000);
                         
                     } else {
                         // Đăng nhập thất bại
-                        passwordError.textContent = 'Tên đăng nhập hoặc mật khẩu không đúng';
-                        passwordError.style.display = 'block';
+                        passwordError.querySelector('span').textContent = 'Tên đăng nhập hoặc mật khẩu không chính xác';
+                        passwordError.style.display = 'flex';
+                        
+                        // Hiệu ứng rung lỗi
+                        passwordError.style.animation = 'none';
+                        setTimeout(() => {
+                            passwordError.style.animation = 'slideIn 0.5s ease-out';
+                        }, 10);
+                        
+                        // Khôi phục nút
                         loginBtn.innerHTML = originalText;
                         loginBtn.disabled = false;
+                        loginBtn.style.width = '';
                         
-                        // Gợi ý tài khoản mẫu
-                        setTimeout(() => {
-                            if (!username && !password) {
-                                alert('💡 Gợi ý tài khoản mẫu:\n\n• admin / Admin@123\n• dangbo / Dangbo@2023\n• chibo1 / Chibo@123');
-                            }
-                        }, 300);
+                        // Tự động gợi ý nếu để trống
+                        if (!username && !password) {
+                            document.getElementById('username').value = 'admin';
+                            document.getElementById('password').value = 'Admin@123';
+                            document.getElementById('username').focus();
+                        }
                     }
-                }, 2000);
+                }, 1500);
             }
         });
         
@@ -602,7 +843,54 @@
             const username = document.getElementById('username').value.trim();
             
             if (username) {
-                alert(`📧 Yêu cầu đặt lại mật khẩu đã được gửi đến tài khoản: ${username}\n\nVui lòng kiểm tra email để nhận hướng dẫn đặt lại mật khẩu.`);
+                // Hiệu ứng modal giả lập
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    animation: fadeIn 0.3s ease-out;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 500px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                        <h3 style="color: #1a2a6c; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-key" style="color: #c62828;"></i> Đặt lại mật khẩu
+                        </h3>
+                        <p>Yêu cầu đặt lại mật khẩu đã được gửi đến tài khoản: <strong>${username}</strong></p>
+                        <p style="margin-top: 10px; font-size: 14px; color: #666;">Vui lòng kiểm tra email để nhận hướng dẫn đặt lại mật khẩu.</p>
+                        <div style="display: flex; justify-content: flex-end; margin-top: 25px;">
+                            <button id="closeModal" style="background: #1a2a6c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Đóng</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Thêm Font Awesome cho modal
+                const faIcon = document.createElement('link');
+                faIcon.rel = 'stylesheet';
+                faIcon.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+                modal.querySelector('div').appendChild(faIcon);
+                
+                // Đóng modal
+                modal.querySelector('#closeModal').addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                });
+                
+                // Đóng khi click ra ngoài
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
             } else {
                 alert('Vui lòng nhập tên đăng nhập của bạn trước khi yêu cầu đặt lại mật khẩu.');
                 document.getElementById('username').focus();
@@ -617,48 +905,47 @@
             if (savedUsername) {
                 document.getElementById('username').value = savedUsername;
                 rememberMe.checked = true;
+                document.getElementById('username').focus();
             }
             
-            // Auto-fill với tài khoản mẫu (cho demo)
-            if (!savedUsername && window.location.search.includes('demo=true')) {
+            // Tự động điền tài khoản demo nếu URL có tham số demo
+            if (window.location.search.includes('demo=true')) {
                 document.getElementById('username').value = 'admin';
                 document.getElementById('password').value = 'Admin@123';
+                rememberMe.checked = true;
             }
+            
+            // Hiệu ứng cho các input khi load
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
         });
         
-        // Hàm hiển thị dashboard (cho demo)
-        function showDashboard(account) {
-            const loginContainer = document.querySelector('.login-container');
-            const dashboardHTML = document.getElementById('dashboardTemplate').innerHTML;
+        // Hiệu ứng cho logo khi hover
+        const logoIcon = document.querySelector('.logo-icon');
+        if (logoIcon) {
+            logoIcon.addEventListener('mouseenter', () => {
+                logoIcon.style.transform = 'rotate(10deg) scale(1.05)';
+            });
             
-            // Thay thế toàn bộ nội dung trang
-            document.body.innerHTML = dashboardHTML;
-            
-            // Cập nhật thông tin người dùng
-            document.getElementById('dashboardUsername').textContent = account.name + ' (' + account.role + ')';
-            
-            // Thêm Font Awesome cho dashboard
-            const faLink = document.createElement('link');
-            faLink.rel = 'stylesheet';
-            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-            document.head.appendChild(faLink);
-            
-            // Thêm nút quay lại trang đăng nhập (cho demo)
-            const header = document.querySelector('.header');
-            const backButton = document.createElement('button');
-            backButton.innerHTML = '<i class="fas fa-arrow-left"></i> Quay lại đăng nhập';
-            backButton.style.cssText = 'background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-right: 10px;';
-            backButton.onclick = () => location.reload();
-            header.querySelector('.user-info').prepend(backButton);
+            logoIcon.addEventListener('mouseleave', () => {
+                logoIcon.style.transform = 'rotate(0) scale(1)';
+            });
         }
         
-        // Kiểm tra nếu đã đăng nhập từ trước
-        if (sessionStorage.getItem('isLoggedIn') === 'true') {
-            const userData = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
-            if (userData.username) {
-                showDashboard(userData);
+        // Thêm hiệu ứng khi nhấn Enter
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('loginButton').disabled) {
+                document.getElementById('loginForm').requestSubmit();
             }
-        }
+        });
     </script>
 </body>
 </html>
