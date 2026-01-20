@@ -1,89 +1,1398 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>QL Công tác Đảng</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Hệ thống Quản lý Công tác Đảng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        :root {
+            --primary-red: #CC0000;
+            --primary-red-dark: #990000;
+            --primary-red-light: #E63946;
+            --vietnam-gold: #FFD700;
+            --light-gray: #f5f5f5;
+            --dark-gray: #333333;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            min-height: 100vh;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* MODAL ĐĂNG NHẬP */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
         }
-        .container {
-            text-align: center;
-            padding: 40px;
+
+        .login-box {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-width: 600px;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
-        h1 {
-            color: #dc3545;
+
+        .login-box h2 {
+            color: var(--primary-red);
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .role-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .role-btn {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            background: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .role-btn:hover {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+        }
+
+        .role-btn.admin {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+            color: var(--primary-red);
+        }
+
+        .role-btn.guest {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+        .login-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(to right, #8B0000, var(--primary-red));
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--vietnam-gold);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Khu vực ảnh cờ với chức năng upload */
+        .flags-upload-area {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        /* Ô hiển thị ảnh cờ */
+        .flag-display {
+            width: 60px;
+            height: 45px;
+            border-radius: 3px;
+            border: 2px dashed #ccc;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .flag-display:hover {
+            border-color: var(--primary-red);
+        }
+
+        .flag-display img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .flag-placeholder {
+            color: #999;
+            font-size: 12px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        /* Nút upload (chỉ hiện với Admin) */
+        .upload-btn {
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .flag-display:hover .upload-btn {
+            opacity: 1;
+        }
+
+        /* Vạch phân cách */
+        .flag-divider {
+            width: 2px;
+            height: 35px;
+            background: linear-gradient(to bottom, transparent, #aaa, transparent);
+            margin: 0 8px;
+        }
+
+        .system-name {
+            margin-left: 10px;
+        }
+
+        .system-name h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .system-name p {
+            font-size: 12px;
+            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .user-role {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .user-role.admin {
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .user-role.guest {
+            color: #ccc;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* SIDEBAR - Ẩn nút chỉnh sửa với Khách */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+            position: fixed;
+            left: 0;
+            top: 80px;
+            bottom: 0;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            z-index: 90;
+            border-right: 1px solid #eaeaea;
+        }
+
+        .menu-section {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .menu-title {
+            padding: 0 20px 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-list {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--dark-gray);
+            text-decoration: none;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(204, 0, 0, 0.05);
+            color: var(--primary-red);
+        }
+
+        .menu-item.active {
+            background-color: rgba(204, 0, 0, 0.08);
+            color: var(--primary-red);
+            border-left: 3px solid var(--primary-red);
+            font-weight: 600;
+        }
+
+        /* Nút chỉnh sửa (chỉ hiện với Admin) */
+        .edit-btn {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: var(--transition);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .menu-item:hover .edit-btn {
+            opacity: 1;
+        }
+
+        .edit-btn:hover {
+            color: var(--primary-red);
+            background: rgba(204, 0, 0, 0.1);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* MAIN CONTENT - Ẩn nút hành động với Khách */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+            color: var(--dark-gray);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-red);
+            border-radius: 2px;
+        }
+
+        .page-title p {
+            color: #666;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Nút hành động bị vô hiệu hóa với Khách */
+        .action-btn {
+            padding: 10px 20px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover:not(.disabled) {
+            background: var(--primary-red-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .action-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .action-btn.secondary {
+            background: #5a6268;
+        }
+
+        .action-btn.secondary:hover:not(.disabled) {
+            background: #42484e;
+        }
+
+        /* MODAL UPLOAD ẢNH */
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .upload-modal.active {
+            display: flex;
+        }
+
+        .upload-box {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-box h3 {
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .flag-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .flag-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .flag-option:hover {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+        }
+
+        .flag-option.selected {
+            border-color: var(--primary-red);
+            background: #fff5f5;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-red);
+            background: #f8f9fa;
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: #6c757d;
             margin-bottom: 10px;
         }
-        .logo {
-            color: #dc3545;
-            font-size: 3rem;
-            margin-bottom: 20px;
+
+        .upload-preview {
+            max-width: 200px;
+            max-height: 150px;
+            margin: 10px auto;
+            display: none;
         }
-        .btn {
-            display: inline-block;
-            margin: 20px 10px;
-            padding: 12px 25px;
-            background: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s;
+
+        .upload-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 4px;
         }
-        .btn:hover {
-            background: #c82333;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+
+        .upload-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
         }
-        .btn-frontend {
+
+        /* Thông báo */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
             background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
         }
-        .btn-frontend:hover {
-            background: #218838;
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-        .btn-backend {
-            background: #007bff;
+
+        /* FOOTER */
+        .footer {
+            margin-left: 260px;
+            padding: 15px 30px;
+            background: white;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid var(--primary-red);
         }
-        .btn-backend:hover {
-            background: #0056b3;
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-flags {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-flag-small {
+            height: 18px;
+            width: auto;
+            border-radius: 2px;
+        }
+
+        .footer-divider {
+            width: 1px;
+            height: 20px;
+            background: #ddd;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-red);
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content, .footer {
+                margin-left: 220px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                top: 0;
+                display: none;
+            }
+            .sidebar.show {
+                display: block;
+            }
+            .main-content, .footer {
+                margin-left: 0;
+            }
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .flags-upload-area {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .flag-divider {
+                width: 80%;
+                height: 2px;
+                margin: 5px 0;
+            }
+            .user-area {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .quick-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <i>🏛️</i>
+    <!-- MODAL ĐĂNG NHẬP (Hiện đầu tiên) -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-box">
+            <h2>ĐĂNG NHẬP HỆ THỐNG</h2>
+            <p style="color: #666; margin-bottom: 30px;">Vui lòng chọn chế độ truy cập</p>
+            
+            <div class="role-selection">
+                <button class="role-btn admin" id="adminLogin">
+                    <i class="fas fa-user-shield"></i>
+                    QUẢN TRỊ VIÊN (ADMIN)
+                </button>
+                <button class="role-btn guest" id="guestLogin">
+                    <i class="fas fa-user"></i>
+                    KHÁCH (CHỈ XEM)
+                </button>
+            </div>
+            
+            <div class="login-note">
+                <p><strong>Quyền hạn:</strong></p>
+                <p>• <strong>Admin:</strong> Toàn quyền chỉnh sửa, upload ảnh, quản lý hệ thống</p>
+                <p>• <strong>Khách:</strong> Chỉ xem thông tin, không thể chỉnh sửa</p>
+            </div>
         </div>
-        <h1>Hệ thống Quản lý Công tác Đảng</h1>
-        <p><strong>Chi bộ Đội Thiết bị Thông tin Dẫn đường</strong></p>
-        <p>Đảng bộ Trung tâm Khai thác Khu bay Nội Bài</p>
-        
-        <div style="margin: 30px 0;">
-            <a href="frontend/index.html" class="btn btn-frontend">
-                🚀 Vào Hệ thống (Frontend)
-            </a>
-            <br>
-          <a href="backend.html" class="btn btn-backend">
-                ⚙️ Quản lý Backend API
-            </a>
-        </div>
-        
-        <p style="color: #666; margin-top: 30px; font-size: 0.9rem;">
-            Phiên bản 1.0.0 | © 2026
-        </p>
     </div>
+
+    <!-- MODAL UPLOAD ẢNH CỜ -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="upload-box">
+            <h3>UPLOAD ẢNH CỜ</h3>
+            
+            <div class="flag-options">
+                <div class="flag-option selected" data-flag="party">
+                    <i class="fas fa-flag"></i>
+                    <p>Cờ Đảng</p>
+                </div>
+                <div class="flag-option" data-flag="vietnam">
+                    <i class="fas fa-flag-usa"></i>
+                    <p>Cờ Việt Nam</p>
+                </div>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Kéo thả ảnh vào đây hoặc click để chọn</p>
+                <p style="font-size: 12px; color: #999; margin-top: 5px;">(Định dạng: JPG, PNG, SVG. Tối đa 2MB)</p>
+                
+                <div class="upload-preview" id="uploadPreview">
+                    <img id="previewImage" src="" alt="Preview">
+                </div>
+            </div>
+            
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            
+            <div class="upload-actions">
+                <button class="action-btn secondary" id="cancelUpload">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
+                <button class="action-btn" id="confirmUpload" disabled>
+                    <i class="fas fa-check"></i> Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- THÔNG BÁO -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText"></span>
+    </div>
+
+    <!-- HEADER (Sẽ hiện sau khi đăng nhập) -->
+    <header class="header" id="mainHeader" style="display: none;">
+        <div class="logo-area">
+            <div class="flags-upload-area">
+                <!-- Ô ảnh cờ Đảng -->
+                <div class="flag-display" id="partyFlagDisplay" data-flag="party">
+                    <div class="flag-placeholder">
+                        <i class="fas fa-flag"></i><br>
+                        Cờ Đảng
+                    </div>
+                    <div class="upload-btn">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                </div>
+                
+                <div class="flag-divider"></div>
+                
+                <!-- Ô ảnh cờ Việt Nam -->
+                <div class="flag-display" id="vietnamFlagDisplay" data-flag="vietnam">
+                    <div class="flag-placeholder">
+                        <i class="fas fa-flag-usa"></i><br>
+                        Cờ Việt Nam
+                    </div>
+                    <div class="upload-btn">
+                        <i class="fas fa-upload"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="system-name">
+                <h1>HỆ THỐNG QUẢN LÝ CÔNG TÁC ĐẢNG</h1>
+                <p>Chi bộ Đội Thiết bị Thông tin Dẫn đường • Đảng bộ Trung tâm Khai thác Khu bay Nội Bài</p>
+            </div>
+        </div>
+        
+        <div class="user-area">
+            <div class="user-info">
+                <div class="user-name" id="userName">Nguyễn Văn A</div>
+                <div class="user-role" id="userRole">Bí thư Chi bộ</div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Đăng xuất
+            </button>
+        </div>
+    </header>
+
+    <!-- SIDEBAR (Sẽ hiện sau khi đăng nhập) -->
+    <nav class="sidebar" id="sidebar" style="display: none;">
+        <div class="menu-section">
+            <div class="menu-title">
+                <i class="fas fa-bars"></i>
+                Menu chính
+            </div>
+            <ul class="menu-list">
+                <li>
+                    <a href="#" class="menu-item active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Bảng điều khiển
+                        <button class="edit-btn" data-edit="dashboard">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item" id="module4Toggle">
+                        <i class="fas fa-file-alt"></i>
+                        Quản lý Văn bản, Nghị quyết
+                        <button class="edit-btn" data-edit="module4">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
+                    </a>
+                    <ul class="submenu" id="module4Submenu">
+                        <li class="submenu-item">
+                            <i class="fas fa-calendar"></i> Nghị quyết định kỳ
+                        </li>
+                        <li class="submenu-item">
+                            <i class="fas fa-star"></i> Nghị quyết chuyên đề
+                        </li>
+                        <li class="submenu-item">
+                            <i class="fas fa-project-diagram"></i> Quy trình xử lý
+                        </li>
+                        <li class="submenu-item">
+                            <i class="fas fa-archive"></i> Kho lưu trữ
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-users"></i>
+                        Hồ sơ Đảng viên
+                        <button class="edit-btn" data-edit="members">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item">
+                        <i class="fas fa-calendar-check"></i>
+                        Sinh hoạt Đảng
+                        <button class="edit-btn" data-edit="activities">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="menu-section" id="adminSection">
+            <div class="menu-title">
+                <i class="fas fa-user-shield"></i>
+                Quản trị hệ thống
+            </div>
+            <ul class="menu-list">
+                <li>
+                    <a href="#" class="menu-item" id="manageFlags">
+                        <i class="fas fa-flag"></i>
+                        Quản lý ảnh cờ
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item" id="systemSettings">
+                        <i class="fas fa-cog"></i>
+                        Cài đặt hệ thống
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="menu-item" id="userManagement">
+                        <i class="fas fa-user-cog"></i>
+                        Quản lý người dùng
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT (Sẽ hiện sau khi đăng nhập) -->
+    <main class="main-content" id="mainContent" style="display: none;">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Bảng Điều Khiển Hệ Thống</h2>
+                <p id="pageSubtitle">Tổng quan toàn diện về công tác Đảng</p>
+            </div>
+            <div class="quick-actions">
+                <button class="action-btn" id="createNewBtn">
+                    <i class="fas fa-plus"></i>
+                    Tạo mới
+                </button>
+                <button class="action-btn secondary" id="exportReportBtn">
+                    <i class="fas fa-download"></i>
+                    Xuất báo cáo
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <!-- Sẽ được tạo động bằng JavaScript -->
+        </div>
+
+        <!-- Module Cards -->
+        <div class="modules-section">
+            <h3 class="section-title">
+                <i class="fas fa-cogs"></i>
+                Hệ Thống Chức Năng Chính
+            </h3>
+            <div class="modules-grid" id="modulesGrid">
+                <!-- Sẽ được tạo động bằng JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER (Sẽ hiện sau khi đăng nhập) -->
+    <footer class="footer" id="mainFooter" style="display: none;">
+        <div class="footer-content">
+            <div class="footer-flags">
+                <!-- Ảnh cờ nhỏ sẽ được cập nhật động -->
+            </div>
+            
+            <div class="footer-copyright">
+                <strong>© 2026 HỆ THỐNG QUẢN LÝ CÔNG TÁC ĐẢNG</strong><br>
+                <span id="footerVersion">Phiên bản 2.0.1 (Chính thức)</span>
+            </div>
+        </div>
+        
+        <div class="footer-links">
+            <a href="#"><i class="fas fa-headset"></i> Hỗ trợ</a>
+            <a href="#"><i class="fas fa-file-pdf"></i> Hướng dẫn</a>
+            <a href="#"><i class="fas fa-envelope"></i> Liên hệ</a>
+        </div>
+    </footer>
+
+    <script>
+        // ======================
+        // BIẾN TOÀN CỤC
+        // ======================
+        let currentUser = null;
+        let currentUserRole = null;
+        let selectedFlagType = 'party';
+        let selectedFile = null;
+        
+        // ======================
+        // HÀM KHỞI TẠO
+        // ======================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra nếu đã đăng nhập trước đó
+            const savedUser = localStorage.getItem('dashboardUser');
+            if (savedUser) {
+                const userData = JSON.parse(savedUser);
+                loginUser(userData.name, userData.role);
+            }
+            
+            // Load ảnh cờ đã lưu
+            loadSavedFlags();
+        });
+        
+        // ======================
+        // ĐĂNG NHẬP
+        // ======================
+        document.getElementById('adminLogin').addEventListener('click', function() {
+            loginUser('Nguyễn Văn Admin', 'admin');
+        });
+        
+        document.getElementById('guestLogin').addEventListener('click', function() {
+            loginUser('Khách Tham Quan', 'guest');
+        });
+        
+        function loginUser(name, role) {
+            currentUser = name;
+            currentUserRole = role;
+            
+            // Lưu thông tin đăng nhập
+            localStorage.setItem('dashboardUser', JSON.stringify({
+                name: name,
+                role: role,
+                loginTime: new Date().toISOString()
+            }));
+            
+            // Ẩn modal đăng nhập
+            document.getElementById('loginModal').style.display = 'none';
+            
+            // Hiển thị giao diện chính
+            document.getElementById('mainHeader').style.display = 'flex';
+            document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('mainFooter').style.display = 'flex';
+            
+            // Cập nhật thông tin người dùng
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userRole').textContent = role === 'admin' ? 'Quản trị viên' : 'Khách tham quan';
+            document.getElementById('userRole').className = `user-role ${role}`;
+            
+            // Cập nhật tiêu đề trang
+            document.getElementById('pageSubtitle').textContent = 
+                role === 'admin' 
+                    ? 'Quản trị toàn diện hệ thống • Toàn quyền chỉnh sửa' 
+                    : 'Chế độ xem • Không có quyền chỉnh sửa';
+            
+            // Áp dụng quyền hạn
+            applyUserPermissions();
+            
+            // Tạo nội dung động
+            generateDynamicContent();
+            
+            showNotification(`Đăng nhập thành công với quyền ${role === 'admin' ? 'Quản trị viên' : 'Khách'}`);
+        }
+        
+        // ======================
+        // ÁP DỤNG QUYỀN HẠN
+        // ======================
+        function applyUserPermissions() {
+            const isAdmin = currentUserRole === 'admin';
+            
+            // Hiển thị/ẩn section quản trị
+            document.getElementById('adminSection').style.display = isAdmin ? 'block' : 'none';
+            
+            // Hiển thị/ẩn nút upload trên ảnh cờ
+            const uploadBtns = document.querySelectorAll('.upload-btn');
+            uploadBtns.forEach(btn => {
+                btn.style.display = isAdmin ? 'flex' : 'none';
+            });
+            
+            // Hiển thị/ẩn nút chỉnh sửa trong menu
+            const editBtns = document.querySelectorAll('.edit-btn');
+            editBtns.forEach(btn => {
+                btn.style.display = isAdmin ? 'block' : 'none';
+            });
+            
+            // Kích hoạt/vô hiệu hóa nút hành động
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                if (!isAdmin) {
+                    btn.classList.add('disabled');
+                    btn.disabled = true;
+                } else {
+                    btn.classList.remove('disabled');
+                    btn.disabled = false;
+                }
+            });
+            
+            // Cập nhật footer version
+            document.getElementById('footerVersion').textContent = 
+                isAdmin 
+                    ? 'Phiên bản 2.0.1 (Chính thức) • Chế độ Quản trị' 
+                    : 'Phiên bản 2.0.1 (Chính thức) • Chế độ Xem';
+        }
+        
+        // ======================
+        // UPLOAD ẢNH CỜ
+        // ======================
+        // Chọn loại cờ
+        document.querySelectorAll('.flag-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.flag-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                selectedFlagType = this.dataset.flag;
+            });
+        });
+        
+        // Mở modal upload khi click nút upload
+        document.querySelectorAll('.upload-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const flagType = this.parentElement.dataset.flag;
+                selectedFlagType = flagType;
+                
+                // Chọn đúng tab trong modal
+                document.querySelectorAll('.flag-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                    if (opt.dataset.flag === flagType) {
+                        opt.classList.add('selected');
+                    }
+                });
+                
+                document.getElementById('uploadModal').classList.add('active');
+            });
+        });
+        
+        // Mở modal từ menu quản trị
+        document.getElementById('manageFlags')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('uploadModal').classList.add('active');
+        });
+        
+        // Click vào khu vực upload
+        document.getElementById('uploadArea').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+        
+        // Xử lý chọn file
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                selectedFile = e.target.files[0];
+                
+                // Kiểm tra kích thước file
+                if (selectedFile.size > 2 * 1024 * 1024) {
+                    showNotification('File quá lớn! Vui lòng chọn file dưới 2MB', 'error');
+                    return;
+                }
+                
+                // Hiển thị preview
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('previewImage');
+                    preview.src = event.target.result;
+                    document.getElementById('uploadPreview').style.display = 'block';
+                    document.getElementById('confirmUpload').disabled = false;
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+        
+        // Hủy upload
+        document.getElementById('cancelUpload').addEventListener('click', function() {
+            closeUploadModal();
+        });
+        
+        // Xác nhận upload
+        document.getElementById('confirmUpload').addEventListener('click', function() {
+            if (selectedFile) {
+                // Lưu ảnh vào localStorage (trong thực tế sẽ gửi lên server)
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    localStorage.setItem(`flag_${selectedFlagType}`, event.target.result);
+                    updateFlagDisplay(selectedFlagType, event.target.result);
+                    showNotification(`Đã cập nhật ảnh cờ ${selectedFlagType === 'party' ? 'Đảng' : 'Việt Nam'}`);
+                    closeUploadModal();
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+        
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+            document.getElementById('uploadPreview').style.display = 'none';
+            document.getElementById('previewImage').src = '';
+            document.getElementById('confirmUpload').disabled = true;
+            selectedFile = null;
+            document.getElementById('fileInput').value = '';
+        }
+        
+        // ======================
+        // QUẢN LÝ ẢNH CỜ
+        // ======================
+        function loadSavedFlags() {
+            const partyFlag = localStorage.getItem('flag_party');
+            const vietnamFlag = localStorage.getItem('flag_vietnam');
+            
+            if (partyFlag) {
+                updateFlagDisplay('party', partyFlag);
+            }
+            
+            if (vietnamFlag) {
+                updateFlagDisplay('vietnam', vietnamFlag);
+            }
+        }
+        
+        function updateFlagDisplay(flagType, imageData) {
+            const display = document.getElementById(`${flagType}FlagDisplay`);
+            const placeholder = display.querySelector('.flag-placeholder');
+            const img = display.querySelector('img');
+            
+            if (!img) {
+                // Tạo thẻ img nếu chưa có
+                const newImg = document.createElement('img');
+                newImg.alt = flagType === 'party' ? 'Cờ Đảng' : 'Cờ Việt Nam';
+                display.appendChild(newImg);
+            }
+            
+            display.querySelector('img').src = imageData;
+            if (placeholder) placeholder.style.display = 'none';
+            
+            // Cập nhật ảnh nhỏ trong footer
+            updateFooterFlags();
+        }
+        
+        function updateFooterFlags() {
+            const footerFlags = document.querySelector('.footer-flags');
+            footerFlags.innerHTML = '';
+            
+            const partyFlag = localStorage.getItem('flag_party');
+            const vietnamFlag = localStorage.getItem('flag_vietnam');
+            
+            if (partyFlag) {
+                const img1 = document.createElement('img');
+                img1.className = 'footer-flag-small';
+                img1.src = partyFlag;
+                img1.alt = 'Cờ Đảng nhỏ';
+                footerFlags.appendChild(img1);
+            }
+            
+            if (partyFlag && vietnamFlag) {
+                const divider = document.createElement('div');
+                divider.className = 'footer-divider';
+                footerFlags.appendChild(divider);
+            }
+            
+            if (vietnamFlag) {
+                const img2 = document.createElement('img');
+                img2.className = 'footer-flag-small';
+                img2.src = vietnamFlag;
+                img2.alt = 'Cờ Việt Nam nhỏ';
+                footerFlags.appendChild(img2);
+            }
+        }
+        
+        // ======================
+        // TẠO NỘI DUNG ĐỘNG
+        // ======================
+        function generateDynamicContent() {
+            // Tạo stat cards
+            const stats = [
+                { icon: 'fa-user-check', value: '248', label: 'Đảng viên', trend: '+5.2%' },
+                { icon: 'fa-sitemap', value: '12', label: 'Chi bộ', trend: 'Ổn định' },
+                { icon: 'fa-file-contract', value: '15', label: 'Văn bản mới', trend: '+12.5%' },
+                { icon: 'fa-calendar-check', value: '9', label: 'Sự kiện', trend: '+5.6%' }
+            ];
+            
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+            
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas ${stat.icon}"></i>
+                        </div>
+                        <div class="stat-trend">
+                            ${stat.trend.includes('+') ? '<i class="fas fa-arrow-up"></i>' : 
+                              stat.trend.includes('-') ? '<i class="fas fa-arrow-down"></i>' : 
+                              '<i class="fas fa-check"></i>'} ${stat.trend}
+                        </div>
+                    </div>
+                    <div class="stat-value">${stat.value}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsGrid.appendChild(card);
+            });
+            
+            // Tạo module cards
+            const modules = [
+                { 
+                    id: 'module4',
+                    icon: 'fa-file-signature', 
+                    title: 'QUẢN LÝ VĂN BẢN, NGHỊ QUYẾT',
+                    stats: ['15 mới', '3 chờ duyệt', '142 đã ban hành'],
+                    description: 'Quản lý toàn bộ văn bản từ dự thảo đến ban hành, theo dõi quy trình xử lý, lưu trữ và tra cứu thông minh.',
+                    tags: ['Nghị quyết', 'Chỉ thị', 'Quyết định'],
+                    featured: true
+                },
+                { 
+                    id: 'module1',
+                    icon: 'fa-id-badge', 
+                    title: 'HỒ SƠ ĐẢNG VIÊN',
+                    stats: ['248 ĐV', '5 mới', '18 khen thưởng'],
+                    description: 'Quản lý thông tin cá nhân, quá trình công tác, đào tạo, khen thưởng, kỷ luật của đảng viên.',
+                    tags: [],
+                    featured: false
+                },
+                { 
+                    id: 'module2',
+                    icon: 'fa-users-between-lines', 
+                    title: 'SINH HOẠT & HỌC TẬP',
+                    stats: ['8 cuộc họp', '12 bài học', '95% tham gia'],
+                    description: 'Lập kế hoạch sinh hoạt chi bộ, quản lý nội dung học tập nghị quyết.',
+                    tags: [],
+                    featured: false
+                }
+            ];
+            
+            const modulesGrid = document.getElementById('modulesGrid');
+            modulesGrid.innerHTML = '';
+            
+            modules.forEach(module => {
+                const card = document.createElement('div');
+                card.className = `module-card ${module.featured ? 'featured' : ''}`;
+                card.id = `goTo${module.id}`;
+                
+                let tagsHtml = '';
+                if (module.tags.length > 0) {
+                    tagsHtml = `<div style="margin-top: 15px; display: flex; gap: 10px;">
+                        ${module.tags.map(tag => 
+                            `<span style="background: #e9ecef; padding: 3px 8px; border-radius: 4px; font-size: 12px;">${tag}</span>`
+                        ).join('')}
+                    </div>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="module-header">
+                        <div class="module-icon">
+                            <i class="fas ${module.icon}"></i>
+                        </div>
+                        <div>
+                            <div class="module-title">${module.title}</div>
+                            <div class="module-stats">
+                                ${module.stats.map(stat => 
+                                    `<span><i class="fas fa-circle"></i> ${stat}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="module-desc">${module.description}</p>
+                    ${tagsHtml}
+                `;
+                
+                modulesGrid.appendChild(card);
+                
+                // Thêm sự kiện click cho module card
+                card.addEventListener('click', function() {
+                    if (currentUserRole === 'admin') {
+                        showNotification(`Chuyển đến module: ${module.title}`);
+                    } else {
+                        showNotification('Bạn không có quyền truy cập chức năng này', 'error');
+                    }
+                });
+            });
+        }
+        
+        // ======================
+        // CÁC CHỨC NĂNG KHÁC
+        // ======================
+        // Đăng xuất
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+                localStorage.removeItem('dashboardUser');
+                location.reload();
+            }
+        });
+        
+        // Toggle submenu
+        document.getElementById('module4Toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            const submenu = document.getElementById('module4Submenu');
+            const icon = this.querySelector('.fa-chevron-down');
+            
+            submenu.classList.toggle('show');
+            if (icon.classList.contains('fa-chevron-down')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        });
+        
+        // Nút chỉnh sửa trong menu
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const section = this.dataset.edit;
+                showNotification(`Chức năng chỉnh sửa "${section}" (Chỉ dành cho Admin)`);
+            });
+        });
+        
+        // Nút hành động
+        document.getElementById('createNewBtn').addEventListener('click', function() {
+            if (currentUserRole === 'admin') {
+                showNotification('Mở form tạo mới văn bản...');
+            }
+        });
+        
+        document.getElementById('exportReportBtn').addEventListener('click', function() {
+            if (currentUserRole === 'admin') {
+                showNotification('Đang xuất báo cáo...');
+            }
+        });
+        
+        // ======================
+        // HÀM TIỆN ÍCH
+        // ======================
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            
+            text.textContent = message;
+            notification.style.background = type === 'error' ? '#dc3545' : '#28a745';
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // ======================
+        // KHỞI TẠO FOOTER FLAGS
+        // ======================
+        updateFooterFlags();
+    </script>
 </body>
 </html>
