@@ -211,7 +211,7 @@
             font-size: 12px;
         }
 
-        /* MAIN CONTENT */
+        /* MAIN CONTENT - CHUNG */
         .main-content {
             margin-left: 260px;
             padding: 30px;
@@ -268,6 +268,19 @@
 
         .action-btn.secondary:hover {
             background: #5a6268;
+        }
+
+        /* ========== GIAO DIỆN DANH SÁCH ĐẢNG VIÊN ========== */
+        .members-container {
+            display: none;
+        }
+
+        .members-container.active {
+            display: block;
+        }
+
+        .dashboard-container.active {
+            display: block;
         }
 
         /* STATS CARDS */
@@ -472,6 +485,339 @@
             white-space: nowrap;
         }
 
+        /* ========== TABLE STYLES ========== */
+        .table-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .table-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .table-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-title i {
+            color: var(--primary-red);
+        }
+
+        .table-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 10px 15px 10px 40px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            width: 250px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .table-wrapper {
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .members-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        .members-table thead {
+            background: #f8f9fa;
+        }
+
+        .members-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark-gray);
+            border-bottom: 2px solid #eee;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .members-table tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .members-table tbody tr:hover {
+            background: #fff5f5;
+        }
+
+        .members-table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .member-photo-cell {
+            width: 70px;
+            text-align: center;
+        }
+
+        .member-photo {
+            width: 50px;
+            height: 70px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+        }
+
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .photo-placeholder {
+            color: #888;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .photo-placeholder i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .member-info {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .action-cell {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+        .action-btn-sm {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+        }
+
+        .action-btn-sm.view {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .action-btn-sm.edit {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+        }
+
+        .action-btn-sm.delete {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+        }
+
+        .action-btn-sm:hover {
+            transform: translateY(-2px);
+        }
+
+        .table-footer {
+            padding: 15px 25px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+
+        .page-btn.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: var(--primary-red);
+            color: white;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
         /* FOOTER */
         .footer {
             margin-left: 260px;
@@ -538,6 +884,9 @@
             .modules-grid {
                 grid-template-columns: 1fr;
             }
+            .search-input {
+                width: 200px;
+            }
         }
 
         @media (max-width: 576px) {
@@ -555,6 +904,13 @@
                 width: 100%;
                 justify-content: center;
             }
+            .table-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-input {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -565,13 +921,13 @@
             <div class="logo-icon">Đ</div>
             <div class="system-name">
                 <h1>HỆ THỐNG QUẢN LÝ CÔNG TÁC ĐẢNG</h1>
-                <p>Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+                <p>Trung tâm Khai thác Khu bay Nội Bài</p>
             </div>
         </div>
         <div class="user-area">
             <div class="user-info">
-                <div class="user-name">Phạm Minh Quang</div>
-                <div class="user-role">Chi ủy viên</div>
+                <div class="user-name" id="currentUserName">Nguyễn Văn Admin</div>
+                <div class="user-role" id="currentUserRole">Quản trị viên</div>
             </div>
             <button class="logout-btn" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i>
@@ -589,7 +945,7 @@
             </div>
             <ul class="menu-list">
                 <li>
-                    <a href="#" class="menu-item">
+                    <a href="#" class="menu-item active" id="dashboardMenu">
                         <i class="fas fa-tachometer-alt"></i>
                         Bảng điều khiển
                     </a>
@@ -616,10 +972,31 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="menu-item">
+                    <a href="#" class="menu-item" id="membersMenuToggle">
                         <i class="fas fa-users"></i>
                         Hồ sơ Đảng viên
+                        <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
+                    <ul class="submenu" id="membersSubmenu">
+                        <li class="submenu-item" data-branch="all">
+                            <i class="fas fa-globe"></i> Tất cả các chi bộ
+                        </li>
+                        <li class="submenu-item" data-branch="VP">
+                            <i class="fas fa-building"></i> Văn phòng Trung tâm
+                        </li>
+                        <li class="submenu-item" data-branch="BT">
+                            <i class="fas fa-road"></i> Đội Bảo trì Sân đường
+                        </li>
+                        <li class="submenu-item" data-branch="MT">
+                            <i class="fas fa-leaf"></i> Đội Môi trường Khu bay
+                        </li>
+                        <li class="submenu-item" data-branch="CD">
+                            <i class="fas fa-bolt"></i> Đội Thiết bị Cơ, Điện, Đèn
+                        </li>
+                        <li class="submenu-item" data-branch="TT">
+                            <i class="fas fa-satellite-dish"></i> Đội Thông tin Dẫn đường
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#" class="menu-item">
@@ -655,9 +1032,9 @@
             </div>
             <ul class="menu-list">
                 <li>
-                    <a href="#" class="menu-item">
+                    <a href="#" class="menu-item" id="addMemberBtn">
                         <i class="fas fa-plus-circle"></i>
-                        Tạo nghị quyết mới
+                        Thêm đảng viên mới
                     </a>
                 </li>
                 <li>
@@ -676,194 +1053,371 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN CONTENT - DASHBOARD -->
     <main class="main-content">
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="page-title">
-                <h2>Bảng điều khiển</h2>
-                <p>Tổng quan hệ thống và hoạt động mới nhất</p>
+        <!-- Dashboard Content -->
+        <div class="dashboard-container active" id="dashboardContent">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Bảng điều khiển</h2>
+                    <p>Tổng quan hệ thống và hoạt động mới nhất</p>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn">
+                        <i class="fas fa-plus"></i>
+                        Tạo mới
+                    </button>
+                    <button class="action-btn secondary">
+                        <i class="fas fa-download"></i>
+                        Xuất báo cáo
+                    </button>
+                </div>
             </div>
-            <div class="quick-actions">
-                <button class="action-btn">
-                    <i class="fas fa-plus"></i>
-                    Tạo mới
-                </button>
-                <button class="action-btn secondary">
-                    <i class="fas fa-download"></i>
-                    Xuất báo cáo
-                </button>
-            </div>
-        </div>
 
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-trend">
-                        <i class="fas fa-arrow-up"></i> 5.2%
-                    </div>
-                </div>
-                <div class="stat-value">248</div>
-                <div class="stat-label">Tổng số Đảng viên</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon">
-                        <i class="fas fa-sitemap"></i>
-                    </div>
-                    <div class="stat-trend">
-                        <i class="fas fa-minus"></i> 0%
-                    </div>
-                </div>
-                <div class="stat-value">12</div>
-                <div class="stat-label">Số Chi bộ</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="stat-trend">
-                        <i class="fas fa-arrow-up"></i> 12.5%
-                    </div>
-                </div>
-                <div class="stat-value">15</div>
-                <div class="stat-label">Văn bản mới (tháng)</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="stat-icon">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="stat-trend negative">
-                        <i class="fas fa-arrow-down"></i> 2.3%
-                    </div>
-                </div>
-                <div class="stat-value">8</div>
-                <div class="stat-label">Sự kiện trong tháng</div>
-            </div>
-        </div>
-
-        <!-- Module Cards -->
-        <div class="modules-section">
-            <h3 class="section-title">
-                <i class="fas fa-th-large"></i>
-                Các chức năng chính
-            </h3>
-            <div class="modules-grid">
-                <!-- Module 4 (Featured) -->
-                <div class="module-card featured" id="goToModule4">
-                    <div class="module-header">
-                        <div class="module-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <div>
-                            <div class="module-title">Quản lý Văn bản, Nghị quyết</div>
-                            <div class="module-stats">
-                                <span>15 văn bản mới</span>
-                                <span>3 chờ phê duyệt</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="module-desc">Quản lý toàn bộ văn bản, nghị quyết từ dự thảo đến ban hành. Hỗ trợ quy trình xử lý và lưu trữ thông minh.</p>
-                </div>
-                
-                <!-- Module 1 -->
-                <div class="module-card">
-                    <div class="module-header">
-                        <div class="module-icon">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
                             <i class="fas fa-users"></i>
                         </div>
-                        <div>
-                            <div class="module-title">Hồ sơ Đảng viên</div>
-                            <div class="module-stats">
-                                <span>248 đảng viên</span>
-                                <span>5 mới kết nạp</span>
-                            </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i> 5.2%
                         </div>
                     </div>
-                    <p class="module-desc">Quản lý thông tin, quá trình công tác, khen thưởng, kỷ luật của đảng viên toàn diện.</p>
+                    <div class="stat-value">248</div>
+                    <div class="stat-label">Tổng số Đảng viên</div>
                 </div>
                 
-                <!-- Module 2 -->
-                <div class="module-card">
-                    <div class="module-header">
-                        <div class="module-icon">
-                            <i class="fas fa-calendar-check"></i>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-sitemap"></i>
                         </div>
-                        <div>
-                            <div class="module-title">Sinh hoạt Đảng</div>
-                            <div class="module-stats">
-                                <span>8 cuộc họp</span>
-                                <span>12 bài học tập</span>
-                            </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-minus"></i> 0%
                         </div>
                     </div>
-                    <p class="module-desc">Lập kế hoạch, theo dõi sinh hoạt chi bộ và quản lý nội dung học tập nghị quyết.</p>
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Số Chi bộ trực thuộc</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i> 12.5%
+                        </div>
+                    </div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Văn bản mới (tháng)</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-trend negative">
+                            <i class="fas fa-arrow-down"></i> 2.3%
+                        </div>
+                    </div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Sự kiện trong tháng</div>
+                </div>
+            </div>
+
+            <!-- Module Cards -->
+            <div class="modules-section">
+                <h3 class="section-title">
+                    <i class="fas fa-th-large"></i>
+                    Các chức năng chính
+                </h3>
+                <div class="modules-grid">
+                    <!-- Module 4 (Featured) -->
+                    <div class="module-card featured" id="goToModule4">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Quản lý Văn bản, Nghị quyết</div>
+                                <div class="module-stats">
+                                    <span>15 văn bản mới</span>
+                                    <span>3 chờ phê duyệt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="module-desc">Quản lý toàn bộ văn bản, nghị quyết từ dự thảo đến ban hành. Hỗ trợ quy trình xử lý và lưu trữ thông minh.</p>
+                    </div>
+                    
+                    <!-- Module 1 -->
+                    <div class="module-card" id="goToMembers">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Hồ sơ Đảng viên</div>
+                                <div class="module-stats">
+                                    <span>248 đảng viên</span>
+                                    <span>5 mới kết nạp</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="module-desc">Quản lý thông tin, quá trình công tác, khen thưởng, kỷ luật của đảng viên toàn diện.</p>
+                    </div>
+                    
+                    <!-- Module 2 -->
+                    <div class="module-card">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Sinh hoạt Đảng</div>
+                                <div class="module-stats">
+                                    <span>8 cuộc họp</span>
+                                    <span>12 bài học tập</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="module-desc">Lập kế hoạch, theo dõi sinh hoạt chi bộ và quản lý nội dung học tập nghị quyết.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="modules-section">
+                <h3 class="section-title">
+                    <i class="fas fa-history"></i>
+                    Hoạt động gần đây
+                </h3>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Nghị quyết về công tác cán bộ đã được ban hành</div>
+                            <div class="activity-desc">Số 15/NQ-CB, ban hành ngày 15/01/2026</div>
+                        </div>
+                        <div class="activity-time">2 giờ trước</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Kết nạp 2 đảng viên mới</div>
+                            <div class="activity-desc">Đồng chí Nguyễn Văn B và Trần Thị C</div>
+                        </div>
+                        <div class="activity-time">1 ngày trước</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Họp chi bộ tháng 1/2026</div>
+                            <div class="activity-desc">Đánh giá kết quả thực hiện nghị quyết quý IV/2025</div>
+                        </div>
+                        <div class="activity-time">3 ngày trước</div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Tải lên dự thảo sơ kết 6 tháng</div>
+                            <div class="activity-desc">Dự thảo nghị quyết sơ kết công tác 6 tháng đầu năm</div>
+                        </div>
+                        <div class="activity-time">5 ngày trước</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Recent Activity -->
-        <div class="modules-section">
-            <h3 class="section-title">
-                <i class="fas fa-history"></i>
-                Hoạt động gần đây
-            </h3>
-            <div class="activity-list">
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-file-signature"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Nghị quyết về công tác cán bộ đã được ban hành</div>
-                        <div class="activity-desc">Số 15/NQ-CB, ban hành ngày 15/01/2026</div>
-                    </div>
-                    <div class="activity-time">2 giờ trước</div>
+        <!-- Danh sách đảng viên Content -->
+        <div class="members-container" id="membersContent">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h2 id="membersPageTitle">DANH SÁCH ĐẢNG VIÊN</h2>
+                    <p id="membersPageSubtitle">Quản lý thông tin đảng viên toàn diện</p>
                 </div>
-                
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Kết nạp 2 đảng viên mới</div>
-                        <div class="activity-desc">Đồng chí Nguyễn Văn B và Trần Thị C</div>
-                    </div>
-                    <div class="activity-time">1 ngày trước</div>
+                <div class="quick-actions">
+                    <button class="action-btn" id="addNewMemberBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Thêm đảng viên
+                    </button>
+                    <button class="action-btn secondary" id="exportMembersBtn">
+                        <i class="fas fa-file-export"></i>
+                        Xuất báo cáo
+                    </button>
                 </div>
-                
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-comments"></i>
+            </div>
+
+            <!-- Thống kê -->
+            <div class="stats-grid" id="membersStats">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i> +5.2%
+                        </div>
                     </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Họp chi bộ tháng 1/2026</div>
-                        <div class="activity-desc">Đánh giá kết quả thực hiện nghị quyết quý IV/2025</div>
-                    </div>
-                    <div class="activity-time">3 ngày trước</div>
+                    <div class="stat-value" id="totalMembersCount">0</div>
+                    <div class="stat-label">Tổng số đảng viên</div>
                 </div>
-                
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-upload"></i>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-arrow-up"></i> +12.5%
+                        </div>
                     </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Tải lên dự thảo sơ kết 6 tháng</div>
-                        <div class="activity-desc">Dự thảo nghị quyết sơ kết công tác 6 tháng đầu năm</div>
+                    <div class="stat-value" id="newMembersCount">0</div>
+                    <div class="stat-label">Đảng viên mới 2024-2025</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="stat-trend">
+                            <i class="fas fa-star"></i> +8.3%
+                        </div>
                     </div>
-                    <div class="activity-time">5 ngày trước</div>
+                    <div class="stat-value" id="awardedMembersCount">0</div>
+                    <div class="stat-label">Đảng viên ưu tú</div>
+                </div>
+            </div>
+
+            <!-- Bảng danh sách -->
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-title">
+                        <i class="fas fa-list"></i>
+                        <span id="tableTitle">DANH SÁCH ĐẢNG VIÊN TOÀN TRUNG TÂM</span>
+                    </div>
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="searchInput" placeholder="Tìm kiếm đảng viên...">
+                        </div>
+                        <select class="form-control" id="sortSelect" style="width: 180px;">
+                            <option value="name">Sắp xếp theo tên</option>
+                            <option value="date">Sắp xếp theo ngày vào Đảng</option>
+                            <option value="position">Sắp xếp theo chức vụ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="members-table" id="membersTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px;">STT</th>
+                                <th style="width: 70px;">Ảnh</th>
+                                <th style="width: 200px;">Họ và tên</th>
+                                <th style="width: 150px;">Chức vụ</th>
+                                <th style="width: 120px;">Ngày sinh</th>
+                                <th style="width: 150px;">Chi bộ</th>
+                                <th style="width: 120px;">Ngày vào Đảng</th>
+                                <th style="width: 100px;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <div class="pagination" id="pagination">
+                        <!-- Phân trang sẽ được thêm bằng JavaScript -->
+                    </div>
+                    <div class="table-info">
+                        Hiển thị <span id="currentCount">0</span> trên tổng số <span id="totalCount">0</span> đảng viên
+                    </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- MODAL CHỈNH SỬA/THÊM MỚI -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-container" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> <span id="modalTitle">THÊM ĐẢNG VIÊN MỚI</span></h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="memberForm">
+                    <div class="form-group">
+                        <label>Họ và tên</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input type="text" class="form-control" id="dob" name="dob" placeholder="DD.MM.YYYY" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="">Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dân tộc</label>
+                        <input type="text" class="form-control" id="ethnicity" name="ethnicity" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Chức vụ</label>
+                        <input type="text" class="form-control" id="position" name="position">
+                    </div>
+                    <div class="form-group">
+                        <label>Chi bộ</label>
+                        <select class="form-control" id="branch" name="branch" required>
+                            <option value="">Chọn chi bộ</option>
+                            <option value="VP">Văn phòng Trung tâm</option>
+                            <option value="BT">Đội Bảo trì Sân đường</option>
+                            <option value="MT">Đội Môi trường Khu bay</option>
+                            <option value="CD">Đội Thiết bị Cơ, Điện, Đèn Sân bay</option>
+                            <option value="TT">Đội Thiết bị Thông tin Dẫn đường</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày vào Đảng</label>
+                        <input type="text" class="form-control" id="partyJoinDate" name="partyJoinDate" placeholder="DD.MM.YYYY" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="action-btn secondary" id="cancelBtn">
+                            <i class="fas fa-times"></i> Hủy bỏ
+                        </button>
+                        <button type="submit" class="action-btn primary" id="saveBtn">
+                            <i class="fas fa-save"></i> Lưu thông tin
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="footer">
@@ -879,72 +1433,700 @@
     </footer>
 
     <script>
-        // Toggle submenu for Module 4
-        document.getElementById('module4Toggle').addEventListener('click', function(e) {
-            e.preventDefault();
-            const submenu = document.getElementById('module4Submenu');
-            const icon = this.querySelector('.fa-chevron-down');
-            
-            submenu.classList.toggle('show');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
-        });
+        // ======================
+        // BIẾN TOÀN CỤC
+        // ======================
+        let currentUserRole = 'admin';
+        let currentUserName = 'Nguyễn Văn Admin';
+        let currentUserBranch = 'all';
+        let membersData = [];
+        let currentEditId = null;
+        let currentBranch = 'all';
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let filteredData = [];
 
-        // Logout button
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?')) {
-                alert('Đã đăng xuất. Chuyển hướng về trang đăng nhập...');
-                // In real app: window.location.href = 'login.html';
-            }
-        });
+        // ======================
+        // DỮ LIỆU MẪU ĐẢNG VIÊN
+        // ======================
+        const sampleData = [
+            { id: 1, branch: 'VP', fullName: 'Vũ Nam Thắng', dob: '31.08.73', gender: 'Nam', ethnicity: 'Kinh', position: 'Trưởng VP', partyJoinDate: '13.07.2004', joinYear: 2004 },
+            { id: 2, branch: 'VP', fullName: 'Hồ Xuân Hoà', dob: '29.05.67', gender: 'Nam', ethnicity: 'Kinh', position: 'Phó trưởng VP', partyJoinDate: '11.08.1997', joinYear: 1997 },
+            { id: 3, branch: 'VP', fullName: 'Vũ Kỳ Phượng', dob: '29.10.1971', gender: 'Nữ', ethnicity: 'Kinh', position: 'Phó trưởng VP', partyJoinDate: '09.10.2002', joinYear: 2002 },
+            { id: 4, branch: 'VP', fullName: 'Nguyễn Hồng Phú', dob: '24.11.67', gender: 'Nam', ethnicity: 'Kinh', position: 'Chuyên viên', partyJoinDate: '03.02.2000', joinYear: 2000 },
+            { id: 5, branch: 'BT', fullName: 'Nguyễn Tiến Dũng', dob: '15.05.1976', gender: 'Nam', ethnicity: 'Kinh', position: 'Nhân viên', partyJoinDate: '31.12.2008', joinYear: 2008 },
+            { id: 6, branch: 'BT', fullName: 'Nguyễn Đức Thành', dob: '14.09.1981', gender: 'Nam', ethnicity: 'Kinh', position: 'Kỹ sư', partyJoinDate: '07.11.2014', joinYear: 2014 },
+            { id: 7, branch: 'MT', fullName: 'Nguyễn Mai Phong', dob: '05.05.1964', gender: 'Nam', ethnicity: 'Kinh', position: 'Phó đội trưởng', partyJoinDate: '11.7.1985', joinYear: 1985 },
+            { id: 8, branch: 'CD', fullName: 'Nguyễn Trung Dũng', dob: '16.09.68', gender: 'Nam', ethnicity: 'Kinh', position: 'Đội trưởng', partyJoinDate: '15.05.1988', joinYear: 1988 },
+            { id: 9, branch: 'TT', fullName: 'Trần Đỗ Hải', dob: '27.12.1971', gender: 'Nam', ethnicity: 'Kinh', position: 'Đội trưởng', partyJoinDate: '27.10.2004', joinYear: 2004 },
+            { id: 10, branch: 'TT', fullName: 'Nguyễn Tuấn Anh', dob: '23.09.72', gender: 'Nam', ethnicity: 'Kinh', position: 'Phó đội trưởng', partyJoinDate: '03.02.2004', joinYear: 2004 }
+        ];
 
-        // Module card click actions
-        document.getElementById('goToModule4').addEventListener('click', function() {
-            alert('Chuyển đến module Quản lý Văn bản, Nghị quyết...');
-            // In real app: window.location.href = 'module4-dashboard.html';
-        });
-
-        // Make all module cards clickable
-        document.querySelectorAll('.module-card').forEach(card => {
-            if (card.id !== 'goToModule4') {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('.module-title').textContent;
-                    alert(`Chuyển đến module: ${title}`);
-                });
-            }
-        });
-
-        // Menu item active state
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (!this.querySelector('.fa-chevron-down')) {
-                    e.preventDefault();
-                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const title = this.textContent.trim();
-                    document.querySelector('.page-title h2').textContent = title;
+        // ======================
+        // HÀM KHỞI TẠO
+        // ======================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra đăng nhập trước đó
+            const savedUser = localStorage.getItem('partyMemberUser');
+            if (savedUser) {
+                try {
+                    const userData = JSON.parse(savedUser);
+                    if (userData.name && userData.role) {
+                        currentUserName = userData.name;
+                        currentUserRole = userData.role;
+                        currentUserBranch = userData.branch || 'all';
+                        
+                        document.getElementById('currentUserName').textContent = currentUserName;
+                        document.getElementById('currentUserRole').textContent = 
+                            currentUserRole === 'admin' ? 'Quản trị viên' : 
+                            currentUserRole === 'bithu' ? 'Bí thư chi bộ' : 'Khách tham quan';
+                    }
+                } catch (e) {
+                    localStorage.removeItem('partyMemberUser');
                 }
-            });
+            }
+            
+            // Load dữ liệu
+            loadData();
+            
+            // Khởi tạo các event listeners
+            initializeEventListeners();
+            
+            // Hiển thị dashboard ban đầu
+            showDashboard();
         });
 
-        // Responsive sidebar toggle (for mobile)
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('show');
+        // ======================
+        // TẢI DỮ LIỆU
+        // ======================
+        function loadData() {
+            // Kiểm tra localStorage
+            const savedData = localStorage.getItem('partyMembersData');
+            if (savedData) {
+                membersData = JSON.parse(savedData);
+            } else {
+                // Dùng dữ liệu mẫu
+                membersData = [...sampleData];
+                localStorage.setItem('partyMembersData', JSON.stringify(membersData));
+            }
         }
 
-        // Simulate loading data
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Dashboard loaded successfully.');
+        // ======================
+        // KHỞI TẠO EVENT LISTENERS
+        // ======================
+        function initializeEventListeners() {
+            // Toggle submenu for Module 4
+            document.getElementById('module4Toggle').addEventListener('click', function(e) {
+                e.preventDefault();
+                const submenu = document.getElementById('module4Submenu');
+                const icon = this.querySelector('.fa-chevron-down');
+                
+                submenu.classList.toggle('show');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+
+            // Toggle submenu for Members
+            document.getElementById('membersMenuToggle').addEventListener('click', function(e) {
+                e.preventDefault();
+                const submenu = document.getElementById('membersSubmenu');
+                const icon = this.querySelector('.fa-chevron-down');
+                
+                submenu.classList.toggle('show');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+
+            // Click vào các chi bộ trong submenu
+            document.querySelectorAll('#membersSubmenu .submenu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const branch = this.dataset.branch;
+                    
+                    // Đóng tất cả submenu
+                    document.querySelectorAll('.submenu').forEach(sub => sub.classList.remove('show'));
+                    document.querySelectorAll('.menu-item').forEach(menu => {
+                        menu.classList.remove('active');
+                        const icon = menu.querySelector('.fa-chevron-up');
+                        if (icon) {
+                            icon.classList.remove('fa-chevron-up');
+                            icon.classList.add('fa-chevron-down');
+                        }
+                    });
+                    
+                    // Active menu item
+                    document.getElementById('membersMenuToggle').classList.add('active');
+                    
+                    // Hiển thị danh sách đảng viên
+                    showMembers(branch);
+                });
+            });
+
+            // Click vào Dashboard menu
+            document.getElementById('dashboardMenu').addEventListener('click', function(e) {
+                e.preventDefault();
+                showDashboard();
+                
+                // Active menu
+                document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Đóng tất cả submenu
+                document.querySelectorAll('.submenu').forEach(sub => sub.classList.remove('show'));
+                document.querySelectorAll('.fa-chevron-up').forEach(icon => {
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                });
+            });
+
+            // Click vào module Hồ sơ Đảng viên trên dashboard
+            document.getElementById('goToMembers').addEventListener('click', function() {
+                document.getElementById('membersMenuToggle').classList.add('active');
+                showMembers('all');
+            });
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?')) {
+                    localStorage.removeItem('partyMemberUser');
+                    // Trong thực tế: window.location.href = 'login.html';
+                    alert('Đã đăng xuất');
+                }
+            });
+
+            // Thêm đảng viên mới từ sidebar
+            document.getElementById('addMemberBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentUserRole === 'guest') {
+                    alert('Bạn không có quyền thêm đảng viên');
+                    return;
+                }
+                
+                // Chuyển đến trang danh sách đảng viên
+                document.getElementById('membersMenuToggle').classList.add('active');
+                showMembers('all');
+                
+                // Mở modal thêm mới
+                setTimeout(() => {
+                    openEditModal('add', {});
+                }, 100);
+            });
+
+            // Thêm đảng viên mới từ trang danh sách
+            document.getElementById('addNewMemberBtn').addEventListener('click', function() {
+                if (currentUserRole === 'guest') {
+                    alert('Bạn không có quyền thêm đảng viên');
+                    return;
+                }
+                openEditModal('add', {});
+            });
+
+            // Xuất báo cáo
+            document.getElementById('exportMembersBtn').addEventListener('click', function() {
+                exportReport();
+            });
+
+            // Tìm kiếm và sắp xếp
+            document.getElementById('searchInput').addEventListener('input', function() {
+                currentPage = 1;
+                renderTable();
+            });
+
+            document.getElementById('sortSelect').addEventListener('change', function() {
+                currentPage = 1;
+                renderTable();
+            });
+
+            // Modal events
+            document.getElementById('closeModal').addEventListener('click', closeEditModal);
+            document.getElementById('cancelBtn').addEventListener('click', closeEditModal);
+
+            // Submit form
+            document.getElementById('memberForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveMember();
+            });
+        }
+
+        // ======================
+        // HIỂN THỊ DASHBOARD
+        // ======================
+        function showDashboard() {
+            document.getElementById('dashboardContent').classList.add('active');
+            document.getElementById('membersContent').classList.remove('active');
             
-            // Simulate real-time update
-            setTimeout(() => {
-                const eventCount = document.querySelector('.stat-card:nth-child(4) .stat-value');
-                eventCount.textContent = '9';
-                eventCount.parentElement.querySelector('.stat-trend').innerHTML = 
-                    '<i class="fas fa-arrow-up"></i> 5.6%';
-                eventCount.parentElement.querySelector('.stat-trend').classList.remove('negative');
-            }, 3000);
+            document.querySelector('.page-title h2').textContent = 'Bảng điều khiển';
+            document.querySelector('.page-title p').textContent = 'Tổng quan hệ thống và hoạt động mới nhất';
+        }
+
+        // ======================
+        // HIỂN THỊ DANH SÁCH ĐẢNG VIÊN
+        // ======================
+        function showMembers(branch) {
+            currentBranch = branch;
+            
+            // Hiển thị nội dung danh sách
+            document.getElementById('dashboardContent').classList.remove('active');
+            document.getElementById('membersContent').classList.add('active');
+            
+            // Cập nhật tiêu đề
+            const branchName = getBranchName(branch);
+            document.getElementById('membersPageTitle').textContent = `DANH SÁCH ĐẢNG VIÊN`;
+            document.getElementById('membersPageSubtitle').textContent = 
+                branch === 'all' ? 'Toàn Trung tâm Khai thác Khu bay Nội Bài' : `Chi bộ ${branchName}`;
+            
+            // Hiển thị bảng
+            renderTable();
+            
+            // Cập nhật thống kê
+            updateStatistics();
+        }
+
+        // ======================
+        // CẬP NHẬT THỐNG KÊ
+        // ======================
+        function updateStatistics() {
+            // Lọc dữ liệu theo chi bộ hiện tại
+            let dataToUse = membersData;
+            if (currentBranch !== 'all') {
+                dataToUse = membersData.filter(m => m.branch === currentBranch);
+            }
+            
+            // Tổng số đảng viên
+            document.getElementById('totalMembersCount').textContent = dataToUse.length;
+            
+            // Đảng viên mới 2024-2025
+            const newMembers = dataToUse.filter(m => {
+                if (!m.joinYear) return false;
+                return m.joinYear >= 2024;
+            }).length;
+            document.getElementById('newMembersCount').textContent = newMembers;
+            
+            // Đảng viên ưu tú (giả định là những người có chức vụ)
+            const awardedMembers = dataToUse.filter(m => m.position && m.position !== '').length;
+            document.getElementById('awardedMembersCount').textContent = awardedMembers;
+        }
+
+        // ======================
+        // HIỂN THỊ BẢNG
+        // ======================
+        function renderTable() {
+            const tableBody = document.getElementById('tableBody');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const sortBy = document.getElementById('sortSelect').value;
+            
+            // Lọc dữ liệu
+            filteredData = membersData.filter(member => {
+                // Lọc theo chi bộ
+                if (currentBranch !== 'all' && member.branch !== currentBranch) {
+                    return false;
+                }
+                
+                // Lọc theo tìm kiếm
+                if (searchTerm) {
+                    const searchFields = [
+                        member.fullName?.toLowerCase(),
+                        member.position?.toLowerCase()
+                    ].filter(Boolean);
+                    
+                    return searchFields.some(field => field.includes(searchTerm));
+                }
+                
+                return true;
+            });
+            
+            // Sắp xếp
+            filteredData.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date':
+                        return new Date(b.partyJoinDate.split('.').reverse().join('-')) - new Date(a.partyJoinDate.split('.').reverse().join('-'));
+                    case 'position':
+                        return (a.position || '').localeCompare(b.position || '');
+                    default:
+                        return a.fullName.localeCompare(b.fullName);
+                }
+            });
+            
+            // Tính toán phân trang
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = filteredData.slice(startIndex, endIndex);
+            
+            // Xóa nội dung cũ
+            tableBody.innerHTML = '';
+            
+            // Thêm dữ liệu mới
+            pageData.forEach((member, index) => {
+                const row = document.createElement('tr');
+                const isAdmin = currentUserRole === 'admin';
+                const isBithu = currentUserRole === 'bithu';
+                const canEdit = isAdmin || (isBithu && member.branch === currentUserBranch);
+                const branchName = getBranchName(member.branch);
+                
+                row.innerHTML = `
+                    <td>${startIndex + index + 1}</td>
+                    <td class="member-photo-cell">
+                        <div class="member-photo">
+                            <div class="photo-placeholder">
+                                <i class="fas fa-user"></i>
+                                <span>Ảnh</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="member-name">${member.fullName}</div>
+                        <div class="member-info">${member.gender} • ${member.ethnicity}</div>
+                    </td>
+                    <td>${member.position || '---'}</td>
+                    <td>${member.dob}</td>
+                    <td>${branchName}</td>
+                    <td>${member.partyJoinDate}</td>
+                    <td>
+                        <div class="action-cell">
+                            <button class="action-btn-sm view" onclick="viewMember(${member.id})" title="Xem chi tiết">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${canEdit ? `
+                            <button class="action-btn-sm edit" onclick="editMember(${member.id})" title="Chỉnh sửa">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn-sm delete" onclick="deleteMember(${member.id})" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Cập nhật phân trang
+            updatePagination(totalPages);
+            
+            // Cập nhật thông tin bảng
+            document.getElementById('currentCount').textContent = pageData.length;
+            document.getElementById('totalCount').textContent = filteredData.length;
+            
+            // Cập nhật tiêu đề bảng
+            const branchText = currentBranch === 'all' ? 'Toàn Trung tâm' : getBranchName(currentBranch);
+            document.getElementById('tableTitle').textContent = `DANH SÁCH ĐẢNG VIÊN ${branchText}`;
+        }
+
+        // ======================
+        // PHÂN TRANG
+        // ======================
+        function updatePagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            
+            if (totalPages <= 1) return;
+            
+            // Nút Previous
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            };
+            pagination.appendChild(prevBtn);
+            
+            // Các trang số
+            const maxVisible = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+            
+            if (endPage - startPage + 1 < maxVisible) {
+                startPage = Math.max(1, endPage - maxVisible + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    renderTable();
+                };
+                pagination.appendChild(pageBtn);
+            }
+            
+            // Nút Next
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
+            nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            };
+            pagination.appendChild(nextBtn);
+        }
+
+        // ======================
+        // XEM, SỬA, XÓA ĐẢNG VIÊN
+        // ======================
+        function viewMember(id) {
+            const member = membersData.find(m => m.id == id);
+            if (!member) return;
+            
+            openEditModal('view', member);
+        }
+
+        function editMember(id) {
+            const member = membersData.find(m => m.id == id);
+            if (!member) return;
+            
+            // Kiểm tra quyền
+            if (currentUserRole === 'guest') {
+                alert('Bạn không có quyền chỉnh sửa');
+                return;
+            }
+            
+            if (currentUserRole === 'bithu' && member.branch !== currentUserBranch) {
+                alert('Bạn chỉ được chỉnh sửa đảng viên trong chi bộ của mình');
+                return;
+            }
+            
+            currentEditId = id;
+            openEditModal('edit', member);
+        }
+
+        function openEditModal(mode, memberData) {
+            const modal = document.getElementById('editModal');
+            const form = document.getElementById('memberForm');
+            const title = document.getElementById('modalTitle');
+            
+            // Đặt tiêu đề
+            if (mode === 'add') {
+                title.textContent = 'THÊM ĐẢNG VIÊN MỚI';
+            } else if (mode === 'edit') {
+                title.textContent = 'CHỈNH SỬA THÔNG TIN ĐẢNG VIÊN';
+            } else {
+                title.textContent = 'THÔNG TIN CHI TIẾT ĐẢNG VIÊN';
+            }
+            
+            // Điền dữ liệu
+            if (memberData && Object.keys(memberData).length > 0) {
+                Object.keys(memberData).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        input.value = memberData[key] || '';
+                        
+                        // Nếu là chế độ xem, disable tất cả
+                        if (mode === 'view') {
+                            input.disabled = true;
+                        } else {
+                            input.disabled = false;
+                        }
+                    }
+                });
+                
+                // Kiểm tra quyền với chi bộ
+                const branchSelect = document.getElementById('branch');
+                if (branchSelect && currentUserRole === 'bithu') {
+                    branchSelect.value = currentUserBranch;
+                    branchSelect.disabled = true;
+                }
+            } else {
+                // Reset form nếu thêm mới
+                form.reset();
+                
+                // Nếu là bí thư, set chi bộ mặc định
+                if (currentUserRole === 'bithu') {
+                    const branchSelect = document.getElementById('branch');
+                    if (branchSelect) {
+                        branchSelect.value = currentUserBranch;
+                        branchSelect.disabled = true;
+                    }
+                }
+            }
+            
+            // Ẩn nút Save nếu là chế độ xem
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.style.display = mode === 'view' ? 'none' : 'block';
+            
+            // Mở modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            const form = document.getElementById('memberForm');
+            
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            form.reset();
+            
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.disabled = false;
+            });
+            
+            // Reset chi bộ select
+            const branchSelect = document.getElementById('branch');
+            if (branchSelect) {
+                branchSelect.disabled = false;
+            }
+            
+            currentEditId = null;
+        }
+
+        function saveMember() {
+            if (currentUserRole === 'guest') {
+                alert('Bạn không có quyền thực hiện thao tác này');
+                return;
+            }
+            
+            // Lấy dữ liệu form
+            const formData = new FormData(document.getElementById('memberForm'));
+            const memberData = {};
+            formData.forEach((value, key) => {
+                memberData[key] = value;
+            });
+            
+            // Thêm năm vào Đảng
+            if (memberData.partyJoinDate) {
+                const dateParts = memberData.partyJoinDate.split('.');
+                if (dateParts.length === 3) {
+                    memberData.joinYear = parseInt(dateParts[2]);
+                }
+            }
+            
+            if (currentEditId) {
+                // Cập nhật
+                const index = membersData.findIndex(m => m.id == currentEditId);
+                if (index !== -1) {
+                    // Kiểm tra quyền
+                    const oldMember = membersData[index];
+                    if (currentUserRole === 'bithu' && oldMember.branch !== currentUserBranch) {
+                        alert('Bạn chỉ được chỉnh sửa đảng viên trong chi bộ của mình');
+                        return;
+                    }
+                    
+                    memberData.id = currentEditId;
+                    membersData[index] = memberData;
+                    alert('Đã cập nhật thông tin đảng viên');
+                }
+            } else {
+                // Thêm mới
+                memberData.id = membersData.length > 0 ? Math.max(...membersData.map(m => m.id)) + 1 : 1;
+                
+                // Kiểm tra quyền thêm vào chi bộ
+                if (currentUserRole === 'bithu' && memberData.branch !== currentUserBranch) {
+                    alert('Bí thư chỉ được thêm đảng viên vào chi bộ của mình');
+                    return;
+                }
+                
+                membersData.push(memberData);
+                alert('Đã thêm đảng viên mới');
+            }
+            
+            // Lưu vào localStorage
+            localStorage.setItem('partyMembersData', JSON.stringify(membersData));
+            
+            // Cập nhật UI
+            updateStatistics();
+            renderTable();
+            closeEditModal();
+        }
+
+        function deleteMember(id) {
+            const member = membersData.find(m => m.id == id);
+            if (!member) return;
+            
+            // Kiểm tra quyền
+            if (currentUserRole === 'guest') {
+                alert('Bạn không có quyền xóa đảng viên');
+                return;
+            }
+            
+            if (currentUserRole === 'bithu' && member.branch !== currentUserBranch) {
+                alert('Bạn chỉ được xóa đảng viên trong chi bộ của mình');
+                return;
+            }
+            
+            if (!confirm('Bạn có chắc chắn muốn xóa đảng viên này?\nThao tác này không thể hoàn tác.')) {
+                return;
+            }
+            
+            const index = membersData.findIndex(m => m.id == id);
+            if (index !== -1) {
+                membersData.splice(index, 1);
+                
+                // Lưu vào localStorage
+                localStorage.setItem('partyMembersData', JSON.stringify(membersData));
+                
+                // Cập nhật UI
+                updateStatistics();
+                renderTable();
+                
+                alert('Đã xóa đảng viên thành công');
+            }
+        }
+
+        // ======================
+        // XUẤT BÁO CÁO
+        // ======================
+        function exportReport() {
+            // Tạo dữ liệu CSV
+            let csvContent = 'STT,Họ và tên,Chức vụ,Ngày sinh,Chi bộ,Ngày vào Đảng\n';
+            
+            filteredData.forEach((member, index) => {
+                const branchName = getBranchName(member.branch);
+                const row = [
+                    index + 1,
+                    `"${member.fullName}"`,
+                    `"${member.position || ''}"`,
+                    member.dob,
+                    `"${branchName}"`,
+                    member.partyJoinDate
+                ].join(',');
+                
+                csvContent += row + '\n';
+            });
+            
+            // Tạo và tải file
+            const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Danh_sach_dang_vien_${getBranchName(currentBranch)}_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            alert('Đã xuất báo cáo thành công');
+        }
+
+        // ======================
+        // HÀM HỖ TRỢ
+        // ======================
+        function getBranchName(code) {
+            const branchNames = {
+                'VP': 'Văn phòng Trung tâm',
+                'BT': 'Đội Bảo trì Sân đường',
+                'MT': 'Đội Môi trường Khu bay',
+                'CD': 'Đội Thiết bị Cơ, Điện, Đèn Sân bay',
+                'TT': 'Đội Thiết bị Thông tin Dẫn đường'
+            };
+            return branchNames[code] || code;
+        }
+
+        // ======================
+        // XỬ LÝ ESC ĐỂ ĐÓNG MODAL
+        // ======================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeEditModal();
+            }
         });
     </script>
 </body>
