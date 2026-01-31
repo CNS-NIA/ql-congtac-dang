@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nghị quyết định kỳ - Quản lý Công tác Đảng</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset và Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-red: #8B0000;
+            --secondary-red: #A93226;
+            --light-red: #F8D7DA;
+            --dark-red: #5A0000;
+            --gold: #D4AF37;
+            --light-gold: #F7EFD9;
+            --dark-gray: #2C3E50;
+            --medium-gray: #546E7A;
+            --light-gray: #ECEFF1;
+            --white: #FFFFFF;
+            --success: #28A745;
+            --warning: #FFC107;
+            --info: #17A2B8;
+            --danger: #DC3545;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.25);
+            --border-radius-sm: 8px;
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body {
+            font-family: 'Inter', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark-gray);
+            min-height: 100vh;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+            padding: 0 35px;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            border-bottom: 4px solid var(--gold);
+        }
+        
+        .logo-area {
+            flex: 0 0 85px;
+        }
+        
+        .logo-placeholder {
+            width: 150px;
+            height: 75px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0px solid var(--red);
+            overflow: hidden;
+        }
+        
+        .logo-placeholder i {
+            font-size: 32px;
+            color: var(--gold);
+        }
+        
+        .system-name {
+            flex: 1;
+            text-align: center;
+            padding: 0 25px;
+        }
+        
+        .system-name h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--gold) 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .system-name p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 400;
+            color: var(--gold);
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.25) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .page-header h2 {
+            font-size: 32px;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 800;
+        }
+        
+        .page-header p {
+            color: var(--medium-gray);
+            font-size: 17px;
+            font-weight: 400;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background: var(--light-gray);
+            font-weight: 500;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-red);
+            font-size: 18px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            color: var(--dark-gray);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+            border-color: var(--primary-red);
+        }
+        
+        .filter-btn:hover:not(.active) {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.12) 0%, rgba(169, 50, 38, 0.06) 100%);
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+        
+        .create-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+            border: 1px solid rgba(139, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .create-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Documents Grid */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .document-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            border-left: 6px solid var(--primary-red);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .document-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.03) 0%, transparent 100%);
+            border-radius: 0 0 0 100%;
+        }
+        
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .document-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 5px;
+        }
+        
+        .document-date {
+            font-size: 14px;
+            color: var(--medium-gray);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .document-badge {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+        }
+        
+        .document-content {
+            flex: 1;
+            margin-bottom: 25px;
+        }
+        
+        .document-summary {
+            color: var(--medium-gray);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .document-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--medium-gray);
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .view-btn {
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            color: var(--dark-gray);
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.12) 0%, rgba(169, 50, 38, 0.06) 100%);
+            color: var(--primary-red);
+            border-color: var(--primary-red);
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+        }
+        
+        .download-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-red) 0%, var(--primary-red) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, #253341 100%);
+            color: var(--white);
+            padding: 25px 35px;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 3px solid var(--primary-red);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        
+        .footer-copyright {
+            font-size: 15px;
+            opacity: 0.9;
+            font-weight: 500;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+            font-size: 15px;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+        
+        /* Modal chung */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-container {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes modalSlideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--gold);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .modal-header h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .modal-header p {
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Modal xem chi tiết nghị quyết */
+        .resolution-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--dark-gray);
+        }
+        
+        .resolution-content h1,
+        .resolution-content h2,
+        .resolution-content h3 {
+            color: var(--primary-red);
+            margin: 25px 0 15px;
+        }
+        
+        .resolution-content p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .resolution-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .resolution-content li {
+            margin-bottom: 8px;
+        }
+        
+        /* Form tạo/chỉnh sửa nghị quyết */
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 16px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            font-family: 'Inter', 'Roboto', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .btn {
+            padding: 12px 28px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+        
+        .btn-cancel {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+        
+        .btn-cancel:hover {
+            background: #e0e4e9;
+        }
+        
+        .btn-save {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+        }
+        
+        .btn-save:hover {
+            background: linear-gradient(135deg, var(--secondary-red) 0%, var(--primary-red) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, var(--danger) 0%, #c82333 100%);
+            color: var(--white);
+        }
+        
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #c82333 0%, var(--danger) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* Nút chỉnh sửa và xóa trong thẻ nghị quyết */
+        .edit-btn {
+            background: linear-gradient(135deg, var(--info) 0%, #138496 100%);
+            color: var(--white);
+        }
+        
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #138496 0%, var(--info) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .delete-btn {
+            background: linear-gradient(135deg, var(--danger) 0%, #c82333 100%);
+            color: var(--white);
+        }
+        
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #c82333 0%, var(--danger) 100%);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Upload file section */
+        .upload-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius);
+            border: 2px dashed rgba(139, 0, 0, 0.3);
+        }
+
+        .upload-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        .upload-header i {
+            font-size: 20px;
+        }
+
+        .upload-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .upload-input {
+            width: 100%;
+            height: 100px;
+            border: 2px dashed rgba(139, 0, 0, 0.5);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .upload-input:hover {
+            border-color: var(--primary-red);
+            background: rgba(139, 0, 0, 0.02);
+        }
+
+        .upload-input i {
+            font-size: 32px;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .upload-input p {
+            color: var(--dark-gray);
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .upload-input small {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-list {
+            margin-top: 15px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: var(--white);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .file-icon {
+            color: var(--primary-red);
+            font-size: 20px;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: var(--dark-gray);
+            word-break: break-all;
+        }
+
+        .file-size {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+
+        .file-remove {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .file-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .upload-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .upload-option-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--dark-gray);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .upload-option-btn:hover {
+            background: rgba(139, 0, 0, 0.05);
+            color: var(--primary-red);
+        }
+
+        .tab-switcher {
+            display: flex;
+            border-bottom: 2px solid var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--medium-gray);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-red);
+            border-bottom: 3px solid var(--primary-red);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--primary-red);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+                height: 75px;
+            }
+            
+            .system-name h1 {
+                font-size: 20px;
+            }
+            
+            .system-name p {
+                font-size: 13px;
+            }
+            
+            .logo-placeholder {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .logo-placeholder i {
+                font-size: 26px;
+            }
+            
+            .main-content {
+                padding: 0 15px;
+                margin: 30px auto;
+            }
+            
+            .page-header h2 {
+                font-size: 28px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .documents-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .document-card {
+                padding: 25px;
+            }
+            
+            .document-title {
+                font-size: 18px;
+            }
+            
+            .document-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+            
+            .footer {
+                padding: 20px 25px;
+            }
+            
+            .modal-container {
+                max-width: 95%;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .upload-options {
+                flex-direction: column;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 0 15px;
+                height: 70px;
+            }
+            
+            .system-name h1 {
+                font-size: 18px;
+            }
+            
+            .system-name p {
+                font-size: 12px;
+            }
+            
+            .back-btn span {
+                display: none;
+            }
+            
+            .back-btn {
+                padding: 12px;
+            }
+            
+            .page-header h2 {
+                font-size: 24px;
+            }
+            
+            .document-card {
+                padding: 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo-area">
+            <div class="logo-placeholder">
+                <i class="fas fa-flag"></i>
+            </div>
+        </div>
+        
+        <div class="system-name">
+            <h1>Nghị quyết định kỳ</h1>
+            <p>Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            <span>Về trang chủ</span>
+        </a>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="page-header">
+            <h2><i class="fas fa-file-contract"></i> Nghị quyết định kỳ</h2>
+            <p>Quản lý nghị quyết hàng tháng của Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+        </div>
+        
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Tìm kiếm nghị quyết...">
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterDocuments('all')">Tất cả</button>
+                <button class="filter-btn" onclick="filterDocuments('2026')">Năm 2026</button>
+                <button class="filter-btn" onclick="filterDocuments('2025')">Năm 2025</button>
+                <button class="filter-btn" onclick="filterDocuments('approved')">Nghị Quyết</button>
+                <button class="filter-btn" onclick="filterDocuments('draft')">Dự thảo Nghị Quyết</button>
+            </div>
+            
+            <button class="create-btn" onclick="showCreateResolutionForm()">
+                <i class="fas fa-plus-circle"></i>
+                Tạo nghị quyết mới
+            </button>
+        </div>
+        
+        <div class="documents-grid" id="documentsContainer">
+            <!-- Nghị quyết sẽ được thêm bằng JavaScript -->
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-copyright">
+                © 2026 Chương trình Quản lý Công tác Đảng - Phiên bản 1.0
+            </div>
+            <div class="footer-links">
+                <a href="#" onclick="alert('Trợ giúp: naoc.cns@gmail.com')">Trợ giúp: naoc.cns@gmail.com</a>
+                <a href="#" onclick="alert('Liên hệ: 0919926586')">Liên hệ: 0919926586</a>
+                <a href="#" onclick="alert('Bản quyền thuộc Đội Thiết bị Thông tin dẫn đường')">Bản quyền thuộc Đội Thiết bị Thông tin dẫn đường</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL XEM CHI TIẾT NGHỊ QUYẾT -->
+    <div class="modal-overlay" id="resolutionModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-file-contract"></i> 
+                    <span id="modalTitle">Nghị quyết chi bộ</span>
+                </h3>
+                <p id="modalSubtitle">Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+                <button class="close-btn" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="resolution-content" id="resolutionContent">
+                    <!-- Nội dung sẽ được chèn bằng JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TẠO/CHỈNH SỬA NGHỊ QUYẾT -->
+    <div class="modal-overlay" id="resolutionFormModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-file-contract"></i> 
+                    <span id="formModalTitle">Tạo nghị quyết mới</span>
+                </h3>
+                <p id="formModalSubtitle">Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+                <button class="close-btn" onclick="closeFormModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-switcher">
+                    <button class="tab-btn active" data-tab="manual-tab">Nhập thủ công</button>
+                    <button class="tab-btn" data-tab="upload-tab">Upload File</button>
+                </div>
+                
+                <form id="resolutionForm">
+                    <input type="hidden" id="resolutionId" value="">
+                    
+                    <!-- Tab nhập thủ công -->
+                    <div id="manual-tab" class="tab-content active">
+                        <div class="form-group">
+                            <label for="resolutionTitle">Tiêu đề nghị quyết:</label>
+                            <input type="text" id="resolutionTitle" placeholder="Ví dụ: Nghị quyết tháng 01 năm 2026" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionDate">Ngày thông qua:</label>
+                            <input type="date" id="resolutionDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionMonth">Tháng:</label>
+                            <select id="resolutionMonth" required>
+                                <option value="">Chọn tháng</option>
+                                <option value="01">Tháng 01</option>
+                                <option value="02">Tháng 02</option>
+                                <option value="03">Tháng 03</option>
+                                <option value="04">Tháng 04</option>
+                                <option value="05">Tháng 05</option>
+                                <option value="06">Tháng 06</option>
+                                <option value="07">Tháng 07</option>
+                                <option value="08">Tháng 08</option>
+                                <option value="09">Tháng 09</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionYear">Năm:</label>
+                            <select id="resolutionYear" required>
+                                <option value="">Chọn năm</option>
+                                <option value="2026" selected>2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionStatus">Trạng thái:</label>
+                            <select id="resolutionStatus" required>
+                                <option value="approved">Đã thông qua</option>
+                                <option value="draft">Dự thảo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionSecretary">Bí thư:</label>
+                            <input type="text" id="resolutionSecretary" value="Trần Đỗ Hải" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionSummary">Tóm tắt nội dung:</label>
+                            <textarea id="resolutionSummary" rows="3" placeholder="Tóm tắt ngắn gọn nội dung nghị quyết..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="resolutionContentText">Nội dung chi tiết (HTML):</label>
+                            <textarea id="resolutionContentText" rows="10" placeholder="Nhập nội dung nghị quyết chi tiết ở định dạng HTML..." required></textarea>
+                            <small style="color: var(--medium-gray); margin-top: 5px; display: block;">
+                                <i class="fas fa-info-circle"></i> Sử dụng thẻ HTML cơ bản: &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, v.v.
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab upload file -->
+                    <div id="upload-tab" class="tab-content">
+                        <div class="upload-section">
+                            <div class="upload-header">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload File Nghị Quyết</span>
+                            </div>
+                            
+                            <p style="margin-bottom: 15px; color: var(--medium-gray); font-size: 14px;">
+                                <strong><i class="fas fa-info-circle"></i> Lưu ý:</strong> Đây là demo frontend. Trong hệ thống thực, file sẽ được upload lên server và lưu trữ.<br>
+                                File được chọn sẽ hiển thị thông tin bên dưới.
+                            </p>
+                            
+                            <div class="upload-box">
+                                <div class="upload-input" id="dropArea">
+                                    <i class="fas fa-file-upload"></i>
+                                    <p>Kéo thả file vào đây hoặc click để chọn</p>
+                                    <small>Hỗ trợ: .doc, .docx, .pdf (Tối đa 10MB)</small>
+                                </div>
+                                <input type="file" id="fileInput" class="file-input" accept=".doc,.docx,.pdf" data-max-size="10485760">
+                            </div>
+                            
+                            <div class="upload-options">
+                                <button type="button" class="upload-option-btn" onclick="document.getElementById('fileInput').click()">
+                                    <i class="fas fa-folder-open"></i> Chọn file
+                                </button>
+                                <button type="button" class="upload-option-btn" onclick="clearUploadedFile()">
+                                    <i class="fas fa-trash"></i> Xóa file
+                                </button>
+                            </div>
+                            
+                            <div class="file-list" id="fileList">
+                                <!-- Danh sách file sẽ hiển thị ở đây -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadTitle">Tiêu đề nghị quyết:</label>
+                            <input type="text" id="uploadTitle" placeholder="Ví dụ: Nghị quyết tháng 01 năm 2026" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadDate">Ngày thông qua:</label>
+                            <input type="date" id="uploadDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadMonth">Tháng:</label>
+                            <select id="uploadMonth" required>
+                                <option value="">Chọn tháng</option>
+                                <option value="01">Tháng 01</option>
+                                <option value="02">Tháng 02</option>
+                                <option value="03">Tháng 03</option>
+                                <option value="04">Tháng 04</option>
+                                <option value="05">Tháng 05</option>
+                                <option value="06">Tháng 06</option>
+                                <option value="07">Tháng 07</option>
+                                <option value="08">Tháng 08</option>
+                                <option value="09">Tháng 09</option>
+                                <option value="10">Tháng 10</option>
+                                <option value="11">Tháng 11</option>
+                                <option value="12">Tháng 12</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadYear">Năm:</label>
+                            <select id="uploadYear" required>
+                                <option value="">Chọn năm</option>
+                                <option value="2026" selected>2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadStatus">Trạng thái:</label>
+                            <select id="uploadStatus" required>
+                                <option value="approved">Đã thông qua</option>
+                                <option value="draft">Dự thảo</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadSecretary">Bí thư:</label>
+                            <input type="text" id="uploadSecretary" value="Trần Đỗ Hải" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="uploadSummary">Tóm tắt nội dung:</label>
+                            <textarea id="uploadSummary" rows="3" placeholder="Tóm tắt ngắn gọn nội dung nghị quyết..." required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-cancel" onclick="closeFormModal()">
+                            <i class="fas fa-times"></i> Hủy bỏ
+                        </button>
+                        <button type="button" class="btn btn-delete" id="deleteBtn" style="display: none;" onclick="deleteResolution()">
+                            <i class="fas fa-trash"></i> Xóa nghị quyết
+                        </button>
+                        <button type="submit" class="btn btn-save">
+                            <i class="fas fa-save"></i> Lưu nghị quyết
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====== BIẾN TOÀN CỤC ======
+        let currentResolutions = {};
+        let currentResolutionId = null;
+        let uploadedFile = null;
+        let currentTab = 'manual-tab';
+        
+        // ====== KHỞI TẠO DỮ LIỆU ======
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tải dữ liệu từ localStorage hoặc khởi tạo dữ liệu mẫu
+            loadResolutions();
+            
+            // Khởi tạo ngày mặc định là hôm nay
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('resolutionDate').value = today;
+            document.getElementById('uploadDate').value = today;
+            
+            // Xử lý submit form
+            document.getElementById('resolutionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveResolution();
+            });
+            
+            // Xử lý chuyển tab
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    switchTab(tabId);
+                });
+            });
+            
+            // Xử lý upload file
+            initializeFileUpload();
+            
+            // Xử lý tự động điền tiêu đề khi upload file
+            document.getElementById('fileInput').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    const fileName = file.name.replace(/\.[^/.]+$/, ""); // Bỏ extension
+                    document.getElementById('uploadTitle').value = fileName;
+                }
+            });
+        });
+        
+        // ====== CHUYỂN TAB ======
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            // Cập nhật nút tab
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+            
+            // Cập nhật nội dung tab
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+        
+        // ====== KHỞI TẠO UPLOAD FILE ======
+        function initializeFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const dropArea = document.getElementById('dropArea');
+            
+            // Xử lý click để chọn file
+            dropArea.addEventListener('click', () => fileInput.click());
+            
+            // Xử lý kéo thả file
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.style.borderColor = 'var(--primary-red)';
+                dropArea.style.backgroundColor = 'rgba(139, 0, 0, 0.05)';
+            }
+            
+            function unhighlight() {
+                dropArea.style.borderColor = 'rgba(139, 0, 0, 0.5)';
+                dropArea.style.backgroundColor = 'var(--white)';
+            }
+            
+            // Xử lý thả file
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            }
+            
+            // Xử lý chọn file qua input
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    handleFile(this.files[0]);
+                }
+            });
+        }
+        
+        // ====== XỬ LÝ FILE ======
+        function handleFile(file) {
+            // Kiểm tra kích thước file (tối đa 10MB)
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            if (file.size > maxSize) {
+                alert('❌ File quá lớn! Kích thước tối đa là 10MB.');
+                return;
+            }
+            
+            // Kiểm tra định dạng file
+            const allowedTypes = ['.doc', '.docx', '.pdf'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedTypes.includes(fileExtension)) {
+                alert('❌ Chỉ chấp nhận file .doc, .docx, .pdf');
+                return;
+            }
+            
+            uploadedFile = file;
+            displayFileInfo(file);
+            
+            // Tự động điền tiêu đề từ tên file
+            const fileName = file.name.replace(fileExtension, '');
+            document.getElementById('uploadTitle').value = fileName;
+            
+            // Thông báo
+            alert(`✅ Đã chọn file: ${file.name}\n📁 Kích thước: ${formatFileSize(file.size)}`);
+        }
+        
+        // ====== HIỂN THỊ THÔNG TIN FILE ======
+        function displayFileInfo(file) {
+            const fileList = document.getElementById('fileList');
+            const fileSize = formatFileSize(file.size);
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            let fileIcon = 'fa-file-alt';
+            let fileColor = 'var(--primary-red)';
+            
+            if (fileExtension === 'pdf') {
+                fileIcon = 'fa-file-pdf';
+                fileColor = '#e74c3c';
+            } else if (fileExtension === 'doc' || fileExtension === 'docx') {
+                fileIcon = 'fa-file-word';
+                fileColor = '#2b579a';
+            }
+            
+            fileList.innerHTML = `
+                <div class="file-item">
+                    <div class="file-info">
+                        <i class="fas ${fileIcon} file-icon" style="color: ${fileColor};"></i>
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${fileSize}</div>
+                        </div>
+                    </div>
+                    <button class="file-remove" onclick="clearUploadedFile()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+        }
+        
+        // ====== XÓA FILE ĐÃ UPLOAD ======
+        function clearUploadedFile() {
+            uploadedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileList').innerHTML = '';
+        }
+        
+        // ====== ĐỊNH DẠNG KÍCH THƯỚC FILE ======
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // ====== TẢI DỮ LIỆU NGHỊ QUYẾT ======
+        function loadResolutions() {
+            // Kiểm tra nếu có dữ liệu trong localStorage
+            const savedResolutions = localStorage.getItem('resolutions');
+            
+            if (savedResolutions) {
+                currentResolutions = JSON.parse(savedResolutions);
+            } else {
+                // Khởi tạo dữ liệu mẫu cho năm 2025 và 2026
+                initializeSampleResolutions();
+                saveToLocalStorage();
+            }
+            
+            renderResolutions();
+        }
+        
+        // ====== KHỞI TẠO DỮ LIỆU MẪU ======
+        function initializeSampleResolutions() {
+            currentResolutions = {
+                'resolution12_2025': {
+                    id: 'resolution12_2025',
+                    title: 'Nghị quyết tháng 12 năm 2025',
+                    date: '2025-12-03',
+                    month: '12',
+                    year: '2025',
+                    status: 'approved',
+                    secretary: 'Trần Đỗ Hải',
+                    summary: 'Nghị quyết lãnh đạo thực hiện nhiệm vụ tháng 12 năm 2025, tổng kết kết quả tháng 11, đánh giá chung và đề ra nhiệm vụ trọng tâm tháng 12.',
+                    content: `
+                        <h1>Nghị quyết của Chi bộ Đội Thiết bị Thông tin Dẫn đường</h1>
+                        <h2>Lãnh đạo thực hiện nhiệm vụ tháng 12 năm 2025</h2>
+                        
+                        <h3>I. KẾT QUẢ THỰC HIỆN NHIỆM VỤ THÁNG 11 NĂM 2025</h3>
+                        
+                        <h4>Kết quả lãnh đạo công tác xây dựng Đảng</h4>
+                        
+                        <p><strong>Lãnh đạo công tác chính trị, tư tưởng:</strong></p>
+                        <p>Căn cứ Nghị quyết của Đảng bộ bộ phận, Chi bộ thường xuyên quan tâm lãnh đạo đơn vị thực hiện tốt nhiệm vụ chính trị được giao. Đảm bảo tốt công tác an toàn hàng không, phòng chống cháy nổ, khẩn nguy cứu nạn,...; chủ động phối hợp chặt chẽ với các đơn vị hoạt động tại Cảng đảm bảo an toàn tuyệt đối cho các chuyến bay chuyên cơ và các chuyến bay thương mại đi/đến.</p>
+                        
+                        <p><strong>Lãnh đạo công tác tổ chức, cán bộ:</strong></p>
+                        <p>Thực hiện tốt công tác chính trị, tư tưởng cho cán bộ, đảng viên và công nhân viên trong chi bộ yên tâm công tác, chấp hành nghiêm nội quy, quy định, kỷ luật lao động của đơn vị, nêu cao tinh thần trách nhiệm trong thực hiện nhiệm vụ được giao; duy trì tốt nền nếp, chế độ sinh hoạt Đảng.</p>
+                        
+                        <p><strong>Lãnh đạo công tác kiểm tra, giám sát:</strong></p>
+                        <p>Lãnh đạo chi bộ nghiêm túc nghiên cứu, quán triệt, nắm vững nghị quyết, chỉ thị của cấp trên, trực tiếp là của Đảng ủy Trung tâm khai thác khu bay Nội Bài. Xây dựng chương trình hành động của chi bộ để thực hiện nghị quyết, chỉ thị của cấp trên.</p>
+                        
+                        <p><strong>Lãnh đạo công tác dân vận, đoàn thể:</strong></p>
+                        <p>Chi ủy chi bộ luôn chú trọng tạo điều kiện để các tổ chức chính trị xã hội hoạt động phát huy vai trò, tạo không khí phấn khởi đoàn kết, góp phần hoàn thành nhiệm vụ chung.</p>
+                        
+                        <h4>Kết quả lãnh đạo thực hiện nhiệm vụ chính trị, chuyên môn</h4>
+                        <p>Chị bộ thường xuyên điều hành, kiểm tra, giám sát, đảm bảo vững chắc an ninh, an toàn hàng không hệ thống đảm bảo hoạt động bay tại cảng, sẵn sàng ứng phó kịp thời với các tình huống xảy ra; rà soát hệ thống tài liệu khai thác, văn bản hiệp đồng, quy chế phối hợp; đảm bảo an toàn tuyệt đối cho hoạt động bay.</p>
+                        
+                        <h3>II. ĐÁNH GIÁ CHUNG</h3>
+                        <p><strong>1. Ưu điểm:</strong></p>
+                        <p>Toàn bộ đảng viên trong chi bộ đều có bản lĩnh chính trị vững vàng; xác định rõ thẩm quyền, trách nhiệm và nhiệm vụ, thực hiện nghiêm túc các nguyên tắc của Đảng, coi trọng nguyên tắc tập trung dân chủ, tập thể lãnh đạo, cá nhân phụ trách; thực hiện tốt quy chế dân chủ.</p>
+                        
+                        <p><strong>2. Tồn tại, hạn chế và nguyên nhân:</strong></p>
+                        <p>Trong tháng Chi bộ không có tồn tại hạn chế.</p>
+                        
+                        <p><strong>3. Giải pháp khắc phục tồn tại, hạn chế:</strong></p>
+                        <p>Thường xuyên tăng cường công tác chính trị tư tưởng cho từng Cán bộ đảng viên trong Chi bộ.</p>
+                        
+                        <h3>III. NHIỆM VỤ TRỌNG TÂM THÁNG 12 NĂM 2025</h3>
+                        
+                        <p><strong>Lãnh đạo thực hiện nhiệm vụ chuyên môn:</strong></p>
+                        <p>Tăng cường công tác quản lý, điều hành, kiểm tra, giám sát, đảm bảo vững chắc an toàn hàng không hệ thống thông tin chuyên ngành hàng không tại cảng, sẵn sàng ứng phó kịp thời với các tình huống xảy ra.</p>
+                        
+                        <p><strong>Lãnh đạo công tác xây dựng đảng:</strong></p>
+                        <p>Thực hiện tốt công tác giáo dục chính trị tư tưởng cho đội ngũ cán bộ, đảng viên, người lao động yên tâm công tác và xây dựng đơn vị.</p>
+                        
+                        <h3>IV. TỔ CHỨC THỰC HIỆN</h3>
+                        <p>1. Giao cho Chi ủy, trực tiếp là đồng chí Bí thư Chi bộ chỉ đạo triển khai và đồng chí Phó Bí thư Chi bộ theo dõi, giám sát, hướng dẫn, đôn đốc các cán bộ, đảng viên trong Chi bộ thực hiện có hiệu quả Nghị quyết này.</p>
+                        <p>2. Các đồng chí lãnh đạo đơn vị; Công đoàn, Đoàn Thanh niên và các cán bộ, đảng viên tại mỗi vị trí công tác bám sát nội dung Nghị quyết, phân công nhiệm vụ của Chi bộ và phân công nhiệm vụ của đơn vị để hoàn thành tốt nhiệm vụ được giao, góp phần thực hiện thắng lợi Nghị quyết./.</p>
+                        
+                        <p><strong>T/M CHI BỘ<br>BÍ THƯ<br>Trần Đỗ Hải</strong></p>
+                    `,
+                    downloadCount: 42,
+                    pages: 8,
+                    createdAt: new Date().toISOString()
+                },
+                'resolution01_2026': {
+                    id: 'resolution01_2026',
+                    title: 'Nghị quyết tháng 01 năm 2026',
+                    date: '2026-01-05',
+                    month: '01',
+                    year: '2026',
+                    status: 'approved',
+                    secretary: 'Trần Đỗ Hải',
+                    summary: 'Nghị quyết lãnh đạo thực hiện nhiệm vụ tháng 01 năm 2026, tổng kết kết quả năm 2025, đánh giá chung và đề ra nhiệm vụ trọng tâm năm 2026.',
+                    content: `
+                        <h1>Nghị quyết của Chi bộ Đội Thiết bị Thông tin Dẫn đường</h1>
+                        <h2>Lãnh đạo thực hiện nhiệm vụ tháng 01 năm 2026</h2>
+                        
+                        <h3>I. KẾT QUẢ THỰC HIỆN NHIỆM VỤ NĂM 2025</h3>
+                        
+                        <h4>Kết quả lãnh đạo công tác xây dựng Đảng</h4>
+                        
+                        <p><strong>Lãnh đạo công tác chính trị, tư tưởng:</strong></p>
+                        <p>Trong năm 2025, Chi bộ đã lãnh đạo toàn diện công tác chính trị, tư tưởng, đảm bảo mọi cán bộ, đảng viên, công nhân viên nắm vững và thực hiện tốt đường lối, chủ trương của Đảng, chính sách, pháp luật của Nhà nước.</p>
+                        
+                        <p><strong>Lãnh đạo công tác tổ chức, cán bộ:</strong></p>
+                        <p>Chi bộ đã thực hiện tốt công tác quản lý, phân công, bố trí cán bộ; xây dựng đội ngũ cán bộ, đảng viên có phẩm chất đạo đức tốt, năng lực chuyên môn vững vàng, đáp ứng yêu cầu nhiệm vụ.</p>
+                        
+                        <h4>Kết quả lãnh đạo thực hiện nhiệm vụ chính trị, chuyên môn</h4>
+                        <p>Chi bộ đã lãnh đạo đơn vị hoàn thành xuất sắc nhiệm vụ chính trị được giao, đảm bảo an toàn tuyệt đối cho hoạt động bay, duy trì ổn định hệ thống thiết bị thông tin dẫn đường.</p>
+                        
+                        <h3>II. ĐÁNH GIÁ CHUNG</h3>
+                        <p><strong>1. Ưu điểm:</strong></p>
+                        <p>Toàn bộ đảng viên trong chi bộ đều có bản lĩnh chính trị vững vàng, hoàn thành tốt nhiệm vụ được giao, đoàn kết, thống nhất cao.</p>
+                        
+                        <p><strong>2. Tồn tại, hạn chế và nguyên nhân:</strong></p>
+                        <p>Trong năm 2025, Chi bộ không có tồn tại hạn chế lớn. Một số công việc cần được triển khai nhanh hơn.</p>
+                        
+                        <h3>III. NHIỆM VỤ TRỌNG TÂM THÁNG 01 VÀ NĂM 2026</h3>
+                        
+                        <p><strong>Lãnh đạo thực hiện nhiệm vụ chuyên môn:</strong></p>
+                        <p>Tăng cường công tác quản lý, điều hành, kiểm tra, giám sát, đảm bảo vững chắc an toàn hàng không hệ thống thông tin chuyên ngành hàng không.</p>
+                        
+                        <p><strong>Lãnh đạo công tác xây dựng đảng:</strong></p>
+                        <p>Tiếp tục thực hiện tốt công tác giáo dục chính trị tư tưởng, nâng cao chất lượng sinh hoạt Đảng, tăng cường công tác kiểm tra, giám sát.</p>
+                        
+                        <h3>IV. TỔ CHỨC THỰC HIỆN</h3>
+                        <p>1. Giao cho Chi ủy chỉ đạo triển khai thực hiện Nghị quyết.</p>
+                        <p>2. Các đồng chí lãnh đạo đơn vị, cán bộ, đảng viên bám sát nội dung Nghị quyết để hoàn thành tốt nhiệm vụ được giao./.</p>
+                        
+                        <p><strong>T/M CHI BỘ<br>BÍ THƯ<br>Trần Đỗ Hải</strong></p>
+                    `,
+                    downloadCount: 18,
+                    pages: 9,
+                    createdAt: new Date().toISOString()
+                }
+            };
+        }
+        
+        // ====== HIỂN THỊ DANH SÁCH NGHỊ QUYẾT ======
+        function renderResolutions() {
+            const container = document.getElementById('documentsContainer');
+            container.innerHTML = '';
+            
+            // Sắp xếp nghị quyết theo ngày (mới nhất trước)
+            const sortedResolutions = Object.values(currentResolutions).sort((a, b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+            
+            sortedResolutions.forEach(resolution => {
+                const card = document.createElement('div');
+                card.className = 'document-card';
+                card.dataset.year = resolution.year;
+                card.dataset.status = resolution.status;
+                
+                // Định dạng ngày tháng
+                const dateObj = new Date(resolution.date);
+                const formattedDate = dateObj.toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                
+                // Tạo badge trạng thái
+                const statusText = resolution.status === 'approved' ? 'Đã thông qua' : 'Dự thảo';
+                const statusClass = resolution.status === 'approved' ? 'document-badge' : 'document-badge draft-badge';
+                
+                // Kiểm tra có file đính kèm không
+                const hasFile = resolution.fileInfo;
+                const fileIcon = hasFile ? 
+                    (resolution.fileInfo.type === 'pdf' ? '<i class="fas fa-file-pdf" style="color: #e74c3c;"></i>' : 
+                     resolution.fileInfo.type === 'word' ? '<i class="fas fa-file-word" style="color: #2b579a;"></i>' : 
+                     '<i class="fas fa-file-alt"></i>') : '';
+                const fileInfo = hasFile ? 
+                    `<div class="detail-item">${fileIcon} <span>${resolution.fileInfo.name}</span></div>` : '';
+                
+                card.innerHTML = `
+                    <div class="document-header">
+                        <div>
+                            <h3 class="document-title">${resolution.title}</h3>
+                            <div class="document-date">
+                                <i class="fas fa-calendar-alt"></i>
+                                Ngày ${formattedDate}
+                            </div>
+                        </div>
+                        <div class="${statusClass}">${statusText}</div>
+                    </div>
+                    
+                    <div class="document-content">
+                        <p class="document-summary">
+                            ${resolution.summary}
+                        </p>
+                        
+                        <div class="document-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user-tie"></i>
+                                <span>Bí thư: ${resolution.secretary}</span>
+                            </div>
+                            ${fileInfo}
+                            <div class="detail-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>PDF, ${resolution.pages || 7} trang</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-download"></i>
+                                <span>Đã tải ${resolution.downloadCount || 0} lần</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="document-actions">
+                        <button class="action-btn view-btn" onclick="viewResolution('${resolution.id}')">
+                            <i class="fas fa-eye"></i>
+                            Xem chi tiết
+                        </button>
+                        <button class="action-btn edit-btn" onclick="editResolution('${resolution.id}')">
+                            <i class="fas fa-edit"></i>
+                            Chỉnh sửa
+                        </button>
+                        <button class="action-btn delete-btn" onclick="confirmDeleteResolution('${resolution.id}')">
+                            <i class="fas fa-trash"></i>
+                            Xóa
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+        
+        // ====== LƯU DỮ LIỆU VÀO LOCALSTORAGE ======
+        function saveToLocalStorage() {
+            localStorage.setItem('resolutions', JSON.stringify(currentResolutions));
+        }
+        
+        // ====== HIỂN THỊ FORM TẠO NGHỊ QUYẾT MỚI ======
+        function showCreateResolutionForm() {
+            currentResolutionId = null;
+            
+            document.getElementById('formModalTitle').textContent = 'Tạo nghị quyết mới';
+            document.getElementById('resolutionId').value = '';
+            
+            // Reset tab manual
+            document.getElementById('resolutionTitle').value = '';
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('resolutionDate').value = today;
+            document.getElementById('resolutionMonth').value = '';
+            document.getElementById('resolutionYear').value = '2026';
+            document.getElementById('resolutionStatus').value = 'approved';
+            document.getElementById('resolutionSecretary').value = 'Trần Đỗ Hải';
+            document.getElementById('resolutionSummary').value = '';
+            document.getElementById('resolutionContentText').value = '';
+            
+            // Reset tab upload
+            document.getElementById('uploadTitle').value = '';
+            document.getElementById('uploadDate').value = today;
+            document.getElementById('uploadMonth').value = '';
+            document.getElementById('uploadYear').value = '2026';
+            document.getElementById('uploadStatus').value = 'approved';
+            document.getElementById('uploadSecretary').value = 'Trần Đỗ Hải';
+            document.getElementById('uploadSummary').value = '';
+            
+            // Reset upload
+            clearUploadedFile();
+            switchTab('manual-tab');
+            
+            // Ẩn nút xóa
+            document.getElementById('deleteBtn').style.display = 'none';
+            
+            // Hiển thị modal
+            document.getElementById('resolutionFormModal').classList.add('active');
+        }
+        
+        // ====== HIỂN THỊ FORM CHỈNH SỬA NGHỊ QUYẾT ======
+        function editResolution(resolutionId) {
+            const resolution = currentResolutions[resolutionId];
+            if (!resolution) return;
+            
+            currentResolutionId = resolutionId;
+            
+            document.getElementById('formModalTitle').textContent = 'Chỉnh sửa nghị quyết';
+            document.getElementById('resolutionId').value = resolution.id;
+            
+            // Cập nhật cả 2 tab
+            // Tab manual
+            document.getElementById('resolutionTitle').value = resolution.title;
+            document.getElementById('resolutionDate').value = resolution.date;
+            document.getElementById('resolutionMonth').value = resolution.month;
+            document.getElementById('resolutionYear').value = resolution.year;
+            document.getElementById('resolutionStatus').value = resolution.status;
+            document.getElementById('resolutionSecretary').value = resolution.secretary;
+            document.getElementById('resolutionSummary').value = resolution.summary;
+            document.getElementById('resolutionContentText').value = resolution.content;
+            
+            // Tab upload
+            document.getElementById('uploadTitle').value = resolution.title;
+            document.getElementById('uploadDate').value = resolution.date;
+            document.getElementById('uploadMonth').value = resolution.month;
+            document.getElementById('uploadYear').value = resolution.year;
+            document.getElementById('uploadStatus').value = resolution.status;
+            document.getElementById('uploadSecretary').value = resolution.secretary;
+            document.getElementById('uploadSummary').value = resolution.summary;
+            
+            // Cập nhật file nếu có
+            if (resolution.fileInfo) {
+                uploadedFile = { 
+                    name: resolution.fileInfo.name, 
+                    size: 0,
+                    type: resolution.fileInfo.type
+                };
+                displayFileInfo(uploadedFile);
+            } else {
+                clearUploadedFile();
+            }
+            
+            // Chọn tab phù hợp
+            switchTab(resolution.fileInfo ? 'upload-tab' : 'manual-tab');
+            
+            // Hiển thị nút xóa
+            document.getElementById('deleteBtn').style.display = 'inline-flex';
+            
+            // Hiển thị modal
+            document.getElementById('resolutionFormModal').classList.add('active');
+        }
+        
+        // ====== LƯU NGHỊ QUYẾT ======
+        function saveResolution() {
+            // Lấy dữ liệu từ tab hiện tại
+            let id, title, date, month, year, status, secretary, summary, content;
+            
+            if (currentTab === 'manual-tab') {
+                // Lấy dữ liệu từ tab nhập thủ công
+                id = document.getElementById('resolutionId').value || `resolution_${Date.now()}`;
+                title = document.getElementById('resolutionTitle').value.trim();
+                date = document.getElementById('resolutionDate').value;
+                month = document.getElementById('resolutionMonth').value;
+                year = document.getElementById('resolutionYear').value;
+                status = document.getElementById('resolutionStatus').value;
+                secretary = document.getElementById('resolutionSecretary').value.trim();
+                summary = document.getElementById('resolutionSummary').value.trim();
+                content = document.getElementById('resolutionContentText').value.trim();
+            } else {
+                // Lấy dữ liệu từ tab upload
+                id = document.getElementById('resolutionId').value || `resolution_${Date.now()}`;
+                title = document.getElementById('uploadTitle').value.trim();
+                date = document.getElementById('uploadDate').value;
+                month = document.getElementById('uploadMonth').value;
+                year = document.getElementById('uploadYear').value;
+                status = document.getElementById('uploadStatus').value;
+                secretary = document.getElementById('uploadSecretary').value.trim();
+                summary = document.getElementById('uploadSummary').value.trim();
+                
+                // Tạo nội dung từ file upload
+                if (uploadedFile) {
+                    const fileExtension = uploadedFile.name.split('.').pop().toLowerCase();
+                    const fileType = fileExtension === 'pdf' ? 'PDF Document' : 
+                                   (fileExtension === 'doc' || fileExtension === 'docx' ? 'Word Document' : 'Document');
+                    
+                    content = `
+                        <div style="border: 2px solid var(--primary-red); padding: 20px; border-radius: var(--border-radius); background: var(--light-gray);">
+                            <h1 style="color: var(--primary-red);">${title}</h1>
+                            <div style="background: white; padding: 15px; border-radius: var(--border-radius); margin: 15px 0;">
+                                <h3><i class="fas fa-file-upload"></i> NGHỊ QUYẾT ĐƯỢC UPLOAD TỪ FILE</h3>
+                                <p><strong>Tên file:</strong> ${uploadedFile.name}</p>
+                                <p><strong>Loại file:</strong> ${fileType}</p>
+                                <p><strong>Kích thước:</strong> ${formatFileSize(uploadedFile.size)}</p>
+                                <p><strong>Ngày upload:</strong> ${new Date().toLocaleDateString('vi-VN')}</p>
+                                <hr>
+                                <p><strong>Tóm tắt nội dung:</strong></p>
+                                <p>${summary}</p>
+                            </div>
+                            <div style="background: var(--light-gold); padding: 15px; border-radius: var(--border-radius);">
+                                <p><i class="fas fa-info-circle"></i> <strong>Lưu ý:</strong> Đây là bản nghị quyết được upload từ file.</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    content = `
+                        <h1>${title}</h1>
+                        <p><strong>Nghị quyết được tạo mà không có file đính kèm</strong></p>
+                        <p>${summary}</p>
+                    `;
+                }
+            }
+            
+            // VALIDATE DỮ LIỆU
+            if (!title) {
+                alert('❌ Vui lòng nhập tiêu đề nghị quyết');
+                return;
+            }
+            
+            if (!date) {
+                alert('❌ Vui lòng chọn ngày thông qua');
+                return;
+            }
+            
+            if (!month) {
+                alert('❌ Vui lòng chọn tháng');
+                return;
+            }
+            
+            if (!year) {
+                alert('❌ Vui lòng chọn năm');
+                return;
+            }
+            
+            if (!secretary) {
+                alert('❌ Vui lòng nhập tên bí thư');
+                return;
+            }
+            
+            if (!summary) {
+                alert('❌ Vui lòng nhập tóm tắt nội dung');
+                return;
+            }
+            
+            if (currentTab === 'manual-tab' && !content) {
+                alert('❌ Vui lòng nhập nội dung chi tiết');
+                return;
+            }
+            
+            // Tạo đối tượng nghị quyết
+            const resolution = {
+                id: id,
+                title: title,
+                date: date,
+                month: month,
+                year: year,
+                status: status,
+                secretary: secretary,
+                summary: summary,
+                content: content,
+                downloadCount: currentResolutionId && currentResolutions[currentResolutionId] ? 
+                    currentResolutions[currentResolutionId].downloadCount : 0,
+                pages: currentResolutionId && currentResolutions[currentResolutionId] ? 
+                    currentResolutions[currentResolutionId].pages : 7,
+                createdAt: currentResolutionId && currentResolutions[currentResolutionId] ? 
+                    currentResolutions[currentResolutionId].createdAt : new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Thêm thông tin file nếu có upload
+            if (uploadedFile) {
+                const fileExtension = uploadedFile.name.split('.').pop().toLowerCase();
+                resolution.fileInfo = {
+                    name: uploadedFile.name,
+                    size: formatFileSize(uploadedFile.size || 0),
+                    type: fileExtension === 'pdf' ? 'pdf' : (fileExtension === 'doc' || fileExtension === 'docx' ? 'word' : 'other'),
+                    uploadedAt: new Date().toISOString()
+                };
+            } else if (currentResolutionId && currentResolutions[currentResolutionId] && currentResolutions[currentResolutionId].fileInfo) {
+                // Giữ lại thông tin file cũ nếu không upload file mới
+                resolution.fileInfo = currentResolutions[currentResolutionId].fileInfo;
+            }
+            
+            // Lưu vào danh sách
+            currentResolutions[id] = resolution;
+            
+            // Lưu vào localStorage
+            saveToLocalStorage();
+            
+            // Cập nhật giao diện
+            renderResolutions();
+            
+            // Đóng modal
+            closeFormModal();
+            
+            // Thông báo thành công
+            alert(`✅ Đã ${currentResolutionId ? 'cập nhật' : 'tạo'} nghị quyết "${title}" thành công!`);
+        }
+        
+        // ====== XÓA NGHỊ QUYẾT ======
+        function confirmDeleteResolution(resolutionId) {
+            if (confirm('Bạn có chắc chắn muốn xóa nghị quyết này không?')) {
+                deleteResolution(resolutionId);
+            }
+        }
+        
+        function deleteResolution(resolutionId = null) {
+            const idToDelete = resolutionId || currentResolutionId;
+            
+            if (!idToDelete || !currentResolutions[idToDelete]) {
+                alert('Không tìm thấy nghị quyết để xóa!');
+                return;
+            }
+            
+            // Xóa nghị quyết
+            delete currentResolutions[idToDelete];
+            
+            // Lưu vào localStorage
+            saveToLocalStorage();
+            
+            // Cập nhật giao diện
+            renderResolutions();
+            
+            // Đóng modal nếu đang mở
+            if (document.getElementById('resolutionFormModal').classList.contains('active')) {
+                closeFormModal();
+            }
+            
+            // Thông báo
+            alert('✅ Đã xóa nghị quyết thành công!');
+        }
+        
+        // ====== XEM CHI TIẾT NGHỊ QUYẾT ======
+        function viewResolution(resolutionId) {
+            const resolution = currentResolutions[resolutionId];
+            if (!resolution) return;
+            
+            document.getElementById('modalTitle').textContent = resolution.title;
+            document.getElementById('resolutionContent').innerHTML = resolution.content;
+            document.getElementById('resolutionModal').classList.add('active');
+        }
+        
+        // ====== TẢI XUỐNG NGHỊ QUYẾT ======
+        function downloadResolution(filename) {
+            alert(`Đang tải xuống file: ${filename}\n(Tính năng này sẽ tải file thực tế trong hệ thống thật)`);
+        }
+        
+        // ====== LỌC TÀI LIỆU ======
+        function filterDocuments(filter) {
+            // Xóa class active từ tất cả các nút
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Thêm class active cho nút được click
+            event.target.classList.add('active');
+            
+            const cards = document.querySelectorAll('.document-card');
+            
+            cards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'flex';
+                } else if (filter === '2026') {
+                    if (card.dataset.year === '2026') {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (filter === '2025') {
+                    if (card.dataset.year === '2025') {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (filter === 'approved') {
+                    if (card.dataset.status === 'approved') {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                } else if (filter === 'draft') {
+                    if (card.dataset.status === 'draft') {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        // ====== TÌM KIẾM ======
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.document-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.document-title').textContent.toLowerCase();
+                const summary = card.querySelector('.document-summary').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || summary.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // ====== ĐÓNG MODAL ======
+        function closeModal() {
+            document.getElementById('resolutionModal').classList.remove('active');
+        }
+        
+        function closeFormModal() {
+            document.getElementById('resolutionFormModal').classList.remove('active');
+            currentResolutionId = null;
+            uploadedFile = null;
+            clearUploadedFile();
+        }
+        
+        // ====== ĐÓNG MODAL KHI NHẤN ESC ======
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeFormModal();
+            }
+        });
+        
+        // ====== ĐÓNG MODAL KHI NHẤN NGOÀI NỘI DUNG ======
+        document.getElementById('resolutionModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        document.getElementById('resolutionFormModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFormModal();
+            }
+        });
+        
+        // Thêm style cho badge dự thảo
+        const style = document.createElement('style');
+        style.textContent = `
+            .draft-badge {
+                background: linear-gradient(135deg, var(--warning) 0%, #e0a800 100%) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
