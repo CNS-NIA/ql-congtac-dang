@@ -5,42 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHƯƠNG TRÌNH QUẢN LÝ CÔNG TÁC ĐẢNG</title>
     
-    <!-- Font Awesome -->
+    <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Biến màu sắc */
+        /* ====== VARIABLES ====== */
         :root {
             --primary-red: #8B0000;
             --secondary-red: #A93226;
+            --light-red: #F8D7DA;
+            --dark-red: #5A0000;
             --gold: #D4AF37;
+            --light-gold: #F7EFD9;
             --dark-gray: #2C3E50;
+            --medium-gray: #546E7A;
             --light-gray: #ECEFF1;
             --white: #FFFFFF;
             --success: #28A745;
             --warning: #FFC107;
             --info: #17A2B8;
             --danger: #DC3545;
+            
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+            --shadow-xl: 0 12px 24px rgba(0,0,0,0.25);
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Loading overlay */
+        /* ====== RESET & BASE ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark-gray);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* ====== LOADING OVERLAY ====== */
         #loading-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, rgba(139, 0, 0, 0.95) 0%, rgba(169, 50, 38, 0.95) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
             flex-direction: column;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
         }
         
         .spinner {
@@ -58,30 +83,579 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Toast */
-        .toast {
+        /* ====== HEADER ====== */
+        .header {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            color: var(--white);
+            padding: 0 35px;
+            height: 85px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 4px solid var(--gold);
+        }
+        
+        .logo-area {
+            flex: 0 0 85px;
+        }
+        
+        .logo-placeholder {
+            width: 150px;
+            height: 75px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0px solid var(--red);
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .logo-placeholder:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.2) 100%);
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-placeholder i {
+            font-size: 32px;
+            color: var(--gold);
+        }
+        
+        .system-name {
+            flex: 1;
+            text-align: center;
+            padding: 0 25px;
+        }
+        
+        .system-name h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--gold) 0%, #FFD700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .system-name p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 400;
+            color: var(--gold);
+        }
+        
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .user-info {
+            text-align: right;
+        }
+        
+        .user-name {
+            font-weight: 700;
+            font-size: 17px;
+            margin-bottom: 5px;
+            color: var(--white);
+        }
+        
+        .user-role {
+            font-size: 13px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+            padding: 5px 14px;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logout-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            font-family: inherit;
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.25) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* ====== MAIN CONTENT ====== */
+        .main-content {
+            margin-top: 85px;
+            padding: 35px;
+            min-height: calc(100vh - 85px);
+        }
+        
+        .page-header {
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .page-header h2 {
+            font-size: 32px;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 800;
+        }
+        
+        .page-header p {
+            color: var(--medium-gray);
+            font-size: 17px;
+            font-weight: 400;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+        
+        /* ====== STATS GRID ====== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border-left: 6px solid var(--primary-red);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.03) 0%, transparent 100%);
+            border-radius: 0 0 0 100%;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-red);
+            margin-bottom: 12px;
+            line-height: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .stat-label {
+            font-size: 17px;
+            color: var(--medium-gray);
+            font-weight: 600;
+        }
+        
+        /* ====== TEAM DISTRIBUTION ====== */
+        .quick-actions {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 40px;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+        }
+        
+        .quick-actions h3 {
+            color: var(--primary-red);
+            margin-bottom: 30px;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .team-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .team-badge {
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .team-badge:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.12) 0%, rgba(169, 50, 38, 0.06) 100%);
+            border-color: var(--primary-red);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .team-name {
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .team-count {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .team-percentage {
+            font-size: 14px;
+            color: var(--medium-gray);
+            font-weight: 500;
+        }
+        
+        /* ====== ACTION BUTTONS ====== */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        
+        .action-btn {
+            padding: 18px 24px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 600;
+            transition: var(--transition);
+            text-align: center;
+            color: var(--dark-gray);
+            border: none;
+            width: 100%;
+            font-family: inherit;
+            text-decoration: none;
+        }
+        
+        .action-btn:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.12) 0%, rgba(169, 50, 38, 0.06) 100%);
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .action-btn i {
+            font-size: 22px;
+        }
+        
+        /* ====== SMART ALERTS ====== */
+        .recent-activity {
+            background: linear-gradient(135deg, var(--white) 0%, #f8f9fa 100%);
+            border-radius: var(--border-radius-lg);
+            padding: 35px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 40px;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+        }
+        
+        .recent-activity h3 {
+            color: var(--primary-red);
+            margin-bottom: 30px;
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: linear-gradient(135deg, var(--light-gray) 0%, #f0f3f7 100%);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        
+        .activity-item:hover {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.08) 0%, rgba(169, 50, 38, 0.04) 100%);
+            transform: translateX(8px);
+            border-color: rgba(139, 0, 0, 0.1);
+        }
+        
+        .activity-item i {
+            font-size: 22px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(139, 0, 0, 0.1);
+        }
+        
+        .activity-item .activity-content {
+            flex: 1;
+        }
+        
+        .activity-item p {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .activity-time {
+            font-size: 14px;
+            color: var(--medium-gray);
+            font-weight: 500;
+        }
+        
+        /* ====== FOOTER ====== */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, #253341 100%);
+            color: var(--white);
+            padding: 25px 35px;
+            text-align: center;
+            border-top: 3px solid var(--primary-red);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        
+        .footer-copyright {
+            font-size: 15px;
+            opacity: 0.9;
+            font-weight: 500;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+            font-size: 15px;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--gold);
+        }
+        
+        /* ====== TOAST ====== */
+        #toast-container {
             position: fixed;
             top: 100px;
             right: 30px;
+            z-index: 10000;
+        }
+        
+        .toast {
             padding: 16px 20px;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             color: var(--white);
             display: flex;
             align-items: center;
             gap: 12px;
-            z-index: 10000;
+            box-shadow: var(--shadow-xl);
             animation: slideInRight 0.3s ease;
             max-width: 350px;
+            min-width: 300px;
+            font-weight: 500;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
         }
         
-        .toast-success { background: linear-gradient(135deg, rgba(40, 167, 69, 0.9) 0%, rgba(33, 136, 56, 0.9) 100%); }
-        .toast-error { background: linear-gradient(135deg, rgba(220, 53, 69, 0.9) 0%, rgba(200, 35, 51, 0.9) 100%); }
-        .toast-info { background: linear-gradient(135deg, rgba(23, 162, 184, 0.9) 0%, rgba(19, 132, 150, 0.9) 100%); }
+        .toast-success { 
+            background: linear-gradient(135deg, rgba(40, 167, 69, 0.9) 0%, rgba(33, 136, 56, 0.9) 100%);
+            border-left: 4px solid #1e7e34;
+        }
+        
+        .toast-error { 
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.9) 0%, rgba(200, 35, 51, 0.9) 100%);
+            border-left: 4px solid #bd2130;
+        }
+        
+        .toast-info { 
+            background: linear-gradient(135deg, rgba(23, 162, 184, 0.9) 0%, rgba(19, 132, 150, 0.9) 100%);
+            border-left: 4px solid #117a8b;
+        }
         
         @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+                height: 75px;
+            }
+            
+            .system-name h1 {
+                font-size: 20px;
+            }
+            
+            .system-name p {
+                font-size: 13px;
+            }
+            
+            .logo-placeholder {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .logo-placeholder i {
+                font-size: 26px;
+            }
+            
+            .main-content {
+                padding: 25px;
+            }
+            
+            .page-header h2 {
+                font-size: 28px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .stat-card {
+                padding: 28px;
+            }
+            
+            .stat-number {
+                font-size: 42px;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-badge {
+                min-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 0 15px;
+                height: 70px;
+            }
+            
+            .system-name h1 {
+                font-size: 18px;
+            }
+            
+            .system-name p {
+                font-size: 12px;
+            }
+            
+            .user-area {
+                gap: 15px;
+            }
+            
+            .logout-btn span {
+                display: none;
+            }
+            
+            .logout-btn {
+                padding: 12px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .page-header h2 {
+                font-size: 24px;
+            }
+            
+            .footer {
+                padding: 20px 25px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
         }
     </style>
 </head>
@@ -127,8 +701,9 @@
                 <h2><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</h2>
                 <p>Tổng quan hệ thống và thống kê công tác đảng</p>
             </div>
-            <button class="btn btn-primary" onclick="window.location.href='members/index.html'">
-                <i class="fas fa-users"></i> Quản lý đảng viên
+            <button class="logout-btn" onclick="window.location.href='members/index.html'" style="background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-red) 100%);">
+                <i class="fas fa-users"></i>
+                <span>Quản lý đảng viên</span>
             </button>
         </div>
         
@@ -155,8 +730,16 @@
         <!-- Team Distribution -->
         <div class="quick-actions">
             <h3><i class="fas fa-chart-pie"></i> Phân bố đảng viên theo đội</h3>
-            <div class="action-buttons" id="teamDistribution">
+            <div class="team-badges" id="teamDistribution">
                 <!-- Sẽ được điền bằng JS -->
+                <div class="team-badge">
+                    <div class="team-name">
+                        <i class="fas fa-hard-hat"></i>
+                        <span>Đang tải dữ liệu...</span>
+                    </div>
+                    <div class="team-count">0</div>
+                    <div class="team-percentage">0%</div>
+                </div>
             </div>
         </div>
         
@@ -187,7 +770,13 @@
         <div class="recent-activity">
             <h3><i class="fas fa-bell"></i> Cảnh báo thông minh</h3>
             <div class="activity-list" id="smartAlerts">
-                <!-- Sẽ được điền bằng JS -->
+                <div class="activity-item">
+                    <i class="fas fa-sync-alt" style="color: var(--info);"></i>
+                    <div class="activity-content">
+                        <p>Đang tải dữ liệu đảng viên...</p>
+                        <div class="activity-time">Vừa xong</div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -206,9 +795,191 @@
     </footer>
     
     <!-- JavaScript -->
-    <script src="assets/js/data-loader.js"></script>
-    <script src="assets/js/dashboard.js"></script>
     <script>
+        // Toast function
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icons = {
+                'success': 'check-circle',
+                'error': 'exclamation-circle',
+                'warning': 'exclamation-triangle',
+                'info': 'info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="fas fa-${icons[type]}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove after 4 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toastContainer.removeChild(toast);
+                    }
+                }, 300);
+            }, 4000);
+        }
+        
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // Load JSON data
+                const response = await fetch('data/all_members.json');
+                const data = await response.json();
+                
+                // Calculate statistics
+                let total = 0;
+                let official = 0;
+                let reserve = 0;
+                let partyCommittee = 0;
+                let teamStats = {};
+                
+                // Process all teams
+                for (const [teamName, members] of Object.entries(data)) {
+                    teamStats[teamName] = members.length;
+                    total += members.length;
+                    
+                    members.forEach(member => {
+                        // Count reserve members (ĐVDB)
+                        if (member.Chuc_vu_Dang === 'ĐVDB') {
+                            reserve++;
+                        } else {
+                            official++;
+                        }
+                        
+                        // Count party committee members
+                        const partyPos = member.Chuc_vu_Dang || '';
+                        if (partyPos.includes('CUV') || partyPos.includes('BTCB') || 
+                            partyPos.includes('Bí thư') || partyPos.includes('Phó BTCB')) {
+                            partyCommittee++;
+                        }
+                    });
+                }
+                
+                // Update dashboard numbers
+                document.getElementById('totalMembers').textContent = total;
+                document.getElementById('officialMembers').textContent = official;
+                document.getElementById('reserveMembers').textContent = reserve;
+                document.getElementById('partyCommittee').textContent = partyCommittee;
+                
+                // Update team distribution
+                const teamDistribution = document.getElementById('teamDistribution');
+                teamDistribution.innerHTML = '';
+                
+                for (const [teamName, count] of Object.entries(teamStats)) {
+                    const percentage = ((count / total) * 100).toFixed(1);
+                    const teamDisplayName = getTeamDisplayName(teamName);
+                    const teamIcon = getTeamIcon(teamName);
+                    
+                    const teamBadge = document.createElement('div');
+                    teamBadge.className = 'team-badge';
+                    teamBadge.innerHTML = `
+                        <div class="team-name">
+                            <i class="fas fa-${teamIcon}"></i>
+                            <span>${teamDisplayName}</span>
+                        </div>
+                        <div class="team-count">${count}</div>
+                        <div class="team-percentage">${percentage}%</div>
+                    `;
+                    
+                    teamBadge.addEventListener('click', () => {
+                        showToast(`Xem danh sách ${teamDisplayName}: ${count} đảng viên`, 'info');
+                        // In future: redirect to filtered members page
+                    });
+                    
+                    teamDistribution.appendChild(teamBadge);
+                }
+                
+                // Update smart alerts
+                const smartAlerts = document.getElementById('smartAlerts');
+                smartAlerts.innerHTML = '';
+                
+                // Add alerts
+                const alerts = [
+                    {
+                        icon: 'user-check',
+                        color: 'success',
+                        message: `${total} đảng viên đã được tải thành công`,
+                        time: 'Vừa xong'
+                    },
+                    {
+                        icon: 'exclamation-triangle',
+                        color: 'warning',
+                        message: `${reserve} đảng viên dự bị cần theo dõi`,
+                        time: 'Cần xử lý'
+                    },
+                    {
+                        icon: 'images',
+                        color: 'info',
+                        message: 'Tất cả đảng viên đang dùng avatar mặc định',
+                        time: 'Cần upload ảnh'
+                    },
+                    {
+                        icon: 'chart-line',
+                        color: 'info',
+                        message: `${partyCommittee} cấp ủy viên trong hệ thống`,
+                        time: 'Thống kê'
+                    }
+                ];
+                
+                alerts.forEach(alert => {
+                    const alertItem = document.createElement('div');
+                    alertItem.className = 'activity-item';
+                    alertItem.innerHTML = `
+                        <i class="fas fa-${alert.icon}" style="color: var(--${alert.color});"></i>
+                        <div class="activity-content">
+                            <p>${alert.message}</p>
+                            <div class="activity-time">${alert.time}</div>
+                        </div>
+                    `;
+                    smartAlerts.appendChild(alertItem);
+                });
+                
+                // Show success toast
+                showToast(`Đã tải dữ liệu ${total} đảng viên thành công!`, 'success');
+                
+            } catch (error) {
+                console.error('Lỗi tải dữ liệu:', error);
+                showToast('Lỗi tải dữ liệu đảng viên!', 'error');
+                
+                // Fallback to sample data
+                document.getElementById('totalMembers').textContent = '91';
+                document.getElementById('officialMembers').textContent = '85';
+                document.getElementById('reserveMembers').textContent = '6';
+                document.getElementById('partyCommittee').textContent = '11';
+            }
+        }
+        
+        // Helper functions
+        function getTeamDisplayName(teamKey) {
+            const teamNames = {
+                'doi-bao-tri-san-duong': 'Đội Bảo trì Sân đường',
+                'doi-moi-truong-khu-bay': 'Đội Môi trường Khu bay',
+                'doi-thiet-bi-co-dien-den-sb': 'Đội Thiết bị Cơ điện đèn SB',
+                'doi-thiet-bi-thong-tin-dan-duong': 'Đội Thiết bị Thông tin Dẫn đường',
+                'van-phong-trung-tam': 'Văn phòng Trung tâm'
+            };
+            return teamNames[teamKey] || teamKey;
+        }
+        
+        function getTeamIcon(teamKey) {
+            const teamIcons = {
+                'doi-bao-tri-san-duong': 'hard-hat',
+                'doi-moi-truong-khu-bay': 'leaf',
+                'doi-thiet-bi-co-dien-den-sb': 'bolt',
+                'doi-thiet-bi-thong-tin-dan-duong': 'satellite-dish',
+                'van-phong-trung-tam': 'building'
+            };
+            return teamIcons[teamKey] || 'users';
+        }
+        
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             // Hide loading after 1.5s
@@ -222,24 +993,23 @@
                 if (confirm('Bạn có chắc muốn đăng xuất?')) {
                     showToast('Đã đăng xuất thành công', 'info');
                     setTimeout(() => {
+                        // Redirect to login page (to be created)
                         window.location.href = 'login.html';
                     }, 1000);
                 }
             });
+            
+            // Check for data file
+            fetch('data/all_members.json')
+                .then(response => {
+                    if (!response.ok) {
+                        showToast('Không tìm thấy file dữ liệu đảng viên!', 'error');
+                    }
+                })
+                .catch(error => {
+                    showToast('Lỗi kết nối đến dữ liệu!', 'error');
+                });
         });
-        
-        // Toast function
-        function showToast(message, type = 'info') {
-            const toastContainer = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            `;
-            toastContainer.appendChild(toast);
-            setTimeout(() => toast.remove(), 4000);
-        }
     </script>
 </body>
 </html>
