@@ -16,6 +16,29 @@ CREATE TABLE IF NOT EXISTS dang_vien (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+ALTER TABLE dang_vien
+ADD COLUMN trinh_do VARCHAR(100),
+ADD COLUMN que_quan VARCHAR(200),
+ADD COLUMN chuc_vu_dang VARCHAR(50),
+ADD COLUMN ngay_vao_dang_chinh_thuc DATE,
+ADD COLUMN file_nguon VARCHAR(100); -- Lưu tên file gốc (vd: doi-bao-tri-san-duong.json)
+
+-- Hoặc tạo bảng mới nếu chưa chạy init.sql
+CREATE TABLE IF NOT EXISTS dang_vien (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    ho_ten VARCHAR(100) NOT NULL,
+    ngay_sinh DATE,
+    so_the_dang VARCHAR(50) UNIQUE,
+    chi_bo VARCHAR(100),
+    chuc_vu VARCHAR(100),
+    chuc_vu_dang VARCHAR(50),
+    trinh_do VARCHAR(150),
+    que_quan VARCHAR(200),
+    ngay_vao_dang DATE,
+    trang_thai VARCHAR(30) DEFAULT 'Đang sinh hoạt',
+    file_nguon VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 -- Chèn dữ liệu mẫu
 INSERT INTO dang_vien (ho_ten, ngay_sinh, so_the_dang, chi_bo, chuc_vu) VALUES
 ('Nguyễn Văn A', '1985-03-15', 'NB-001', 'Chi bộ Khai thác 1', 'Đảng viên'),
