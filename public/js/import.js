@@ -28,7 +28,7 @@ class JsonImporterUI {
 
     async loadChiBoList() {
         try {
-            const response = await fetch('/api/danhsach-chibo');
+            const response = await fetch('/api/chibo');
             const chiBoList = await response.json();
             
             const select = document.getElementById('chiBoSelect');
