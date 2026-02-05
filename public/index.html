@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Công tác Đảng</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-flag"></i> Công tác Đảng</h2>
+                <p>Trung tâm Khai thác Khu bay Nội Bài</p>
+            </div>
+            
+            <nav>
+                <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a>
+                <a href="#"><i class="fas fa-users"></i> Đảng viên</a>
+                <a href="#"><i class="fas fa-file-alt"></i> Văn bản</a>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Sinh hoạt</a>
+                <a href="#"><i class="fas fa-chart-line"></i> Báo cáo</a>
+                <a href="#"><i class="fas fa-cog"></i> Cài đặt</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header>
+                <h1>Bảng điều khiển</h1>
+                <div class="user-info">
+                    <span>Xin chào, Quản trị viên</span>
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #4CAF50;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalMembers">--</h3>
+                        <p>Tổng số đảng viên</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #2196F3;">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>42</h3>
+                        <p>Văn bản đã xử lý</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FF9800;">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Sinh hoạt tháng này</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #9C27B0;">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>3</h3>
+                        <p>Đảng viên mới</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Thêm đảng viên mới -->
+                    <div class="card">
+                        <h3><i class="fas fa-user-plus"></i> Thêm đảng viên mới</h3>
+                        <form id="addMemberForm">
+                            <div class="form-row">
+                                <input type="text" id="hoTen" placeholder="Họ và tên *" required>
+                                <input type="text" id="soTheDang" placeholder="Số thẻ đảng *" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="date" id="ngaySinh" placeholder="Ngày sinh">
+                                <input type="text" id="chiBo" placeholder="Chi bộ">
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="chucVu" placeholder="Chức vụ">
+                                <button type="submit" class="btn-primary">
+                                    <i class="fas fa-plus"></i> Thêm đảng viên
+                                </button>
+                            </div>
+                            <div id="formMessage"></div>
+                        </form>
+                    </div>
+
+                    <!-- Danh sách chi bộ -->
+                    <div class="card">
+                        <h3><i class="fas fa-sitemap"></i> Danh sách Chi bộ</h3>
+                        <ul id="chiBoList">
+                            <li>Đang tải...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Danh sách đảng viên -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-list"></i> Danh sách Đảng viên</h3>
+                            <div class="search-box">
+                                <input type="text" id="searchMember" placeholder="Tìm kiếm đảng viên...">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table id="membersTable">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Họ và tên</th>
+                                        <th>Số thẻ đảng</th>
+                                        <th>Chi bộ</th>
+                                        <th>Chức vụ</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="membersTableBody">
+                                    <tr><td colspan="6" style="text-align: center;">Đang tải dữ liệu...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
