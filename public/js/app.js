@@ -26,6 +26,40 @@ async function loadDangVien(page = 1) {
         hideLoading();
     }
 }
+// ==================== TỰ ĐỘNG CẬP NHẬT SAU KHI IMPORT ====================
+function setupAutoRefresh() {
+    // Kiểm tra mỗi 10 giây xem có dữ liệu mới không
+    setInterval(async () => {
+        try {
+            const response = await fetch('/api/dangvien/count');
+            const count = await response.json();
+            const currentCount = document.querySelectorAll('#membersTableBody tr').length;
+            
+            // Nếu số lượng khác nhau -> reload
+            if (count !== currentCount && currentCount > 0) {
+                console.log('🔄 Phát hiện dữ liệu mới, đang reload...');
+                loadDangVien();
+            }
+        } catch (error) {
+            // Bỏ qua lỗi
+        }
+    }, 10000); // 10 giây kiểm tra 1 lần
+    
+    // Thêm event listener cho upload thành công
+    document.addEventListener('uploadSuccess', function() {
+        console.log('📬 Nhận tín hiệu upload thành công, reload danh sách...');
+        setTimeout(() => loadDangVien(), 2000); // Chờ 2 giây rồi reload
+    });
+}
+
+// Thêm API đếm số lượng
+// (Thêm vào server.js)
+app.get('/api/dangvien/count', (req, res) => {
+    db.query('SELECT COUNT(*) as count FROM dang_vien', (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database error' });
+        res.json(results[0].count);
+    });
+});
 
 // Hiển thị danh sách
 function displayDangVien(dangVienList) {
