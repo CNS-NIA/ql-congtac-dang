@@ -1,57 +1,181 @@
 <!DOCTYPE html>
 <html>
-<body style="padding:20px;font-family:Arial">
-    <h2>📤 Upload File JSON (Phiên bản đơn giản)</h2>
+<head>
+    <title>Upload JSON - Đơn giản</title>
+    <style>
+        body { font-family: Arial; padding: 30px; max-width: 800px; margin: auto; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        input, button { padding: 12px; margin: 10px 0; width: 100%; font-size: 16px; }
+        button { background: #1a237e; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 6px; margin: 15px 0; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin: 15px 0; }
+        .file-list { background: #f8f9fa; padding: 15px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+    <h1>📤 Upload File JSON (Phiên bản đơn giản)</h1>
     
-    <input type="file" id="fileInput" accept=".json">
-    <button onclick="uploadFile()">Upload</button>
+    <div class="card">
+        <h3>1. Chọn file JSON</h3>
+        <input type="file" id="fileInput" accept=".json">
+        <button onclick="uploadFile()">📁 Upload File</button>
+        <div id="result"></div>
+    </div>
     
-    <div id="result" style="margin-top:20px"></div>
+    <div class="card">
+        <h3>2. Danh sách 5 file cần upload</h3>
+        <div class="file-list">
+            <ol>
+                <li><strong>doi-bao-tri-san-duong.json</strong> → Đội Bảo trì Sân đường</li>
+                <li><strong>doi-moi-truong-khu-bay.json</strong> → Đội Môi trường Khu bay</li>
+                <li><strong>doi-thiet-bi-co-dien-den-sb.json</strong> → Đội Thiết bị Cơ điện Đèn SB</li>
+                <li><strong>doi-thiet-bi-thong-tin-dan-duong.json</strong> → Đội Thiết bị Thông tin Dẫn đường</li>
+                <li><strong>van-phong-trung-tam.json</strong> → Văn phòng Trung tâm</li>
+            </ol>
+            <p><em>Upload từng file theo thứ tự trên</em></p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h3>3. Kiểm tra hệ thống</h3>
+        <button onclick="testAPI()">🩺 Test API Health</button>
+        <button onclick="testUpload()">🧪 Test Upload Mẫu</button>
+        <div id="testResult"></div>
+    </div>
     
     <script>
-    async function uploadFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0];
-        
-        if (!file) {
-            alert('Chọn file trước');
-            return;
+        // Hàm upload file
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const resultDiv = document.getElementById('result');
+            
+            if (!file) {
+                resultDiv.innerHTML = '<div class="error">Vui lòng chọn file</div>';
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('jsonFile', file);
+            
+            const btn = document.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = '⏳ Đang upload...';
+            btn.disabled = true;
+            
+            try {
+                resultDiv.innerHTML = '<p>Đang kết nối server...</p>';
+                
+                const response = await fetch('/api/upload-json', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h4>✅ Upload thành công!</h4>
+                            <p><strong>File:</strong> ${result.details.file_name}</p>
+                            <p><strong>Chi bộ:</strong> ${result.details.chi_bo}</p>
+                            <p><strong>Số bản ghi:</strong> ${result.details.record_count}</p>
+                            <p><strong>Thông báo:</strong> ${result.message}</p>
+                            <button onclick="viewSample()" style="margin-top:10px;background:#28a745">
+                                👁️ Xem dữ liệu mẫu
+                            </button>
+                            <div id="sampleData" style="display:none; margin-top:10px; background:#e9ecef; padding:10px; border-radius:5px">
+                                <pre>${JSON.stringify(result.details.sample_records, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Lỗi: ${result.error}</div>`;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h4>⚠️ Lỗi kết nối</h4>
+                        <p>${error.message}</p>
+                        <p>Kiểm tra:</p>
+                        <ul>
+                            <li>Server có đang chạy không?</li>
+                            <li>API endpoint /api/upload-json có tồn tại?</li>
+                            <li>Console (F12) để xem chi tiết lỗi</li>
+                        </ul>
+                    </div>
+                `;
+                console.error('Upload error:', error);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
         }
         
-        const formData = new FormData();
-        formData.append('jsonFile', file);
-        
-        const resultDiv = document.getElementById('result');
-        resultDiv.innerHTML = '<p>Đang upload...</p>';
-        
-        try {
-            const response = await fetch('/api/upload-json', {
-                method: 'POST',
-                body: formData
-            });
+        // Hàm test API
+        async function testAPI() {
+            const testDiv = document.getElementById('testResult');
+            testDiv.innerHTML = '<p>Đang test...</p>';
             
-            const data = await response.json();
-            resultDiv.innerHTML = `
-                <div style="background:#d4edda;padding:15px;border-radius:5px">
-                    <h3>✅ Thành công!</h3>
-                    <p><strong>File:</strong> ${file.name}</p>
-                    <p><strong>Chi bộ:</strong> ${data.chi_bo}</p>
-                    <p><strong>Số bản ghi:</strong> ${data.count}</p>
-                    <p><strong>Thông báo:</strong> ${data.message}</p>
-                </div>
-            `;
-            
-        } catch (error) {
-            resultDiv.innerHTML = `
-                <div style="background:#f8d7da;padding:15px;border-radius:5px">
-                    <h3>❌ Lỗi</h3>
-                    <p>${error.message}</p>
-                    <p>Kiểm tra console (F12) để xem chi tiết</p>
-                </div>
-            `;
-            console.error('Upload error:', error);
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                testDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Health Check OK</h4>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Health check failed: ${error.message}</div>`;
+            }
         }
-    }
+        
+        // Hàm test upload mẫu
+        async function testUpload() {
+            const testDiv = document.getElementById('testResult');
+            testDiv.innerHTML = '<p>Đang test upload...</p>';
+            
+            // Tạo file JSON mẫu
+            const sampleData = [
+                { "STT": 1, "Ho_va_Ten": "Nguyễn Văn Test", "So_the_Dang": "TEST-001" },
+                { "STT": 2, "Ho_va_Ten": "Trần Thị Demo", "So_the_Dang": "TEST-002" }
+            ];
+            
+            const blob = new Blob([JSON.stringify(sampleData)], { type: 'application/json' });
+            const file = new File([blob], 'test-file.json');
+            
+            const formData = new FormData();
+            formData.append('jsonFile', file);
+            
+            try {
+                const response = await fetch('/api/upload-json', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+                testDiv.innerHTML = `
+                    <div class="success">
+                        <h4>✅ Test Upload OK</h4>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                testDiv.innerHTML = `<div class="error">❌ Test upload failed: ${error.message}</div>`;
+            }
+        }
+        
+        // Hàm xem dữ liệu mẫu
+        function viewSample() {
+            const sampleDiv = document.getElementById('sampleData');
+            sampleDiv.style.display = sampleDiv.style.display === 'none' ? 'block' : 'none';
+        }
     </script>
+    
+    <p style="margin-top:30px;text-align:center">
+        <a href="/">← Quay lại trang chủ</a> | 
+        <a href="/import.html">Trang import đầy đủ</a>
+    </p>
 </body>
 </html>
