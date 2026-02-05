@@ -1,4 +1,4 @@
-const db = require('./database');
+const db = require('./Database');
 
 class JsonImporter {
     static normalizeDate(dateStr) {
@@ -122,6 +122,7 @@ class JsonImporter {
                                     dangVienData.so_the_dang
                                 ]
                             );
+                            console.log(`✓ Cập nhật: ${dangVienData.ho_ten}`);
                         } else {
                             await db.execute(
                                 `INSERT INTO dang_vien 
@@ -131,6 +132,7 @@ class JsonImporter {
                                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                                 Object.values(dangVienData)
                             );
+                            console.log(`+ Thêm mới: ${dangVienData.ho_ten}`);
                         }
                     } else {
                         await db.execute(
@@ -141,11 +143,13 @@ class JsonImporter {
                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                             Object.values(dangVienData)
                         );
+                        console.log(`+ Thêm (không số thẻ): ${dangVienData.ho_ten}`);
                     }
 
                     results.success++;
 
                 } catch (rowError) {
+                    console.error(`❌ Lỗi tại dòng ${index + 1}:`, rowError.message);
                     results.errors.push({
                         row: index + 1,
                         name: item.Ho_va_Ten || 'Không có tên',
