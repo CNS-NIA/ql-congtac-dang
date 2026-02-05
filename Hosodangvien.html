@@ -1,2082 +1,1104 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chương trình Quản lý Công tác Đảng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-red: #C00000;
-            --primary-red-dark: #A00000;
-            --primary-red-light: #FFE6E6;
-            --vietnam-gold: #FFCC00;
-            --light-gray: #f8f9fa;
-            --medium-gray: #e9ecef;
-            --dark-gray: #2c3e50;
-            --border-radius: 8px;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 4px 15px rgba(0, 0, 0, 0.15);
-            --transition: all 0.25s ease;
-            --spacing-xs: 5px;
-            --spacing-sm: 10px;
-            --spacing-md: 15px;
-            --spacing-lg: 20px;
-            --spacing-xl: 25px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Noto Sans', 'Roboto', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f6f8fa 0%, #eef2f7 100%);
-            color: var(--dark-gray);
-            line-height: 1.5;
-            min-height: 100vh;
-            font-size: 14px;
-        }
-
-        /* ========== MODAL ĐĂNG NHẬP ========== */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(192, 0, 0, 0.95) 0%, rgba(160, 0, 0, 0.92) 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .login-box {
-            background: white;
-            padding: var(--spacing-xl);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            animation: slideUp 0.4s ease-out;
-            border-top: 4px solid var(--vietnam-gold);
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .login-box h2 {
-            color: var(--primary-red);
-            margin-bottom: var(--spacing-sm);
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .login-box > p {
-            color: #6c757d;
-            margin-bottom: var(--spacing-lg);
-            font-size: 14px;
-        }
-
-        .role-selection {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-sm);
-            margin: var(--spacing-lg) 0;
-        }
-
-        .role-btn {
-            padding: var(--spacing-lg);
-            border: 2px solid;
-            border-radius: var(--border-radius);
-            background: white;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--spacing-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .role-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .role-btn:hover::before {
-            left: 100%;
-        }
-
-        .role-btn.admin {
-            border-color: var(--primary-red);
-            color: var(--primary-red);
-            background: linear-gradient(135deg, #fff9f9 0%, #fff5f5 100%);
-        }
-
-        .role-btn.admin:hover {
-            background: #fff5f5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(192, 0, 0, 0.15);
-        }
-
-        .role-btn.guest {
-            border-color: #6c757d;
-            color: #495057;
-            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
-        }
-
-        .role-btn.guest:hover {
-            background: #f1f3f5;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .role-btn i {
-            font-size: 18px;
-        }
-
-        /* ========== HEADER ========== */
-        .header {
-            background: white;
-            padding: 0 var(--spacing-lg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 3px solid var(--primary-red);
-            height: 65px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-        }
-
-        .flag-container {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            position: relative;
-        }
-
-        .flag-display {
-            width: 180px;
-            height: 50px;
-            background: white;
-            border: 1px solid #dee2e6;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .flag-display:hover {
-            border-color: var(--primary-red);
-            box-shadow: 0 2px 8px rgba(192, 0, 0, 0.1);
-        }
-
-        .flag-display img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .flag-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #6c757d;
-            font-size: 12px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .upload-btn {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: var(--primary-red);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            cursor: pointer;
-            opacity: 0;
-            transition: var(--transition);
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .flag-display:hover .upload-btn {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .header-title h1 {
-            font-size: 18px;
-            color: var(--dark-gray);
-            margin-bottom: 3px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-        }
-
-        .header-title p {
-            font-size: 12px;
-            color: #6c757d;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-        }
-
-        .user-info {
-            text-align: right;
-            padding-right: var(--spacing-md);
-            border-right: 1px solid #e9ecef;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--dark-gray);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            margin-bottom: 2px;
-        }
-
-        .user-role {
-            font-size: 12px;
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .user-role.admin {
-            color: var(--primary-red);
-        }
-
-        .logout-btn {
-            background: var(--primary-red);
-            color: white;
-            border: none;
-            padding: var(--spacing-sm) var(--spacing-md);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            transition: var(--transition);
-        }
-
-        .logout-btn:hover {
-            background: var(--primary-red-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.2);
-        }
-
-        /* ========== LAYOUT CHÍNH ========== */
-        .app-container {
-            display: none;
-            min-height: calc(100vh - 65px);
-        }
-
-        .sidebar {
-            width: 220px;
-            background: white;
-            position: fixed;
-            left: 0;
-            top: 65px;
-            bottom: 0;
-            overflow-y: auto;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
-            border-right: 1px solid #e9ecef;
-            padding-top: var(--spacing-md);
-        }
-
-        .main-content {
-            margin-left: 220px;
-            padding: var(--spacing-lg);
-            min-height: calc(100vh - 65px);
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-        }
-
-        /* ========== MENU ========== */
-        .menu-section {
-            padding: var(--spacing-md) 0;
-            border-bottom: 1px solid #f1f3f4;
-        }
-
-        .menu-section:last-child {
-            border-bottom: none;
-        }
-
-        .menu-title {
-            padding: 0 var(--spacing-lg);
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--primary-red);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: var(--spacing-sm);
-            opacity: 0.8;
-        }
-
-        .menu-list {
-            list-style: none;
-        }
-
-        .menu-item {
-            padding: var(--spacing-md) var(--spacing-lg);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            cursor: pointer;
-            color: var(--dark-gray);
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 14px;
-            border-left: 3px solid transparent;
-            margin: 2px 0;
-        }
-
-        .menu-item:hover {
-            background: var(--primary-red-light);
-            color: var(--primary-red);
-            border-left-color: var(--primary-red);
-        }
-
-        .menu-item.active {
-            background: linear-gradient(90deg, rgba(192, 0, 0, 0.1) 0%, rgba(192, 0, 0, 0.05) 100%);
-            color: var(--primary-red);
-            border-left-color: var(--primary-red);
-            font-weight: 500;
-        }
-
-        .menu-item i:first-child {
-            width: 18px;
-            text-align: center;
-            font-size: 15px;
-        }
-
-        .chevron {
-            margin-left: auto;
-            font-size: 11px;
-            transition: transform 0.3s;
-            opacity: 0.6;
-        }
-
-        /* ========== SUBMENU (CHI BỘ) ========== */
-        .submenu {
-            list-style: none;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
-            margin-left: var(--spacing-lg);
-            border-left: 2px solid #e9ecef;
-            border-radius: 0 0 0 var(--border-radius);
-        }
-
-        .submenu.show {
-            max-height: 500px;
-        }
-
-        .submenu-item {
-            padding: var(--spacing-sm) var(--spacing-md);
-            color: #6c757d;
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            border-left: 2px solid transparent;
-            margin: 1px 0;
-        }
-
-        .submenu-item:hover {
-            color: var(--primary-red);
-            background: rgba(192, 0, 0, 0.05);
-            border-left-color: var(--primary-red);
-        }
-
-        .submenu-item.active {
-            color: var(--primary-red);
-            background: rgba(192, 0, 0, 0.1);
-            border-left-color: var(--primary-red);
-            font-weight: 500;
-        }
-
-        .submenu-item i {
-            font-size: 12px;
-            width: 15px;
-            text-align: center;
-        }
-
-        /* ========== PAGE HEADER ========== */
-        .page-header {
-            background: white;
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--spacing-lg);
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 4px solid var(--primary-red);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-red), var(--vietnam-gold));
-        }
-
-        .page-title h2 {
-            font-size: 20px;
-            color: var(--dark-gray);
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .page-title p {
-            color: #6c757d;
-            font-size: 13px;
-            max-width: 600px;
-        }
-
-        .page-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-        }
-
-        .action-btn {
-            padding: var(--spacing-sm) var(--spacing-md);
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .action-btn:hover::before {
-            left: 100%;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .action-btn.disabled {
-            background: linear-gradient(135deg, #adb5bd 0%, #6c757d 100%);
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .action-btn.disabled::before {
-            display: none;
-        }
-
-        .action-btn.secondary {
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
-        }
-
-        /* ========== STATS GRID ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .stat-card {
-            background: white;
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #e9ecef;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary-red), var(--vietnam-gold));
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--primary-red-light);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .stat-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, rgba(192, 0, 0, 0.1) 0%, rgba(255, 204, 0, 0.1) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-red);
-            font-size: 16px;
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark-gray);
-            margin-bottom: 2px;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .stat-trend {
-            font-size: 12px;
-            color: #28a745;
-            background: rgba(40, 167, 69, 0.1);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 500;
-        }
-
-        /* ========== MODULES ========== */
-        .modules-section {
-            background: white;
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .section-title {
-            font-size: 16px;
-            color: var(--dark-gray);
-            margin-bottom: var(--spacing-md);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            padding-bottom: var(--spacing-sm);
-            border-bottom: 2px solid #f1f3f4;
-        }
-
-        .section-title i {
-            color: var(--primary-red);
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--spacing-md);
-        }
-
-        .module-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            border: 1px solid #e9ecef;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-red), var(--vietnam-gold));
-        }
-
-        .module-card:hover {
-            border-color: var(--primary-red);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .module-card.featured {
-            background: linear-gradient(135deg, #fff9f9 0%, #fff5f5 100%);
-            border-color: var(--primary-red);
-            border-width: 2px;
-        }
-
-        .module-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .module-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .module-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--dark-gray);
-            margin-bottom: 2px;
-        }
-
-        .module-stats {
-            display: flex;
-            gap: var(--spacing-md);
-            font-size: 12px;
-            color: #6c757d;
-        }
-
-        .module-stats span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .module-stats i {
-            color: var(--primary-red);
-            font-size: 6px;
-        }
-
-        .module-desc {
-            color: #6c757d;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-top: var(--spacing-sm);
-        }
-
-        /* ========== MODAL ========== */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            backdrop-filter: blur(4px);
-        }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .modal-content {
-            background: white;
-            padding: var(--spacing-xl);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.3s ease-out;
-            border-top: 4px solid var(--vietnam-gold);
-        }
-
-        .modal-content h3 {
-            color: var(--primary-red);
-            margin-bottom: var(--spacing-md);
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .upload-area {
-            border: 2px dashed #dee2e6;
-            border-radius: var(--border-radius);
-            padding: var(--spacing-xl);
-            text-align: center;
-            margin-bottom: var(--spacing-md);
-            cursor: pointer;
-            transition: var(--transition);
-            background: #f8f9fa;
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary-red);
-            background: var(--primary-red-light);
-        }
-
-        .upload-preview {
-            width: 100%;
-            height: 120px;
-            margin-bottom: var(--spacing-md);
-            display: none;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            border: 2px solid #e9ecef;
-            background: white;
-        }
-
-        .upload-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: flex-end;
-        }
-
-        /* ========== THÔNG BÁO ========== */
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: var(--spacing-lg);
-            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-            color: white;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-hover);
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            gap: var(--spacing-sm);
-            font-size: 14px;
-            animation: slideInRight 0.3s ease-out;
-            border-left: 4px solid #1e7e34;
-            min-width: 300px;
-        }
-
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .notification.error {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-            border-left-color: #bd2130;
-        }
-
-        /* ========== HỒ SƠ ĐẢNG VIÊN ========== */
-        .party-members-content {
-            display: none;
-        }
-
-        .members-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--spacing-lg);
-            min-height: 500px;
-        }
-
-        /* ĐÃ XÓA BRANCHES SIDEBAR - CHỈ DÙNG MENU TRÁI */
-        
-        .members-main {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: var(--spacing-lg);
-            box-shadow: var(--shadow);
-            border: 1px solid #e9ecef;
-        }
-
-        .members-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-lg);
-            padding-bottom: var(--spacing-md);
-            border-bottom: 2px solid #f1f3f4;
-        }
-
-        .members-header h3 {
-            font-size: 18px;
-            color: var(--dark-gray);
-            font-weight: 600;
-        }
-
-        .members-count {
-            font-size: 14px;
-            color: var(--primary-red);
-            background: var(--primary-red-light);
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--spacing-md);
-        }
-
-        .member-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            padding: var(--spacing-lg);
-            border-radius: var(--border-radius);
-            border: 1px solid #e9ecef;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .member-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary-red), var(--vietnam-gold));
-        }
-
-        .member-card:hover {
-            border-color: var(--primary-red);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .member-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: var(--spacing-md);
-            font-weight: 600;
-            font-size: 18px;
-            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.2);
-        }
-
-        .member-name {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: var(--dark-gray);
-        }
-
-        .member-position {
-            font-size: 14px;
-            color: var(--primary-red);
-            margin-bottom: var(--spacing-sm);
-            font-weight: 500;
-        }
-
-        .member-info {
-            font-size: 13px;
-            color: #6c757d;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            border-top: 1px solid #f1f3f4;
-            padding-top: var(--spacing-sm);
-            margin-top: var(--spacing-sm);
-        }
-
-        .member-info span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .member-info i {
-            color: var(--primary-red);
-            font-size: 12px;
-            width: 16px;
-        }
-
-        /* ========== MODAL CHI TIẾT ĐẢNG VIÊN ========== */
-        .member-detail-modal .modal-content {
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .member-detail-header {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            padding-bottom: var(--spacing-lg);
-            border-bottom: 2px solid #f1f3f4;
-        }
-
-        .member-detail-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: 600;
-            flex-shrink: 0;
-            box-shadow: 0 6px 15px rgba(192, 0, 0, 0.3);
-        }
-
-        .member-detail-info h3 {
-            font-size: 20px;
-            margin-bottom: 4px;
-            color: var(--dark-gray);
-        }
-
-        .member-detail-position {
-            color: var(--primary-red);
-            font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 15px;
-        }
-
-        .member-detail-branch {
-            font-size: 13px;
-            color: #6c757d;
-        }
-
-        .member-detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--spacing-md);
-        }
-
-        .detail-item {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .detail-label {
-            font-size: 12px;
-            color: #6c757d;
-            margin-bottom: 4px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .detail-value {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--dark-gray);
-            line-height: 1.4;
-        }
-
-        .detail-item.full-width {
-            grid-column: 1 / -1;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 1200px) {
-            .sidebar {
-                width: 200px;
-            }
-            .main-content {
-                margin-left: 200px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 180px;
-            }
-            .main-content {
-                margin-left: 180px;
-            }
-            .modules-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                position: fixed;
-                left: -100%;
-                top: 65px;
-                transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                z-index: 100;
-                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-            }
-            .sidebar.active {
-                left: 0;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .header {
-                flex-direction: column;
-                height: auto;
-                padding: var(--spacing-md);
-                gap: var(--spacing-md);
-            }
-            .header-left, .header-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-            .user-info {
-                border-right: none;
-                padding-right: 0;
-                border-bottom: 1px solid #e9ecef;
-                padding-bottom: var(--spacing-sm);
-                margin-bottom: var(--spacing-sm);
-            }
-            .page-actions {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .members-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-
-        @media (max-width: 576px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .modules-grid,
-            .members-grid {
-                grid-template-columns: 1fr;
-            }
-            .member-detail-grid {
-                grid-template-columns: 1fr;
-            }
-            .page-header {
-                flex-direction: column;
-                gap: var(--spacing-md);
-                text-align: center;
-            }
-            .page-actions {
-                width: 100%;
-            }
-            .action-btn {
-                flex: 1;
-                justify-content: center;
-            }
-            .flag-display {
-                width: 150px;
-            }
-            .header-title h1 {
-                font-size: 16px;
-            }
-            .notification {
-                left: var(--spacing-sm);
-                right: var(--spacing-sm);
-                min-width: auto;
-            }
-            .members-header {
-                flex-direction: column;
-                gap: var(--spacing-sm);
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- MODAL ĐĂNG NHẬP -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-box">
-            <h2>ĐĂNG NHẬP CHƯƠNG TRÌNH</h2>
-            <p>Vui lòng chọn chế độ truy cập</p>
-            
-            <div class="role-selection">
-                <button class="role-btn admin" id="adminLogin">
-                    <i class="fas fa-user-shield"></i>
-                    QUẢN TRỊ VIÊN
-                </button>
-                <button class="role-btn guest" id="guestLogin">
-                    <i class="fas fa-user"></i>
-                    KHÁCH (CHỈ XEM)
-                </button>
-            </div>
-            
-            <div style="margin-top: var(--spacing-lg); padding: var(--spacing-md); background: #f8f9fa; border-radius: var(--border-radius); text-align: left; font-size: 13px; color: #6c757d; border-left: 3px solid var(--primary-red);">
-                <p style="font-weight: 600; color: var(--primary-red); margin-bottom: 5px;">QUYỀN HẠN TRUY CẬP:</p>
-                <p style="margin-bottom: 3px; display: flex; align-items: center; gap: 5px;"><span style="color: var(--primary-red); font-weight: 500;">• Admin:</span> Toàn quyền quản lý hệ thống</p>
-                <p style="display: flex; align-items: center; gap: 5px;"><span style="color: #495057; font-weight: 500;">• Khách:</span> Chỉ xem thông tin, không chỉnh sửa</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL UPLOAD CỜ -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <h3>UPLOAD ẢNH CỜ</h3>
-            <p style="text-align: center; color: #6c757d; margin-bottom: var(--spacing-lg); font-size: 14px;">
-                Upload ảnh chứa cả cờ Đảng và cờ Việt Nam<br>
-                <span style="font-size: 12px;">(Kích thước đề xuất: 360x120px)</span>
-            </p>
-            
-            <div class="upload-area" id="uploadArea">
-                <i class="fas fa-cloud-upload-alt" style="font-size: 36px; color: var(--primary-red); margin-bottom: var(--spacing-sm); opacity: 0.8;"></i>
-                <p style="font-weight: 500; margin-bottom: 4px; color: var(--dark-gray);">Kéo thả ảnh vào đây</p>
-                <p style="font-size: 13px; color: #6c757d;">hoặc click để chọn file</p>
-                <p style="font-size: 12px; color: #adb5bd; margin-top: var(--spacing-xs);">JPG, PNG, tối đa 2MB</p>
-            </div>
-            
-            <div class="upload-preview" id="uploadPreview">
-                <img id="previewImage" src="" alt="Preview">
-            </div>
-            
-            <input type="file" id="fileInput" accept="image/*" style="display: none;">
-            
-            <div class="modal-actions">
-                <button class="action-btn secondary" id="cancelUpload">
-                    <i class="fas fa-times"></i> Hủy
-                </button>
-                <button class="action-btn" id="confirmUpload" disabled>
-                    <i class="fas fa-check"></i> Xác nhận
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL CHI TIẾT ĐẢNG VIÊN -->
-    <div class="modal member-detail-modal" id="memberDetailModal">
-        <div class="modal-content">
-            <div class="member-detail-header">
-                <div class="member-detail-avatar" id="detailAvatar">NV</div>
-                <div class="member-detail-info">
-                    <h3 id="detailName">Nguyễn Văn A</h3>
-                    <div class="member-detail-position" id="detailPosition">Bí thư Chi bộ</div>
-                    <div class="member-detail-branch" id="detailBranch">Chi bộ Kỹ thuật</div>
-                </div>
-            </div>
-            
-            <div class="member-detail-grid">
-                <div class="detail-item">
-                    <div class="detail-label">Mã đảng viên</div>
-                    <div class="detail-value" id="detailCode">ĐV-001</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Ngày vào Đảng</div>
-                    <div class="detail-value" id="detailJoinDate">15/05/2010</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Chức vụ Đảng</div>
-                    <div class="detail-value" id="detailPartyPosition">Bí thư Chi bộ</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Chức vụ hành chính</div>
-                    <div class="detail-value" id="detailAdminPosition">Trưởng phòng Kỹ thuật</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Trình độ chính trị</div>
-                    <div class="detail-value" id="detailPoliticalLevel">Cao cấp</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Trình độ chuyên môn</div>
-                    <div class="detail-value" id="detailProfessionalLevel">Thạc sĩ</div>
-                </div>
-                <div class="detail-item full-width">
-                    <div class="detail-label">Địa chỉ</div>
-                    <div class="detail-value" id="detailAddress">123 Đường ABC, Quận XYZ, Hà Nội</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Số điện thoại</div>
-                    <div class="detail-value" id="detailPhone">0987.654.321</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Email</div>
-                    <div class="detail-value" id="detailEmail">nguyenvana@example.com</div>
-                </div>
-                <div class="detail-item full-width">
-                    <div class="detail-label">Quá trình công tác</div>
-                    <div class="detail-value" id="detailWorkHistory">2010-2015: Nhân viên kỹ thuật<br>2015-2020: Phó phòng Kỹ thuật<br>2020-nay: Trưởng phòng Kỹ thuật</div>
-                </div>
-                <div class="detail-item full-width">
-                    <div class="detail-label">Thành tích</div>
-                    <div class="detail-value" id="detailAchievement">- Chiến sĩ thi đua cấp Bộ (2018)<br>- Bằng khen của Đảng ủy (2020)<br>- Giải thưởng sáng kiến kỹ thuật (2022)</div>
-                </div>
-            </div>
-            
-            <div class="modal-actions" style="margin-top: var(--spacing-lg);">
-                <button class="action-btn" id="closeMemberDetail">
-                    <i class="fas fa-times"></i> Đóng
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- THÔNG BÁO -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notificationText"></span>
-    </div>
-
-    <!-- HEADER -->
-    <header class="header" id="mainHeader">
-        <div class="header-left">
-            <div class="flag-container">
-                <div class="flag-display" id="combinedFlagDisplay">
-                    <div class="flag-placeholder">
-                        <i class="fas fa-flag" style="font-size: 18px; margin-bottom: 4px; color: var(--primary-red);"></i>
-                        <span style="font-size: 11px;">Cờ Đảng & Việt Nam</span>
-                    </div>
-                    <div class="upload-btn">
-                        <i class="fas fa-upload"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="header-title">
-                <h1>CHƯƠNG TRÌNH QUẢN LÝ CÔNG TÁC ĐẢNG</h1>
-                <p>Chi bộ Đội Thiết bị Thông tin Dẫn đường • Đảng bộ Trung tâm Khai thác Khu bay Nội Bài</p>
-            </div>
-        </div>
-        
-        <div class="header-right">
-            <div class="user-info">
-                <div class="user-name" id="userName">
-                    <i class="fas fa-user-circle"></i>
-                    Nguyễn Văn A
-                </div>
-                <div class="user-role" id="userRole">Bí thư Chi bộ</div>
-            </div>
-            <button class="logout-btn" id="logoutBtn">
-                <i class="fas fa-sign-out-alt"></i>
-                Đăng xuất
-            </button>
-        </div>
-    </header>
-
-    <!-- LAYOUT CHÍNH -->
-    <div class="app-container" id="appContainer">
-        <!-- SIDEBAR (CHỈ MENU TRÁI) -->
-        <nav class="sidebar" id="sidebar">
-            <div class="menu-section">
-                <div class="menu-title">Menu chính</div>
-                <ul class="menu-list">
-                    <li>
-                        <a href="#" class="menu-item active" id="dashboardBtn">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Bảng điều khiển
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-item" id="documentsBtn">
-                            <i class="fas fa-file-alt"></i>
-                            Quản lý Văn bản
-                            <i class="fas fa-chevron-down chevron"></i>
-                        </a>
-                        <ul class="submenu" id="documentsSubmenu">
-                            <li class="submenu-item">
-                                <i class="fas fa-calendar-check"></i> Nghị quyết định kỳ
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-star"></i> Nghị quyết chuyên đề
-                            </li>
-                            <li class="submenu-item">
-                                <i class="fas fa-project-diagram"></i> Quy trình xử lý
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-item" id="membersBtn">
-                            <i class="fas fa-users"></i>
-                            Hồ sơ Đảng viên
-                            <i class="fas fa-chevron-down chevron"></i>
-                        </a>
-                        <ul class="submenu" id="membersSubmenu">
-                            <!-- Các chi bộ sẽ được thêm bằng JavaScript -->
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-item" id="activitiesBtn">
-                            <i class="fas fa-calendar-check"></i>
-                            Sinh hoạt Đảng
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="menu-section" id="adminSection" style="display: none;">
-                <div class="menu-title">Quản trị hệ thống</div>
-                <ul class="menu-list">
-                    <li>
-                        <a href="#" class="menu-item" id="manageFlagsBtn">
-                            <i class="fas fa-flag"></i>
-                            Quản lý ảnh cờ
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="menu-item" id="systemSettingsBtn">
-                            <i class="fas fa-cog"></i>
-                            Cài đặt hệ thống
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <!-- NỘI DUNG CHÍNH -->
-        <main class="main-content" id="mainContent">
-            <!-- BẢNG ĐIỀU KHIỂN -->
-            <div class="dashboard-content" id="dashboardContent">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h2>Bảng điều khiển</h2>
-                        <p id="pageSubtitle">Tổng quan hệ thống quản lý công tác Đảng</p>
-                    </div>
-                    <div class="page-actions">
-                        <button class="action-btn" id="createNewBtn">
-                            <i class="fas fa-plus-circle"></i>
-                            Tạo mới
-                        </button>
-                        <button class="action-btn secondary" id="exportReportBtn">
-                            <i class="fas fa-download"></i>
-                            Xuất báo cáo
-                        </button>
-                    </div>
-                </div>
-
-                <!-- THỐNG KÊ -->
-                <div class="stats-grid" id="statsGrid">
-                    <!-- Sẽ được tạo động -->
-                </div>
-
-                <!-- MODULES -->
-                <div class="modules-section">
-                    <h3 class="section-title">
-                        <i class="fas fa-th-large"></i>
-                        Chức năng chính
-                    </h3>
-                    <div class="modules-grid" id="modulesGrid">
-                        <!-- Sẽ được tạo động -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- HỒ SƠ ĐẢNG VIÊN (CHỈ HIỂN THỊ DANH SÁCH ĐẢNG VIÊN) -->
-            <div class="party-members-content" id="partyMembersContent">
-                <div class="page-header">
-                    <div class="page-title">
-                        <h2>Hồ sơ Đảng viên</h2>
-                        <p id="membersSubtitle">Quản lý thông tin đảng viên toàn đơn vị</p>
-                    </div>
-                    <div class="page-actions">
-                        <button class="action-btn" id="addMemberBtn">
-                            <i class="fas fa-user-plus"></i>
-                            Thêm đảng viên
-                        </button>
-                    </div>
-                </div>
-
-                <div class="members-container">
-                    <!-- CHỈ HIỂN THỊ DANH SÁCH ĐẢNG VIÊN, KHÔNG CÓ SIDEBAR PHẢI -->
-                    <div class="members-main">
-                        <div class="members-header">
-                            <h3 id="currentBranchName">Chọn chi bộ ở menu bên trái để xem danh sách đảng viên</h3>
-                            <div class="members-count" id="membersCount">0 đảng viên</div>
-                        </div>
-                        <div class="members-grid" id="membersGrid">
-                            <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: #6c757d; font-size: 14px;">
-                                <i class="fas fa-users" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
-                                <p style="margin-bottom: 10px; font-size: 16px; font-weight: 500;">Chưa chọn chi bộ</p>
-                                <p>Vui lòng chọn một chi bộ từ menu "Hồ sơ Đảng viên" ở bên trái</p>
-                                <p style="font-size: 12px; margin-top: 15px; color: #adb5bd;">
-                                    <i class="fas fa-info-circle"></i> Chỉ cấp ủy mới được xem thông tin này
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        // ========== BIẾN TOÀN CỤC ==========
-        let currentUser = null;
-        let currentUserRole = null;
-        let selectedFile = null;
-        let currentBranchId = null;
-        let currentView = 'dashboard';
-        
-        // Dữ liệu mẫu
-        const branches = [
-            { id: 'branch1', name: 'Chi bộ Kỹ thuật', members: 24 },
-            { id: 'branch2', name: 'Chi bộ Hành chính', members: 18 },
-            { id: 'branch3', name: 'Chi bộ Kế hoạch', members: 16 },
-            { id: 'branch4', name: 'Chi bộ Tài chính', members: 14 },
-            { id: 'branch5', name: 'Chi bộ Đầu tư', members: 12 }
-        ];
-
-        const partyMembers = {
-            branch1: [
-                { 
-                    id: 'm1', 
-                    code: 'ĐV-001', 
-                    name: 'Nguyễn Văn A', 
-                    position: 'Bí thư Chi bộ', 
-                    partyPosition: 'Bí thư Chi bộ', 
-                    adminPosition: 'Trưởng phòng Kỹ thuật', 
-                    joinDate: '15/05/2010', 
-                    politicalLevel: 'Cao cấp', 
-                    professionalLevel: 'Thạc sĩ', 
-                    address: '123 Đường ABC, Quận XYZ, Hà Nội', 
-                    phone: '0987.654.321', 
-                    email: 'nguyenvana@example.com',
-                    workHistory: '2010-2015: Nhân viên kỹ thuật\n2015-2020: Phó phòng Kỹ thuật\n2020-nay: Trưởng phòng Kỹ thuật',
-                    achievement: '- Chiến sĩ thi đua cấp Bộ (2018)\n- Bằng khen của Đảng ủy (2020)\n- Giải thưởng sáng kiến kỹ thuật (2022)'
-                },
-                { 
-                    id: 'm2', 
-                    code: 'ĐV-002', 
-                    name: 'Trần Thị B', 
-                    position: 'Phó Bí thư', 
-                    partyPosition: 'Phó Bí thư', 
-                    adminPosition: 'Phó phòng Kỹ thuật', 
-                    joinDate: '20/08/2012', 
-                    politicalLevel: 'Trung cấp', 
-                    professionalLevel: 'Đại học', 
-                    address: '456 Đường XYZ, Hà Nội', 
-                    phone: '0988.123.456', 
-                    email: 'tranthib@example.com',
-                    workHistory: '2012-2017: Nhân viên kỹ thuật\n2017-2022: Trưởng nhóm Kỹ thuật\n2022-nay: Phó phòng Kỹ thuật',
-                    achievement: '- Bằng khen của Công đoàn (2019)\n- Chiến sĩ thi đua cấp cơ sở (2021)'
-                },
-                { 
-                    id: 'm3', 
-                    code: 'ĐV-003', 
-                    name: 'Lê Văn C', 
-                    position: 'Ủy viên Ban thường vụ', 
-                    partyPosition: 'Ủy viên', 
-                    adminPosition: 'Trưởng nhóm Kỹ thuật', 
-                    joinDate: '10/03/2015', 
-                    politicalLevel: 'Trung cấp', 
-                    professionalLevel: 'Đại học', 
-                    address: '789 Đường DEF, Hà Nội', 
-                    phone: '0977.888.999', 
-                    email: 'levanc@example.com',
-                    workHistory: '2015-2018: Kỹ thuật viên\n2018-2021: Chuyên viên kỹ thuật\n2021-nay: Trưởng nhóm Kỹ thuật',
-                    achievement: '- Giải thưởng sáng kiến (2019)\n- Lao động tiên tiến (2020)'
-                }
-            ],
-            branch2: [
-                { 
-                    id: 'm4', 
-                    code: 'ĐV-004', 
-                    name: 'Hoàng Văn D', 
-                    position: 'Bí thư Chi bộ', 
-                    partyPosition: 'Bí thư Chi bộ', 
-                    adminPosition: 'Trưởng phòng Hành chính', 
-                    joinDate: '22/06/2009', 
-                    politicalLevel: 'Cao cấp', 
-                    professionalLevel: 'Thạc sĩ Quản trị', 
-                    address: '789 Đường DEF, Hà Nội', 
-                    phone: '0977.777.888', 
-                    email: 'hoangvand@example.com',
-                    workHistory: '2009-2014: Chuyên viên Hành chính\n2014-2019: Phó phòng Hành chính\n2019-nay: Trưởng phòng Hành chính',
-                    achievement: '- Bằng khen của Bộ (2015)\n- Chiến sĩ thi đua toàn quốc (2018)'
-                }
-            ],
-            branch3: [
-                { 
-                    id: 'm5', 
-                    code: 'ĐV-005', 
-                    name: 'Đỗ Thị E', 
-                    position: 'Bí thư Chi bộ', 
-                    partyPosition: 'Bí thư Chi bộ', 
-                    adminPosition: 'Trưởng phòng Kế hoạch', 
-                    joinDate: '18/11/2011', 
-                    politicalLevel: 'Cao cấp', 
-                    professionalLevel: 'Thạc sĩ Kinh tế', 
-                    address: '987 Đường NOP, Hà Nội', 
-                    phone: '0944.222.111', 
-                    email: 'dothie@example.com',
-                    workHistory: '2011-2016: Chuyên viên Kế hoạch\n2016-2021: Phó phòng Kế hoạch\n2021-nay: Trưởng phòng Kế hoạch',
-                    achievement: '- Bằng khen của Tổng cục (2017)\n- Lao động sáng tạo (2020)'
-                }
-            ]
-        };
-
-        // ========== KHỞI TẠO ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('dashboardUser');
-            if (savedUser) {
-                try {
-                    const userData = JSON.parse(savedUser);
-                    loginUser(userData.name, userData.role);
-                } catch (e) {
-                    localStorage.removeItem('dashboardUser');
-                }
-            }
-
-            loadSavedFlag();
-            initializeBranches();
-        });
-
-        // ========== ĐĂNG NHẬP ==========
-        document.getElementById('adminLogin').addEventListener('click', () => loginUser('Nguyễn Văn A', 'admin'));
-        document.getElementById('guestLogin').addEventListener('click', () => loginUser('Khách Tham Quan', 'guest'));
-
-        function loginUser(name, role) {
-            currentUser = name;
-            currentUserRole = role;
-
-            localStorage.setItem('dashboardUser', JSON.stringify({
-                name: name,
-                role: role,
-                loginTime: new Date().toISOString()
-            }));
-
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('mainHeader').style.display = 'flex';
-            document.getElementById('appContainer').style.display = 'flex';
-
-            document.getElementById('userName').innerHTML = `<i class="fas fa-user-circle"></i> ${name}`;
-            document.getElementById('userRole').textContent = role === 'admin' ? 'Quản trị viên' : 'Khách tham quan';
-            document.getElementById('userRole').className = `user-role ${role}`;
-            
-            applyUserPermissions();
-            generateDashboardContent();
-            showNotification(`Đăng nhập thành công với quyền ${role === 'admin' ? 'Quản trị viên' : 'Khách'}`, 'success');
-        }
-
-        // ========== QUYỀN HẠN ==========
-        function applyUserPermissions() {
-            const isAdmin = currentUserRole === 'admin';
-            document.getElementById('adminSection').style.display = isAdmin ? 'block' : 'none';
-            
-            document.querySelectorAll('.action-btn').forEach(btn => {
-                if (!isAdmin) {
-                    btn.classList.add('disabled');
-                    btn.disabled = true;
-                } else {
-                    btn.classList.remove('disabled');
-                    btn.disabled = false;
-                }
-            });
-        }
-
-        // ========== ĐĂNG XUẤT ==========
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            if (confirm('Bạn có chắc muốn đăng xuất?')) {
-                localStorage.removeItem('dashboardUser');
-                location.reload();
-            }
-        });
-
-        // ========== MENU ==========
-        document.getElementById('dashboardBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            switchView('dashboard');
-        });
-
-        document.getElementById('membersBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const submenu = document.getElementById('membersSubmenu');
-            const chevron = e.target.querySelector('.chevron');
-            submenu.classList.toggle('show');
-            chevron.classList.toggle('fa-chevron-down');
-            chevron.classList.toggle('fa-chevron-up');
-            
-            if (currentUserRole !== 'admin') {
-                showNotification('Chỉ cấp ủy mới được xem thông tin đảng viên', 'error');
-                return;
-            }
-            
-            switchView('members');
-        });
-
-        document.getElementById('documentsBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const submenu = document.getElementById('documentsSubmenu');
-            const chevron = e.target.querySelector('.chevron');
-            submenu.classList.toggle('show');
-            chevron.classList.toggle('fa-chevron-down');
-            chevron.classList.toggle('fa-chevron-up');
-        });
-
-        // ========== CHUYỂN VIEW ==========
-        function switchView(view) {
-            currentView = view;
-            
-            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-            if (view === 'dashboard') {
-                document.getElementById('dashboardBtn').classList.add('active');
-            } else if (view === 'members') {
-                document.getElementById('membersBtn').classList.add('active');
-            }
-            
-            document.getElementById('dashboardContent').style.display = view === 'dashboard' ? 'block' : 'none';
-            document.getElementById('partyMembersContent').style.display = view === 'members' ? 'block' : 'none';
-            
-            if (view === 'members') {
-                document.getElementById('membersSubtitle').textContent = 
-                    currentUserRole === 'admin' 
-                        ? 'Quản lý thông tin đảng viên (Chỉ cấp ủy được xem)' 
-                        : 'Chế độ xem hạn chế';
-            }
-        }
-
-        // ========== KHỞI TẠO DANH SÁCH CHI BỘ TRONG MENU ==========
-        function initializeBranches() {
-            const membersSubmenu = document.getElementById('membersSubmenu');
-            
-            branches.forEach(branch => {
-                const submenuItem = document.createElement('li');
-                submenuItem.className = 'submenu-item';
-                submenuItem.dataset.branchId = branch.id;
-                submenuItem.innerHTML = `
-                    <i class="fas fa-users"></i>
-                    <span style="font-size: 13px;">${branch.name}</span>
-                    <span style="margin-left: auto; font-size: 11px; color: #6c757d; background: #e9ecef; padding: 2px 8px; border-radius: 10px;">${branch.members}</span>
-                `;
-                submenuItem.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    selectBranch(branch.id);
-                    switchView('members');
-                });
-                membersSubmenu.appendChild(submenuItem);
-            });
-        }
-
-        // ========== CHỌN CHI BỘ ==========
-        function selectBranch(branchId) {
-            currentBranchId = branchId;
-            
-            // Cập nhật active trong submenu
-            document.querySelectorAll('.submenu-item').forEach(item => item.classList.remove('active'));
-            document.querySelector(`.submenu-item[data-branch-id="${branchId}"]`).classList.add('active');
-            
-            displayPartyMembers(branchId);
-        }
-
-        // ========== HIỂN THỊ DANH SÁCH ĐẢNG VIÊN ==========
-        function displayPartyMembers(branchId) {
-            const branch = branches.find(b => b.id === branchId);
-            const members = partyMembers[branchId] || [];
-            
-            document.getElementById('currentBranchName').textContent = `Danh sách đảng viên - ${branch.name}`;
-            document.getElementById('membersCount').textContent = `${members.length} đảng viên`;
-            
-            const membersGrid = document.getElementById('membersGrid');
-            membersGrid.innerHTML = '';
-            
-            if (members.length === 0) {
-                membersGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: #6c757d;">
-                        <i class="fas fa-users" style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;"></i>
-                        <p style="font-size: 16px; font-weight: 500;">Chi bộ chưa có đảng viên</p>
-                        <p style="margin-top: 10px; font-size: 14px;">Vui lòng thêm đảng viên mới cho chi bộ này</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            members.forEach(member => {
-                const card = document.createElement('div');
-                card.className = 'member-card';
-                card.dataset.memberId = member.id;
-                
-                const initials = member.name.split(' ')
-                    .map(word => word[0])
-                    .join('')
-                    .toUpperCase()
-                    .substring(0, 2);
-                
-                card.innerHTML = `
-                    <div class="member-avatar">${initials}</div>
-                    <div class="member-name">${member.name}</div>
-                    <div class="member-position">${member.position}</div>
-                    <div class="member-info">
-                        <span><i class="fas fa-id-badge"></i> ${member.code}</span>
-                        <span><i class="fas fa-calendar-alt"></i> Vào Đảng: ${member.joinDate}</span>
-                        <span><i class="fas fa-briefcase"></i> ${member.adminPosition}</span>
-                    </div>
-                `;
-                
-                card.addEventListener('click', () => showMemberDetail(member));
-                membersGrid.appendChild(card);
-            });
-        }
-
-        // ========== HIỂN THỊ CHI TIẾT ĐẢNG VIÊN ==========
-        function showMemberDetail(member) {
-            document.getElementById('detailAvatar').textContent = member.name.split(' ')
-                .map(word => word[0])
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-            
-            document.getElementById('detailName').textContent = member.name;
-            document.getElementById('detailPosition').textContent = member.position;
-            document.getElementById('detailBranch').textContent = branches.find(b => b.id === currentBranchId)?.name || '';
-            
-            document.getElementById('detailCode').textContent = member.code;
-            document.getElementById('detailJoinDate').textContent = member.joinDate;
-            document.getElementById('detailPartyPosition').textContent = member.partyPosition;
-            document.getElementById('detailAdminPosition').textContent = member.adminPosition;
-            document.getElementById('detailPoliticalLevel').textContent = member.politicalLevel;
-            document.getElementById('detailProfessionalLevel').textContent = member.professionalLevel;
-            document.getElementById('detailAddress').textContent = member.address;
-            document.getElementById('detailPhone').textContent = member.phone;
-            document.getElementById('detailEmail').textContent = member.email;
-            document.getElementById('detailWorkHistory').innerHTML = member.workHistory?.replace(/\n/g, '<br>') || 'Chưa cập nhật';
-            document.getElementById('detailAchievement').innerHTML = member.achievement?.replace(/\n/g, '<br>') || 'Chưa cập nhật';
-            
-            document.getElementById('memberDetailModal').classList.add('active');
-        }
-
-        // Đóng modal chi tiết
-        document.getElementById('closeMemberDetail').addEventListener('click', () => {
-            document.getElementById('memberDetailModal').classList.remove('active');
-        });
-
-        // ========== UPLOAD CỜ ==========
-        document.querySelector('.upload-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (currentUserRole === 'admin') {
-                document.getElementById('uploadModal').classList.add('active');
-            } else {
-                showNotification('Chỉ quản trị viên mới có quyền upload ảnh cờ', 'error');
-            }
-        });
-
-        document.getElementById('combinedFlagDisplay').addEventListener('click', (e) => {
-            if (currentUserRole === 'admin' && !e.target.closest('.upload-btn')) {
-                document.getElementById('uploadModal').classList.add('active');
-            }
-        });
-
-        document.getElementById('manageFlagsBtn')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('uploadModal').classList.add('active');
-        });
-
-        // Xử lý upload
-        document.getElementById('uploadArea').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                selectedFile = e.target.files[0];
-                
-                if (selectedFile.size > 2 * 1024 * 1024) {
-                    showNotification('File quá lớn! Vui lòng chọn file dưới 2MB', 'error');
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('previewImage').src = event.target.result;
-                    document.getElementById('uploadPreview').style.display = 'block';
-                    document.getElementById('confirmUpload').disabled = false;
-                };
-                reader.readAsDataURL(selectedFile);
-            }
-        });
-
-        // Hủy upload
-        document.getElementById('cancelUpload').addEventListener('click', () => {
-            closeUploadModal();
-        });
-
-        // Xác nhận upload
-        document.getElementById('confirmUpload').addEventListener('click', () => {
-            if (selectedFile) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    localStorage.setItem('combined_flag', event.target.result);
-                    updateFlagDisplay(event.target.result);
-                    showNotification('Đã cập nhật ảnh cờ thành công');
-                    closeUploadModal();
-                };
-                reader.readAsDataURL(selectedFile);
-            }
-        });
-
-        function closeUploadModal() {
-            document.getElementById('uploadModal').classList.remove('active');
-            document.getElementById('uploadPreview').style.display = 'none';
-            document.getElementById('previewImage').src = '';
-            document.getElementById('confirmUpload').disabled = true;
-            selectedFile = null;
-            document.getElementById('fileInput').value = '';
-        }
-
-        // ========== QUẢN LÝ ẢNH CỜ ==========
-        function loadSavedFlag() {
-            const savedFlag = localStorage.getItem('combined_flag');
-            if (savedFlag) {
-                updateFlagDisplay(savedFlag);
-            }
-        }
-
-        function updateFlagDisplay(imageData) {
-            const display = document.getElementById('combinedFlagDisplay');
-            const placeholder = display.querySelector('.flag-placeholder');
-            
-            if (placeholder) {
-                placeholder.style.display = 'none';
-            }
-            
-            const oldImg = display.querySelector('img');
-            if (oldImg) oldImg.remove();
-            
-            const img = document.createElement('img');
-            img.src = imageData;
-            img.alt = 'Cờ Đảng và Cờ Việt Nam';
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            
-            display.appendChild(img);
-        }
-
-        // ========== TẠO NỘI DUNG DASHBOARD ==========
-        function generateDashboardContent() {
-            // Thống kê
-            const stats = [
-                { icon: 'fa-user-check', value: '248', label: 'Đảng viên', trend: '+12' },
-                { icon: 'fa-sitemap', value: '12', label: 'Chi bộ', trend: 'Ổn định' },
-                { icon: 'fa-file-contract', value: '15', label: 'Văn bản mới', trend: '+3' },
-                { icon: 'fa-calendar-check', value: '9', label: 'Sự kiện', trend: '+2' }
-            ];
-            
-            const statsGrid = document.getElementById('statsGrid');
-            statsGrid.innerHTML = '';
-            
-            stats.forEach(stat => {
-                const card = document.createElement('div');
-                card.className = 'stat-card';
-                card.innerHTML = `
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <i class="fas ${stat.icon}"></i>
-                        </div>
-                        <div class="stat-trend">${stat.trend}</div>
-                    </div>
-                    <div class="stat-value">${stat.value}</div>
-                    <div class="stat-label">${stat.label}</div>
-                `;
-                statsGrid.appendChild(card);
-            });
-            
-            // Modules
-            const modules = [
-                { 
-                    icon: 'fa-file-signature', 
-                    title: 'QUẢN LÝ VĂN BẢN',
-                    description: 'Quản lý toàn bộ văn bản từ dự thảo đến ban hành, theo dõi quy trình xử lý và lưu trữ.',
-                    featured: true,
-                    stats: ['15 mới', '3 chờ duyệt', '142 đã ban hành']
-                },
-                { 
-                    icon: 'fa-id-badge', 
-                    title: 'HỒ SƠ ĐẢNG VIÊN',
-                    description: 'Quản lý thông tin cá nhân, quá trình công tác, khen thưởng của đảng viên. Chỉ cấp ủy được xem.'
-                },
-                { 
-                    icon: 'fa-calendar-check', 
-                    title: 'SINH HOẠT ĐẢNG',
-                    description: 'Lập kế hoạch sinh hoạt chi bộ, quản lý nội dung học tập và nghị quyết.'
-                }
-            ];
-            
-            const modulesGrid = document.getElementById('modulesGrid');
-            modulesGrid.innerHTML = '';
-            
-            modules.forEach(module => {
-                const card = document.createElement('div');
-                card.className = `module-card ${module.featured ? 'featured' : ''}`;
-                
-                let statsHtml = '';
-                if (module.stats) {
-                    statsHtml = `
-                        <div class="module-stats">
-                            ${module.stats.map(stat => `<span><i class="fas fa-circle"></i> ${stat}</span>`).join('')}
-                        </div>
-                    `;
-                }
-                
-                card.innerHTML = `
-                    <div class="module-header">
-                        <div class="module-icon">
-                            <i class="fas ${module.icon}"></i>
-                        </div>
-                        <div>
-                            <div class="module-title">${module.title}</div>
-                            ${statsHtml}
-                        </div>
-                    </div>
-                    <p class="module-desc">${module.description}</p>
-                `;
-                
-                if (module.title.includes('HỒ SƠ ĐẢNG VIÊN')) {
-                    card.addEventListener('click', () => {
-                        if (currentUserRole === 'admin') {
-                            switchView('members');
-                        } else {
-                            showNotification('Chỉ cấp ủy mới được xem thông tin đảng viên', 'error');
-                        }
-                    });
-                }
-                
-                modulesGrid.appendChild(card);
-            });
-        }
-
-        // ========== NÚT HÀNH ĐỘNG ==========
-        document.getElementById('createNewBtn').addEventListener('click', () => {
-            if (currentUserRole === 'admin') {
-                showNotification('Mở form tạo mới văn bản...');
-            } else {
-                showNotification('Chỉ quản trị viên mới có quyền tạo mới', 'error');
-            }
-        });
-
-        document.getElementById('exportReportBtn').addEventListener('click', () => {
-            if (currentUserRole === 'admin') {
-                showNotification('Đang xuất báo cáo tổng hợp...');
-            } else {
-                showNotification('Chỉ quản trị viên mới có quyền xuất báo cáo', 'error');
-            }
-        });
-
-        document.getElementById('addMemberBtn').addEventListener('click', () => {
-            if (currentUserRole === 'admin') {
-                showNotification('Mở form thêm đảng viên mới...');
-            } else {
-                showNotification('Chỉ cấp ủy mới có quyền thêm đảng viên', 'error');
-            }
-        });
-
-        // ========== THÔNG BÁO ==========
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            const text = document.getElementById('notificationText');
-            
-            text.textContent = message;
-            notification.className = `notification ${type === 'error' ? 'error' : ''}`;
-            notification.style.display = 'flex';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-
-        // ========== XỬ LÝ ESC ĐỂ ĐÓNG MODAL ==========
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeUploadModal();
-                document.getElementById('memberDetailModal').classList.remove('active');
-            }
-        });
-
-        // ========== DRAG AND DROP ==========
-        const uploadArea = document.getElementById('uploadArea');
-        
-        uploadArea.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'var(--primary-red)';
-            this.style.background = 'var(--primary-red-light)';
-        });
-        
-        uploadArea.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            this.style.borderColor = '#dee2e6';
-            this.style.background = '#f8f9fa';
-        });
-        
-        uploadArea.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.style.borderColor = '#dee2e6';
-            this.style.background = '#f8f9fa';
-            
-            if (e.dataTransfer.files.length) {
-                document.getElementById('fileInput').files = e.dataTransfer.files;
-                const event = new Event('change');
-                document.getElementById('fileInput').dispatchEvent(event);
-            }
-        });
-    </script>
-</body>
-</html>
+{
+  "doi-bao-tri-san-duong": [
+    {
+      "STT": 1,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Tiến Dũng",
+      "Ngay_sinh": "15.05.76",
+      "Ngay_vao_Dang": "31.12.2009",
+      "So_the_Dang": "83.016532 044798",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - SC",
+      "Que_quan": "Xã Hùng Việt, Tỉnh Phú Thọ",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 2,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Đức Thành",
+      "Ngay_sinh": "14.09.1981",
+      "Ngay_vao_Dang": "07.11.2015",
+      "So_the_Dang": "83034294",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS xây dựng",
+      "Que_quan": "Phường Điện Bàn Bắc, TP. Đà Nẵng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 3,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Duy Tuân",
+      "Ngay_sinh": "27.10.1980",
+      "Ngay_vao_Dang": "21.5.2016",
+      "So_the_Dang": "83036640",
+      "Chuc_vu": "Kỹ thuật viên",
+      "Trinh_do": "12/12 - TC Thủy lợi",
+      "Que_quan": "Xã Quỳnh An, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 4,
+      "Anh": "",
+      "Ho_va_Ten": "Tạ Minh Tiến",
+      "Ngay_sinh": "23.8.1985",
+      "Ngay_vao_Dang": "30.9.2016",
+      "So_the_Dang": "83039502",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS XD dân dụng và CN",
+      "Que_quan": "Xã Việt Tiến, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": "Phó BTCB"
+    },
+    {
+      "STT": 5,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Văn Dũng",
+      "Ngay_sinh": "21.10.1981",
+      "Ngay_vao_Dang": "30.9.2016",
+      "So_the_Dang": "83039503",
+      "Chuc_vu": "Kỹ thuật viên",
+      "Trinh_do": "12/12 - KS XD đường bộ",
+      "Que_quan": "Xã Việt Tiến, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 6,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Thiết Hùng",
+      "Ngay_sinh": "26.9.1983",
+      "Ngay_vao_Dang": "10.12.2016",
+      "So_the_Dang": "83039512",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS XD cầu đường",
+      "Que_quan": "Xã Liên Bão, Tỉnh Bắc Ninh",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 7,
+      "Anh": "",
+      "Ho_va_Ten": "Vũ Quang Nam",
+      "Ngay_sinh": "23.9.1984",
+      "Ngay_vao_Dang": "12.7.2019",
+      "So_the_Dang": "83047820",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - lái xe",
+      "Que_quan": "Xã Hùng Thắng, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 8,
+      "Anh": "",
+      "Ho_va_Ten": "Đỗ Quang Tiến",
+      "Ngay_sinh": "25.01.1971",
+      "Ngay_vao_Dang": "01.12.2006",
+      "So_the_Dang": "92034764 044177",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CN Quản trị kinh doanh",
+      "Que_quan": "Xã Bình Mỹ, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 9,
+      "Anh": "",
+      "Ho_va_Ten": "Đặng Minh Lân",
+      "Ngay_sinh": "06.10.1991",
+      "Ngay_vao_Dang": "25.12.2021",
+      "So_the_Dang": "92101515",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS kỹ thuật công trình",
+      "Que_quan": "Phường Trà Lý, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 10,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Hiền Toàn",
+      "Ngay_sinh": "11.02.1988",
+      "Ngay_vao_Dang": "10/10/2021",
+      "So_the_Dang": "92101511",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CN Quản trị kinh doanh",
+      "Que_quan": "Xã Hoài Đức, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 11,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Tiến Dũng",
+      "Ngay_sinh": "19/01/1987",
+      "Ngay_vao_Dang": "2023-10-24",
+      "So_the_Dang": "92108372",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CN Quản trị kinh doanh",
+      "Que_quan": "Xã Tam Sơn, Tỉnh Phú Thọ",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 12,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Bá Mạnh",
+      "Ngay_sinh": "20/3/1985",
+      "Ngay_vao_Dang": "12/11/2015",
+      "So_the_Dang": "83034283 045602",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - ThS Kỹ thuật",
+      "Que_quan": "Xã Hoằng Giang, Tỉnh Thanh Hóa",
+      "Chuc_vu_Dang": "CUV"
+    },
+    {
+      "STT": 13,
+      "Anh": "",
+      "Ho_va_Ten": "Vũ Công Thắng",
+      "Ngay_sinh": "16.12.1965",
+      "Ngay_vao_Dang": "29.08.1988",
+      "So_the_Dang": "92002405",
+      "Chuc_vu": "Phó GĐTT",
+      "Trinh_do": "10/10 - ĐH Luật",
+      "Que_quan": "Xã Xuân Mai, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    }
+  ],
+  "doi-moi-truong-khu-bay": [
+    {
+      "STT": 1,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Xuân May",
+      "Ngay_sinh": "02.09.65",
+      "Ngay_vao_Dang": "05.12.1999",
+      "So_the_Dang": "92023398 042829",
+      "Chuc_vu": "Lái xe",
+      "Trinh_do": "10/10 - Lái xe",
+      "Que_quan": "Việt Hoà - Khoái Châu - Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 2,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Đình Được",
+      "Ngay_sinh": "24.10.1982",
+      "Ngay_vao_Dang": "28.02.2013",
+      "So_the_Dang": "83022797 045501",
+      "Chuc_vu": "Lái xe",
+      "Trinh_do": "12/12 - LĐPT",
+      "Que_quan": "Mai Đình - Sóc Sơn - Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 3,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Duy Hoan",
+      "Ngay_sinh": "26.06.70",
+      "Ngay_vao_Dang": "19.05.2001",
+      "So_the_Dang": "92002414 042966",
+      "Chuc_vu": "Đội trưởng",
+      "Trinh_do": "12/12 - CN Kinh tế",
+      "Que_quan": "Trang Bảo Xá - Quỳnh Phụ - Thái Bình",
+      "Chuc_vu_Dang": "Bí thư CB"
+    },
+    {
+      "STT": 4,
+      "Anh": "",
+      "Ho_va_Ten": "Ngô Thế Giang",
+      "Ngay_sinh": "05.7.1976",
+      "Ngay_vao_Dang": "10.7.2018",
+      "So_the_Dang": "83044317",
+      "Chuc_vu": "",
+      "Trinh_do": "12/12 - Lái xe",
+      "Que_quan": "X. Nga Bạch - H. Nga Sơn - T. Thanh Hoá",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 5,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Trung Kiên",
+      "Ngay_sinh": "11.10.1984",
+      "Ngay_vao_Dang": "09.12.2016",
+      "So_the_Dang": "83039530 022604",
+      "Chuc_vu": "Tổ phó",
+      "Trinh_do": "12/12",
+      "Que_quan": "Thành Lợi- Vụ Bản- Nam Định",
+      "Chuc_vu_Dang": "CUV"
+    },
+    {
+      "STT": 6,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Văn Thành",
+      "Ngay_sinh": "20.10.1992",
+      "Ngay_vao_Dang": "11.7.2019",
+      "So_the_Dang": "83047818",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Cử nhân Luật kinh tế",
+      "Que_quan": "Xã Xuân Trường- Nghi Xuân- Hà Tĩnh",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 7,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Quang Nhàn",
+      "Ngay_sinh": "10.12.1983",
+      "Ngay_vao_Dang": "02.11.2011",
+      "So_the_Dang": "83019930",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Lái xe",
+      "Que_quan": "Thanh Xuân - Sóc Sơn  - Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 8,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Tự Cường",
+      "Ngay_sinh": "29.08.65",
+      "Ngay_vao_Dang": "29.11.2006",
+      "So_the_Dang": "92034751 044185",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "10/10 - Trung cấp Xây dựng",
+      "Que_quan": "Giao Tiến - Giao Thuỷ - Nam Định",
+      "Chuc_vu_Dang": "Phó BTCB"
+    },
+    {
+      "STT": 9,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Anh Tuyên",
+      "Ngay_sinh": "23.12.1982",
+      "Ngay_vao_Dang": "",
+      "So_the_Dang": "",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Lái xe",
+      "Que_quan": "X. Hồng Khê, H. Bình Giang, T. Hải Dương.",
+      "Chuc_vu_Dang": "ĐVDB"
+    },
+    {
+      "STT": 10,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Việt Nam",
+      "Ngay_sinh": "12.12.1993",
+      "Ngay_vao_Dang": "",
+      "So_the_Dang": "",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Lái xe",
+      "Que_quan": "P. Hòa Long, TP. Bắc Ninh, T. Bắc Ninh",
+      "Chuc_vu_Dang": "ĐVDB"
+    }
+  ],
+  "doi-thiet-bi-co-dien-den-sb": [
+    {
+      "STT": 1,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Trung Dũng",
+      "Ngay_sinh": "16.09.68",
+      "Ngay_vao_Dang": "15.05.1989",
+      "So_the_Dang": "92023280 042970",
+      "Chuc_vu": "Đội trưởng",
+      "Trinh_do": "10/10 - Kỹ sư Điện, điện tử",
+      "Que_quan": "Xã Tứ Mỹ, Tỉnh Hà Tĩnh",
+      "Chuc_vu_Dang": "BTCB"
+    },
+    {
+      "STT": 2,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Trường Giang",
+      "Ngay_sinh": "14.04.76",
+      "Ngay_vao_Dang": "05.11.2008",
+      "So_the_Dang": "83.018884 044730",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS Điện tử",
+      "Que_quan": "Xã Như Quỳnh, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": "CUV"
+    },
+    {
+      "STT": 3,
+      "Anh": "",
+      "Ho_va_Ten": "Bùi Việt Dũng",
+      "Ngay_sinh": "01.08.67",
+      "Ngay_vao_Dang": "22.07.1989",
+      "So_the_Dang": "92023417 042930",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "10/10 - Kỹ sư Kỹ thuật Điện tử Viễn thông",
+      "Que_quan": "Xã Đức Thịnh, Tỉnh Hà Tĩnh",
+      "Chuc_vu_Dang": "Phó BTCB"
+    },
+    {
+      "STT": 4,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Văn Thuận",
+      "Ngay_sinh": "23.05.71",
+      "Ngay_vao_Dang": "21.07.2001",
+      "So_the_Dang": "92023456 042667",
+      "Chuc_vu": "GĐTT",
+      "Trinh_do": "12/12 - ThS KT Điện tử",
+      "Que_quan": "Xã Đa Phúc, TP. Hà Nội",
+      "Chuc_vu_Dang": "Bí thư ĐUBP"
+    },
+    {
+      "STT": 5,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Trung Đông",
+      "Ngay_sinh": "04.10.82",
+      "Ngay_vao_Dang": "06.08.2010",
+      "So_the_Dang": "83.015113 044835",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Kỹ sư Điện - Tự động hoá XNCN",
+      "Que_quan": "Xã Hưng Vũ, Tỉnh Lạng Sơn",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 6,
+      "Anh": "",
+      "Ho_va_Ten": "Bùi Quang Nghiệp",
+      "Ngay_sinh": "08.09.72",
+      "Ngay_vao_Dang": "27.10.2005",
+      "So_the_Dang": "92031352 043194",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS điện tự động hoá",
+      "Que_quan": "Xã Nam Ninh, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 7,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Văn Lên",
+      "Ngay_sinh": "27.10.66",
+      "Ngay_vao_Dang": "01.02.2009",
+      "So_the_Dang": "83.018902 044745",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "10/10 - KS Hệ thống điện",
+      "Que_quan": "Xã Phạm Ngũ Lão, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 8,
+      "Anh": "",
+      "Ho_va_Ten": "Nông Quang Huy",
+      "Ngay_sinh": "10.01.77",
+      "Ngay_vao_Dang": "08.10.2004",
+      "So_the_Dang": "92029783 043134",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Thạc sỹ kỹ thuật viễn thông",
+      "Que_quan": "Xã Hà Quảng , Tỉnh Cao Bằng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 9,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Ngọc Yến",
+      "Ngay_sinh": "18.03.68",
+      "Ngay_vao_Dang": "12.01.2002",
+      "So_the_Dang": "92002401 042935",
+      "Chuc_vu": "Tổ phó",
+      "Trinh_do": "10/10 - CĐ ĐTVT",
+      "Que_quan": "Xã Đường An, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 10,
+      "Anh": "",
+      "Ho_va_Ten": "Dương Thị Hạnh",
+      "Ngay_sinh": "21.08.78",
+      "Ngay_vao_Dang": "01.08.2008",
+      "So_the_Dang": "83.018822 044711",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS điện tử viễn thông",
+      "Que_quan": "Xã Điềm Thụy, Tỉnh Thái Nguyên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 11,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Ngọc Hòa",
+      "Ngay_sinh": "05.12.68",
+      "Ngay_vao_Dang": "07.01.2010",
+      "So_the_Dang": "83.016552 044810",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "10/10 - KS điện tử viễn thông",
+      "Que_quan": "Xã Kiến Dương, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 12,
+      "Anh": "",
+      "Ho_va_Ten": "Chu Văn Quả",
+      "Ngay_sinh": "18.08.71",
+      "Ngay_vao_Dang": "05.12.2006",
+      "So_the_Dang": "92034765 044180",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - TC điện tử - viễn thông",
+      "Que_quan": "Xã Tiên Lục, Tỉnh Bắc Ninh",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 13,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Hắc Hải",
+      "Ngay_sinh": "08.01.1975",
+      "Ngay_vao_Dang": "31.10.2012",
+      "So_the_Dang": "83025482",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Kỹ sư điện tử - viễn thông",
+      "Que_quan": "Xã Quảng Yên, Tỉnh Cao Bằng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 14,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Hiển Thảo",
+      "Ngay_sinh": "06.02.1986",
+      "Ngay_vao_Dang": "02.10.2014",
+      "So_the_Dang": "83028859",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - TC Điện tử",
+      "Que_quan": "Phường Phổ Yên, Tỉnh Thái Nguyên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 15,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Sơn Trà",
+      "Ngay_sinh": "10.06.1982",
+      "Ngay_vao_Dang": "06.11.2015",
+      "So_the_Dang": "83034293",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS Tự động hóa xí nghiệp CN",
+      "Que_quan": "Xã Vũ Tiên, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 16,
+      "Anh": "",
+      "Ho_va_Ten": "Đào Mạnh Tùng",
+      "Ngay_sinh": "05.7.1986",
+      "Ngay_vao_Dang": "26.12.2017",
+      "So_the_Dang": "83042770",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS Công nghệ TT",
+      "Que_quan": "Xã Hạ Hòa, Tỉnh Phú Thọ",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 17,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Văn Hoà",
+      "Ngay_sinh": "14.05.65",
+      "Ngay_vao_Dang": "21.01.2004",
+      "So_the_Dang": "92023152 043149",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "10/10 - TCSC",
+      "Que_quan": "Xã Tứ Kỳ, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 18,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Ngọc Tuyền",
+      "Ngay_sinh": "05.01.1989",
+      "Ngay_vao_Dang": "06.9.2019",
+      "So_the_Dang": "83.049229",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Kỹ sư công nghệ kỹ thuật điện tử, truyền thông",
+      "Que_quan": "Xã Hòa Xá, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 19,
+      "Anh": "",
+      "Ho_va_Ten": "Kiều Đình Lộc",
+      "Ngay_sinh": "24/02/1992",
+      "Ngay_vao_Dang": "06/9/2020",
+      "So_the_Dang": "83050726",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Cao đẳng điện tử-viễn thông",
+      "Que_quan": "Xã Yên Lãng, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 20,
+      "Anh": "",
+      "Ho_va_Ten": "Đỗ Quý Kiệm",
+      "Ngay_sinh": "12/08/1991",
+      "Ngay_vao_Dang": "13/12/2020",
+      "So_the_Dang": "83051662",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Kỹ sư điện tử viễn thông",
+      "Que_quan": "Xã Thanh Miện, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 21,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Trung Kiên",
+      "Ngay_sinh": "24/7/1990",
+      "Ngay_vao_Dang": "21/5/2022",
+      "So_the_Dang": "92102877",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Thạc sỹ quản lý dự án, Kỹ sư Điện – Điện tử",
+      "Que_quan": "Xã Kim Thành, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 22,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Lâm Tùng",
+      "Ngay_sinh": "14/02/1978",
+      "Ngay_vao_Dang": "10/01/2023",
+      "So_the_Dang": "92105632",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Kỹ sư Cơ khí ô tô",
+      "Que_quan": "Xã Quỳnh Phú, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 23,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Chiến Thắng",
+      "Ngay_sinh": "30/4/1996",
+      "Ngay_vao_Dang": "06/7/2023",
+      "So_the_Dang": "92111720",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS Công nghệ kỹ thuật điện - điện tử.",
+      "Que_quan": "Xã Đồng Việt, Tỉnh Bắc Ninh",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 24,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Ngọc Văn",
+      "Ngay_sinh": "02/05/1985",
+      "Ngay_vao_Dang": "01/11/2023",
+      "So_the_Dang": "92108375",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS kỹ thuật điều khiển và tự động hóa",
+      "Que_quan": "Xã Kiến Xương, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 25,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Việt Hưng",
+      "Ngay_sinh": "29/11/1996",
+      "Ngay_vao_Dang": "01/11/2023",
+      "So_the_Dang": "92108376",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Công nghệ kỹ thuật điện - điện tử",
+      "Que_quan": "Xã Dân Chủ, Tỉnh Phú Thọ",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 26,
+      "Anh": "",
+      "Ho_va_Ten": "Hà Tiến Công",
+      "Ngay_sinh": "05.04.1979",
+      "Ngay_vao_Dang": "03.11.2018",
+      "So_the_Dang": "83050735",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Thạc sỹ khoa học kỹ thuật viễn thông",
+      "Que_quan": "Xã Quỹ Nhất, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 27,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Quang Tiến",
+      "Ngay_sinh": "13.02.1991",
+      "Ngay_vao_Dang": "07.7.2023",
+      "So_the_Dang": "83067886",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Kỹ sư Kỹ thuật Điện, Điện tử",
+      "Que_quan": "Xã Thanh Miện, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    }
+  ],
+  "doi-thiet-bi-thong-tin-dan-duong": [
+    {
+      "STT": 1,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Đỗ Hải",
+      "Ngay_sinh": "27.12.1971",
+      "Ngay_vao_Dang": "27.10.2005",
+      "So_the_Dang": "92031354 043192",
+      "Chuc_vu": "Đội trưởng",
+      "Trinh_do": "12/12 - KS vô tuyến điện",
+      "Que_quan": "Xã Bát Tràng, TP. Hà Nội",
+      "Chuc_vu_Dang": "BTCB"
+    },
+    {
+      "STT": 2,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Tuấn Anh",
+      "Ngay_sinh": "23.09.72",
+      "Ngay_vao_Dang": "03.02.2005",
+      "So_the_Dang": "92029785 044158",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS Điện tử",
+      "Que_quan": "Phường Vĩnh Phú, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": "Phó BTCB"
+    },
+    {
+      "STT": 3,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Thượng Hiền",
+      "Ngay_sinh": "01.11.82",
+      "Ngay_vao_Dang": "06.08.2010",
+      "So_the_Dang": "83.015114 044836",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS kỹ thuật điện tử- Viễn thông",
+      "Que_quan": "Xã Đông Anh, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 4,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Minh Quang",
+      "Ngay_sinh": "05.04.75",
+      "Ngay_vao_Dang": "31.12.2010",
+      "So_the_Dang": "83013521 044842",
+      "Chuc_vu": "Phó đội trưởng",
+      "Trinh_do": "12/12 - KS Điện tử VT",
+      "Que_quan": "Xã Trung Giã, thành phố Hà Nội",
+      "Chuc_vu_Dang": "CUV"
+    },
+    {
+      "STT": 5,
+      "Anh": "",
+      "Ho_va_Ten": "Bùi Hồng Kỳ",
+      "Ngay_sinh": "07.03.71",
+      "Ngay_vao_Dang": "27.10.2005",
+      "So_the_Dang": "92031353 043195",
+      "Chuc_vu": "Tổ phó",
+      "Trinh_do": "12/12 - KS điện tử viễn thông",
+      "Que_quan": "Xã Nam Tiên Hưng, Tỉnh Hưng yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 6,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Quốc Hoàn",
+      "Ngay_sinh": "08.12.1991",
+      "Ngay_vao_Dang": "28.05.2015",
+      "So_the_Dang": "14113917 790305",
+      "Chuc_vu": "Kỹ sư, Tổ phó",
+      "Trinh_do": "12/12 - KS Điện, điện tử",
+      "Que_quan": "Xã Nghĩa Hưng, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 7,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Quốc Chung",
+      "Ngay_sinh": "28.05.1972",
+      "Ngay_vao_Dang": "10.08.2012",
+      "So_the_Dang": "83022757 045461",
+      "Chuc_vu": "Kỹ thuật viên",
+      "Trinh_do": "12/12 - KS điện tử- VT",
+      "Que_quan": "Phường Cửa Lò, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 8,
+      "Anh": "",
+      "Ho_va_Ten": "Bùi Liên Hương",
+      "Ngay_sinh": "18.4.1975",
+      "Ngay_vao_Dang": "28.12.1999",
+      "So_the_Dang": "15029404",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CĐ Tiếng Anh sư phạm",
+      "Que_quan": "Xã Nam Hoa Lư, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 9,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Ngọc Linh",
+      "Ngay_sinh": "01.9.1992",
+      "Ngay_vao_Dang": "19.7.2019",
+      "So_the_Dang": "83047819",
+      "Chuc_vu": "Kỹ sư kỹ thuật",
+      "Trinh_do": "12/12 - KS điện tử viễn thông",
+      "Que_quan": "Xã Cát Ngạn, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 10,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Văn Long",
+      "Ngay_sinh": "28.8.1988",
+      "Ngay_vao_Dang": "04.12.2019",
+      "So_the_Dang": "83050419",
+      "Chuc_vu": "Kỹ sư, Tổ phó",
+      "Trinh_do": "12/12 - KS kỹ thuật điều khiển và tự động hóa",
+      "Que_quan": "Xã Nội Bài, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 11,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Tuấn Anh",
+      "Ngay_sinh": "21.10.1992",
+      "Ngay_vao_Dang": "04.12.2019",
+      "So_the_Dang": "83050422",
+      "Chuc_vu": "Nhân viên, Tổ phó K1",
+      "Trinh_do": "12/12 - CN công nghệ thông tin",
+      "Que_quan": "Xã Nội Bài, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 12,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Văn Quang",
+      "Ngay_sinh": "26.7.1979",
+      "Ngay_vao_Dang": "01.11.2011",
+      "So_the_Dang": "83019941 045642",
+      "Chuc_vu": "Kỹ sư khai thác, bảo trì TTB KB",
+      "Trinh_do": "12/12 - ThS kỹ thuật, KS điện",
+      "Que_quan": "Xã Vạn Lộc, Tỉnh Thanh Hóa",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 13,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Gia Phong",
+      "Ngay_sinh": "22.01.1990",
+      "Ngay_vao_Dang": "01.09.2021",
+      "So_the_Dang": "92101501",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS công nghệ kỹ thuật điện - điện tử",
+      "Que_quan": "Xã Hương Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 14,
+      "Anh": "",
+      "Ho_va_Ten": "Đỗ Trung Kiên",
+      "Ngay_sinh": "10.11.1988",
+      "Ngay_vao_Dang": "25.12.2021",
+      "So_the_Dang": "92101513",
+      "Chuc_vu": "Kỹ sư, Tổ phó",
+      "Trinh_do": "12/12 - KS Khoa học máy tính",
+      "Que_quan": "Xã Quang Minh, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 15,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Trọng Hiếu",
+      "Ngay_sinh": "23.12.70",
+      "Ngay_vao_Dang": "25.10.2005",
+      "So_the_Dang": "92031355 043190",
+      "Chuc_vu": "Phó GĐTT",
+      "Trinh_do": "12/12 - CN Tin học",
+      "Que_quan": "Phường Kinh Bắc, Tỉnh Bắc Ninh",
+      "Chuc_vu_Dang": "ĐUV ĐUBP"
+    },
+    {
+      "STT": 16,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Mạnh Cường",
+      "Ngay_sinh": "03/12/1993",
+      "Ngay_vao_Dang": "16/02/2023",
+      "So_the_Dang": "92105582",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS Kỹ thuật điện tử, truyền thông; Ths Hội tụ công nghệ",
+      "Que_quan": "Xã Sóc Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 17,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Minh Tuấn",
+      "Ngay_sinh": "14/7/1991",
+      "Ngay_vao_Dang": "16/02/2023",
+      "So_the_Dang": "92105581",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS Kỹ thuật điện tử, truyền thông; Ths Kỹ thuật viễn thông",
+      "Que_quan": "Xã Nam Xang, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 18,
+      "Anh": "",
+      "Ho_va_Ten": "Khúc Trường Sơn",
+      "Ngay_sinh": "17/11/1989",
+      "Ngay_vao_Dang": "19/7/2023",
+      "So_the_Dang": "92111721",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - KS công nghệ thông tin",
+      "Que_quan": "Xã Chương Dương, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 19,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Minh Đức",
+      "Ngay_sinh": "25/10/1992",
+      "Ngay_vao_Dang": "01/11/2023",
+      "So_the_Dang": "92108377",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS kỹ thuật điện tử truyền thông",
+      "Que_quan": "Xã Hợp Thịnh, Tỉnh Bắc Ninh",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 20,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Hồng Thái",
+      "Ngay_sinh": "23/12/1995",
+      "Ngay_vao_Dang": "03/06/2022",
+      "So_the_Dang": "05372294",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - KS kỹ thuật điện tử, truyền thông",
+      "Que_quan": "Xã Sóc Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    }
+  ],
+  "van-phong-trung-tam": [
+    {
+      "STT": 1,
+      "Anh": "",
+      "Ho_va_Ten": "Vũ Nam Thắng",
+      "Ngay_sinh": "31.08.73",
+      "Ngay_vao_Dang": "13.07.2005",
+      "So_the_Dang": "92030594",
+      "Chuc_vu": "Trưởng VP",
+      "Trinh_do": "12/12 - Ths Kỹ thuật, KS Kinh tế XD, KS Xây dựng",
+      "Que_quan": "Phường Trường Vinh, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": "ĐUV BTCB"
+    },
+    {
+      "STT": 2,
+      "Anh": "",
+      "Ho_va_Ten": "Hồ Xuân Hoà",
+      "Ngay_sinh": "29.05.67",
+      "Ngay_vao_Dang": "11.08.1998",
+      "So_the_Dang": "92023306 043007",
+      "Chuc_vu": "Phó trưởng VP",
+      "Trinh_do": "12/12 - CN Luật",
+      "Que_quan": "Xã Quỳnh Phú, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": "Phó BTCB"
+    },
+    {
+      "STT": 3,
+      "Anh": "",
+      "Ho_va_Ten": "Vũ Kỳ Phượng",
+      "Ngay_sinh": "29.10.1971",
+      "Ngay_vao_Dang": "09.10.2003",
+      "So_the_Dang": "92023284",
+      "Chuc_vu": "Phó trưởng VP",
+      "Trinh_do": "12/12 - CN Kế toàn",
+      "Que_quan": "Phường Đường Hào, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": "CUV"
+    },
+    {
+      "STT": 4,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Hồng Phú",
+      "Ngay_sinh": "24.11.67",
+      "Ngay_vao_Dang": "03.02.2001",
+      "So_the_Dang": "92023277 042960",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "10/10 - CN chính trị + CN Kinh tế",
+      "Que_quan": "Xã Phong Doanh, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 5,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Ánh Hồng",
+      "Ngay_sinh": "28.04.73",
+      "Ngay_vao_Dang": "18.12.1999",
+      "So_the_Dang": "92023276 042959",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - CN KTQD",
+      "Que_quan": "Xã Nông Cống, Tỉnh Thanh Hoá",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 6,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Văn Hiệp",
+      "Ngay_sinh": "16.12.72",
+      "Ngay_vao_Dang": "03.02.2001",
+      "So_the_Dang": "92023279 042974",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CĐ QTDN",
+      "Que_quan": "Xã Sóc Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 7,
+      "Anh": "",
+      "Ho_va_Ten": "Vũ Thị Nhung",
+      "Ngay_sinh": "19.05.72",
+      "Ngay_vao_Dang": "09.04.2000",
+      "So_the_Dang": "92023283 042958",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - Cử nhân kế toán",
+      "Que_quan": "Xã Trực Ninh, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 8,
+      "Anh": "",
+      "Ho_va_Ten": "Đỗ Thị Thanh Mai",
+      "Ngay_sinh": "18.05.75",
+      "Ngay_vao_Dang": "12.09.2006",
+      "So_the_Dang": "92033833 044163",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - ĐH Mỏ địa chất",
+      "Que_quan": "Phường Xuân Đỉnh, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 9,
+      "Anh": "",
+      "Ho_va_Ten": "Hoàng Hà",
+      "Ngay_sinh": "27.11.1990",
+      "Ngay_vao_Dang": "13.7.2018",
+      "So_the_Dang": "83044316",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - ĐH Tài chính ngân hàng",
+      "Que_quan": "Phường Đông Ngạc, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 10,
+      "Anh": "",
+      "Ho_va_Ten": "Trần Trung Nghĩa",
+      "Ngay_sinh": "19.10.1988",
+      "Ngay_vao_Dang": "26.12.2018",
+      "So_the_Dang": "83045663",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - ĐH QTKD",
+      "Que_quan": "Xã Giao Thủy, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 11,
+      "Anh": "",
+      "Ho_va_Ten": "Ngô Thị Nga",
+      "Ngay_sinh": "07.6.1980",
+      "Ngay_vao_Dang": "21.7.2017",
+      "So_the_Dang": "83040955",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - SP Ngoại nhữ",
+      "Que_quan": "Xã Sóc Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 12,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Thị Hải Yến",
+      "Ngay_sinh": "06.9.1971",
+      "Ngay_vao_Dang": "08.7.2005",
+      "So_the_Dang": "92030615",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Cử nhân Anh văn",
+      "Que_quan": "Xã Kim Thành, TP. Hải Phòng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 13,
+      "Anh": "",
+      "Ho_va_Ten": "Nông Thúy Lan",
+      "Ngay_sinh": "08.7.1974",
+      "Ngay_vao_Dang": "08.11.2014",
+      "So_the_Dang": "83030207",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Cử nhân QTKD",
+      "Que_quan": "Xã Nguyên Bình, Tỉnh Cao Bằng",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 14,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Văn Thái",
+      "Ngay_sinh": "29/10/1978",
+      "Ngay_vao_Dang": "17/10/2017",
+      "So_the_Dang": "92085702 223798",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - CN Luật, CN QTKD",
+      "Que_quan": "Xã Vạn Xuân, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 15,
+      "Anh": "",
+      "Ho_va_Ten": "Đào Thanh Hải",
+      "Ngay_sinh": "12/7/1984",
+      "Ngay_vao_Dang": "06/9/2020",
+      "So_the_Dang": "83050722",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Thạc sỹ Quản lý XD, KS XD cầu đường",
+      "Que_quan": "Xã Ý Yên, Tỉnh Ninh Bình",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 16,
+      "Anh": "",
+      "Ho_va_Ten": "Phạm Đức Phú Quang",
+      "Ngay_sinh": "19/12/1993",
+      "Ngay_vao_Dang": "19/12/2020",
+      "So_the_Dang": "83051659",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - Thạc sỹ khoa học kỹ thuật; Kỹ sư kỹ thuật hàng không",
+      "Que_quan": "Xã Ngọc Lâm, Tỉnh Hưng Yên",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 17,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Anh Tú",
+      "Ngay_sinh": "28/5/1994",
+      "Ngay_vao_Dang": "24/12/2022",
+      "So_the_Dang": "92105566",
+      "Chuc_vu": "Kỹ sư",
+      "Trinh_do": "12/12 - CN Quản trị kinh doanh",
+      "Que_quan": "Xã Đức Tân, Tỉnh Quảng Ngãi",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 18,
+      "Anh": "",
+      "Ho_va_Ten": "Nguyễn Thu Giang",
+      "Ngay_sinh": "29.06.1970",
+      "Ngay_vao_Dang": "27/11/2012",
+      "So_the_Dang": "83029769",
+      "Chuc_vu": "Chuyên viên",
+      "Trinh_do": "12/12 - KS XS cầu đường bộ, CN Anh văn",
+      "Que_quan": "Xã Thường Tín, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 19,
+      "Anh": "",
+      "Ho_va_Ten": "Ngô Anh Thủy",
+      "Ngay_sinh": "04.5.1987",
+      "Ngay_vao_Dang": "02.10.2014",
+      "So_the_Dang": "83028860",
+      "Chuc_vu": "NV",
+      "Trinh_do": "12/12 - KS Xây dựng dân dụng và CN",
+      "Que_quan": "Xã Quang Minh, TP. Hà Nội",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 20,
+      "Anh": "",
+      "Ho_va_Ten": "Lương Quốc Trung",
+      "Ngay_sinh": "02.9.1982",
+      "Ngay_vao_Dang": "20.11.2024",
+      "So_the_Dang": "",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - TC Kỹ thuật xây dựng",
+      "Que_quan": "Xã Trung Lộc, Tỉnh Nghệ An",
+      "Chuc_vu_Dang": ""
+    },
+    {
+      "STT": 21,
+      "Anh": "",
+      "Ho_va_Ten": "Lê Thị Thủy",
+      "Ngay_sinh": "17.8.1993",
+      "Ngay_vao_Dang": "",
+      "So_the_Dang": "",
+      "Chuc_vu": "Nhân viên",
+      "Trinh_do": "12/12 - Cao đẳng Quản trị nhân lực",
+      "Que_quan": "Xã Sóc Sơn, TP. Hà Nội",
+      "Chuc_vu_Dang": "ĐVDB"
+    }
+  ]
+}
