@@ -1,181 +1,908 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-    <title>Upload JSON - Đơn giản</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload JSON - Quản lý Đảng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: Arial; padding: 30px; max-width: 800px; margin: auto; }
-        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin: 20px 0; }
-        input, button { padding: 12px; margin: 10px 0; width: 100%; font-size: 16px; }
-        button { background: #1a237e; color: white; border: none; border-radius: 6px; cursor: pointer; }
-        .success { background: #d4edda; color: #155724; padding: 15px; border-radius: 6px; margin: 15px 0; }
-        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin: 15px 0; }
-        .file-list { background: #f8f9fa; padding: 15px; border-radius: 6px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .upload-section, .files-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .section-title {
+            color: #1a237e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #1a237e;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            background: #f0f7ff;
+            border-color: #4CAF50;
+        }
+        
+        .upload-area i {
+            font-size: 50px;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .upload-area p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .file-list {
+            list-style: none;
+        }
+        
+        .file-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #1a237e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .file-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-icon {
+            color: #1a237e;
+            font-size: 20px;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .file-desc {
+            font-size: 13px;
+            color: #666;
+            margin-top: 3px;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-uploaded {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #283593 0%, #1a237e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50 0%, #2E7D32 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .result-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .result-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .actions .btn {
+            margin-top: 0;
+            flex: 1;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .notification-error {
+            border-left: 4px solid #f44336;
+        }
+        
+        .notification-icon {
+            font-size: 24px;
+        }
+        
+        .notification-success .notification-icon {
+            color: #4CAF50;
+        }
+        
+        .notification-error .notification-icon {
+            color: #f44336;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .home-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .home-link a {
+            color: #1a237e;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .home-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>📤 Upload File JSON (Phiên bản đơn giản)</h1>
-    
-    <div class="card">
-        <h3>1. Chọn file JSON</h3>
-        <input type="file" id="fileInput" accept=".json">
-        <button onclick="uploadFile()">📁 Upload File</button>
-        <div id="result"></div>
-    </div>
-    
-    <div class="card">
-        <h3>2. Danh sách 5 file cần upload</h3>
-        <div class="file-list">
-            <ol>
-                <li><strong>doi-bao-tri-san-duong.json</strong> → Đội Bảo trì Sân đường</li>
-                <li><strong>doi-moi-truong-khu-bay.json</strong> → Đội Môi trường Khu bay</li>
-                <li><strong>doi-thiet-bi-co-dien-den-sb.json</strong> → Đội Thiết bị Cơ điện Đèn SB</li>
-                <li><strong>doi-thiet-bi-thong-tin-dan-duong.json</strong> → Đội Thiết bị Thông tin Dẫn đường</li>
-                <li><strong>van-phong-trung-tam.json</strong> → Văn phòng Trung tâm</li>
-            </ol>
-            <p><em>Upload từng file theo thứ tự trên</em></p>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-file-import"></i> IMPORT DỮ LIỆU ĐẢNG VIÊN</h1>
+            <p>Upload 5 file JSON để cập nhật vào hệ thống Quản lý Công tác Đảng</p>
+        </div>
+        
+        <div class="content">
+            <!-- Phần upload -->
+            <div class="upload-section">
+                <div class="section-title">
+                    <i class="fas fa-upload"></i>
+                    <h2>UPLOAD FILE JSON</h2>
+                </div>
+                
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Kéo thả file JSON vào đây</h3>
+                    <p>Hoặc click để chọn file từ máy tính</p>
+                    <p><small>Chỉ hỗ trợ file .json với cấu trúc chuẩn</small></p>
+                </div>
+                
+                <input type="file" id="fileInput" accept=".json">
+                
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <button class="btn btn-primary" id="uploadBtn" onclick="uploadFile()" disabled>
+                    <i class="fas fa-file-import"></i> BẮT ĐẦU IMPORT
+                </button>
+                
+                <div class="result-container" id="resultContainer"></div>
+                
+                <div class="actions" id="actionsSection" style="display: none;">
+                    <button class="btn btn-primary" onclick="uploadNext()">
+                        <i class="fas fa-forward"></i> UPLOAD FILE TIẾP THEO
+                    </button>
+                    <button class="btn btn-success" onclick="goToHomePage()">
+                        <i class="fas fa-home"></i> VỀ TRANG CHỦ
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Phần danh sách file -->
+            <div class="files-section">
+                <div class="section-title">
+                    <i class="fas fa-list-check"></i>
+                    <h2>DANH SÁCH 5 FILE CẦN UPLOAD</h2>
+                </div>
+                
+                <ul class="file-list">
+                    <li class="file-item" data-file="doi-bao-tri-san-duong.json">
+                        <div class="file-info">
+                            <i class="fas fa-file-code file-icon"></i>
+                            <div>
+                                <div class="file-name">1. doi-bao-tri-san-duong.json</div>
+                                <div class="file-desc">Đội Bảo trì Sân đường (13 đảng viên)</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending" id="status1">Chưa upload</span>
+                    </li>
+                    
+                    <li class="file-item" data-file="doi-moi-truong-khu-bay.json">
+                        <div class="file-info">
+                            <i class="fas fa-file-code file-icon"></i>
+                            <div>
+                                <div class="file-name">2. doi-moi-truong-khu-bay.json</div>
+                                <div class="file-desc">Đội Môi trường Khu bay (10 đảng viên)</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending" id="status2">Chưa upload</span>
+                    </li>
+                    
+                    <li class="file-item" data-file="doi-thiet-bi-co-dien-den-sb.json">
+                        <div class="file-info">
+                            <i class="fas fa-file-code file-icon"></i>
+                            <div>
+                                <div class="file-name">3. doi-thiet-bi-co-dien-den-sb.json</div>
+                                <div class="file-desc">Đội Thiết bị Cơ điện Đèn SB (27 đảng viên)</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending" id="status3">Chưa upload</span>
+                    </li>
+                    
+                    <li class="file-item" data-file="doi-thiet-bi-thong-tin-dan-duong.json">
+                        <div class="file-info">
+                            <i class="fas fa-file-code file-icon"></i>
+                            <div>
+                                <div class="file-name">4. doi-thiet-bi-thong-tin-dan-duong.json</div>
+                                <div class="file-desc">Đội Thiết bị Thông tin Dẫn đường (20 đảng viên)</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending" id="status4">Chưa upload</span>
+                    </li>
+                    
+                    <li class="file-item" data-file="van-phong-trung-tam.json">
+                        <div class="file-info">
+                            <i class="fas fa-file-code file-icon"></i>
+                            <div>
+                                <div class="file-name">5. van-phong-trung-tam.json</div>
+                                <div class="file-desc">Văn phòng Trung tâm (21 đảng viên)</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-pending" id="status5">Chưa upload</span>
+                    </li>
+                </ul>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;">
+                    <h4><i class="fas fa-lightbulb"></i> Hướng dẫn:</h4>
+                    <p style="margin-top: 8px; font-size: 14px;">
+                        • Upload theo thứ tự từ 1 đến 5<br>
+                        • Mỗi file mất khoảng 5-10 giây để import<br>
+                        • Sau khi upload xong, dữ liệu sẽ tự động cập nhật lên trang chủ
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="home-link">
+            <a href="/"><i class="fas fa-arrow-left"></i> Quay lại Trang chủ Quản lý Đảng viên</a>
         </div>
     </div>
-    
-    <div class="card">
-        <h3>3. Kiểm tra hệ thống</h3>
-        <button onclick="testAPI()">🩺 Test API Health</button>
-        <button onclick="testUpload()">🧪 Test Upload Mẫu</button>
-        <div id="testResult"></div>
+
+    <!-- Thông báo -->
+    <div class="notification" id="notification">
+        <div class="notification-icon"></div>
+        <div class="notification-content"></div>
+        <button class="notification-close" onclick="hideNotification()">×</button>
     </div>
-    
+
     <script>
-        // Hàm upload file
-        async function uploadFile() {
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            const resultDiv = document.getElementById('result');
+        // ==================== BIẾN TOÀN CỤC ====================
+        let currentFile = null;
+        let uploadedFiles = [];
+        let currentFileIndex = 0;
+        
+        // Danh sách 5 file cần upload
+        const requiredFiles = [
+            { 
+                filename: 'doi-bao-tri-san-duong.json',
+                displayName: 'Đội Bảo trì Sân đường',
+                count: 13,
+                statusId: 'status1'
+            },
+            { 
+                filename: 'doi-moi-truong-khu-bay.json',
+                displayName: 'Đội Môi trường Khu bay',
+                count: 10,
+                statusId: 'status2'
+            },
+            { 
+                filename: 'doi-thiet-bi-co-dien-den-sb.json',
+                displayName: 'Đội Thiết bị Cơ điện Đèn SB',
+                count: 27,
+                statusId: 'status3'
+            },
+            { 
+                filename: 'doi-thiet-bi-thong-tin-dan-duong.json',
+                displayName: 'Đội Thiết bị Thông tin Dẫn đường',
+                count: 20,
+                statusId: 'status4'
+            },
+            { 
+                filename: 'van-phong-trung-tam.json',
+                displayName: 'Văn phòng Trung tâm',
+                count: 21,
+                statusId: 'status5'
+            }
+        ];
+        
+        // ==================== KHỞI TẠO ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý chọn file
+            document.getElementById('fileInput').addEventListener('change', function(e) {
+                if (e.target.files.length > 0) {
+                    currentFile = e.target.files[0];
+                    validateAndPrepareUpload(currentFile);
+                }
+            });
             
-            if (!file) {
-                resultDiv.innerHTML = '<div class="error">Vui lòng chọn file</div>';
+            // Kiểm tra kết nối server
+            checkServerConnection();
+        });
+        
+        // ==================== KIỂM TRA KẾT NỐI ====================
+        async function checkServerConnection() {
+            try {
+                const response = await fetch('/health');
+                if (response.ok) {
+                    console.log('✅ Server đang hoạt động');
+                } else {
+                    showNotification('⚠️ Server gặp sự cố, vui lòng thử lại sau', 'error');
+                }
+            } catch (error) {
+                showNotification('❌ Không thể kết nối đến server', 'error');
+            }
+        }
+        
+        // ==================== VALIDATE FILE ====================
+        function validateAndPrepareUpload(file) {
+            // Kiểm tra định dạng
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                showNotification('❌ Chỉ hỗ trợ file .json', 'error');
+                return;
+            }
+            
+            // Kiểm tra tên file có trong danh sách không
+            const fileInfo = requiredFiles.find(f => f.filename === file.name);
+            if (!fileInfo) {
+                showNotification(`⚠️ File "${file.name}" không nằm trong danh sách 5 file cần upload`, 'warning');
+            }
+            
+            // Hiển thị thông tin file
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    if (!Array.isArray(jsonData)) {
+                        showNotification('❌ File JSON phải là mảng []', 'error');
+                        return;
+                    }
+                    
+                    // Kích hoạt nút upload
+                    document.getElementById('uploadBtn').disabled = false;
+                    document.getElementById('uploadBtn').innerHTML = `
+                        <i class="fas fa-file-import"></i> IMPORT "${file.name}"
+                        <br><small>${jsonData.length} bản ghi</small>
+                    `;
+                    
+                    // Highlight file trong danh sách
+                    highlightCurrentFile(file.name);
+                    
+                } catch (error) {
+                    showNotification('❌ File JSON không hợp lệ', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // ==================== HIGHLIGHT FILE HIỆN TẠI ====================
+        function highlightCurrentFile(filename) {
+            // Xóa highlight cũ
+            document.querySelectorAll('.file-item').forEach(item => {
+                item.style.background = 'white';
+            });
+            
+            // Highlight file mới
+            const fileItem = document.querySelector(`.file-item[data-file="${filename}"]`);
+            if (fileItem) {
+                fileItem.style.background = '#f0f7ff';
+                fileItem.style.borderLeft = '4px solid #4CAF50';
+            }
+        }
+        
+        // ==================== UPLOAD FILE ====================
+        async function uploadFile() {
+            if (!currentFile) {
+                showNotification('❌ Vui lòng chọn file trước', 'error');
                 return;
             }
             
             const formData = new FormData();
-            formData.append('jsonFile', file);
+            formData.append('jsonFile', currentFile);
             
-            const btn = document.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = '⏳ Đang upload...';
+            const btn = document.getElementById('uploadBtn');
+            const progressBar = document.getElementById('progressBar');
+            const progressContainer = document.getElementById('progressContainer');
+            const resultContainer = document.getElementById('resultContainer');
+            
+            // Hiển thị progress
             btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG IMPORT...';
+            progressContainer.style.display = 'block';
+            
+            // Mô phỏng progress
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = Math.min(progress, 90) + '%';
+            }, 200);
             
             try {
-                resultDiv.innerHTML = '<p>Đang kết nối server...</p>';
-                
+                // Gửi request upload
                 const response = await fetch('/api/upload-json', {
                     method: 'POST',
                     body: formData
                 });
                 
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
+                
                 const result = await response.json();
                 
-                if (result.success) {
-                    resultDiv.innerHTML = `
-                        <div class="success">
-                            <h4>✅ Upload thành công!</h4>
-                            <p><strong>File:</strong> ${result.details.file_name}</p>
-                            <p><strong>Chi bộ:</strong> ${result.details.chi_bo}</p>
-                            <p><strong>Số bản ghi:</strong> ${result.details.record_count}</p>
-                            <p><strong>Thông báo:</strong> ${result.message}</p>
-                            <button onclick="viewSample()" style="margin-top:10px;background:#28a745">
-                                👁️ Xem dữ liệu mẫu
-                            </button>
-                            <div id="sampleData" style="display:none; margin-top:10px; background:#e9ecef; padding:10px; border-radius:5px">
-                                <pre>${JSON.stringify(result.details.sample_records, null, 2)}</pre>
-                            </div>
-                        </div>
-                    `;
+                // Xử lý kết quả
+                if (response.ok && result.success) {
+                    // Cập nhật UI
+                    updateFileStatus(currentFile.name, 'success');
+                    showResult('success', result);
+                    uploadedFiles.push(currentFile.name);
+                    
+                    // Thông báo thành công
+                    showNotification(`✅ Đã import ${result.details?.record_count || 'nhiều'} đảng viên`, 'success');
+                    
+                    // TỰ ĐỘNG CẬP NHẬT TRANG CHỦ - QUAN TRỌNG!
+                    notifyHomePageUpdate();
+                    
+                    // Hiển thị nút tiếp theo
+                    setTimeout(() => {
+                        document.getElementById('actionsSection').style.display = 'flex';
+                    }, 1000);
+                    
                 } else {
-                    resultDiv.innerHTML = `<div class="error">❌ Lỗi: ${result.error}</div>`;
+                    // Xử lý lỗi
+                    updateFileStatus(currentFile.name, 'error');
+                    showResult('error', result);
+                    showNotification(`❌ Upload thất bại: ${result.error || 'Lỗi không xác định'}`, 'error');
                 }
                 
             } catch (error) {
-                resultDiv.innerHTML = `
-                    <div class="error">
-                        <h4>⚠️ Lỗi kết nối</h4>
-                        <p>${error.message}</p>
-                        <p>Kiểm tra:</p>
-                        <ul>
-                            <li>Server có đang chạy không?</li>
-                            <li>API endpoint /api/upload-json có tồn tại?</li>
-                            <li>Console (F12) để xem chi tiết lỗi</li>
+                clearInterval(progressInterval);
+                showResult('error', { error: error.message });
+                showNotification(`❌ Lỗi kết nối: ${error.message}`, 'error');
+                updateFileStatus(currentFile.name, 'error');
+            } finally {
+                // Reset UI
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                    progressBar.style.width = '0%';
+                }, 1000);
+            }
+        }
+        
+        // ==================== THÔNG BÁO CẬP NHẬT TRANG CHỦ ====================
+        function notifyHomePageUpdate() {
+            // Cách 1: Gửi message nếu trang chủ đang mở
+            if (window.opener) {
+                window.opener.postMessage({ 
+                    type: 'dataUpdated',
+                    filename: currentFile.name,
+                    timestamp: Date.now()
+                }, '*');
+                console.log('📬 Đã gửi tín hiệu cập nhật đến trang chủ');
+            }
+            
+            // Cách 2: Lưu vào localStorage (trang chủ sẽ kiểm tra)
+            localStorage.setItem('lastUpload', Date.now());
+            localStorage.setItem('uploadedFile', currentFile.name);
+            
+            // Cách 3: Mở tab trang chủ nếu chưa có
+            if (!window.opener) {
+                setTimeout(() => {
+                    window.open('/', '_blank');
+                }, 3000);
+            }
+        }
+        
+        // ==================== CẬP NHẬT TRẠNG THÁI FILE ====================
+        function updateFileStatus(filename, status) {
+            const fileInfo = requiredFiles.find(f => f.filename === filename);
+            if (!fileInfo) return;
+            
+            const statusElement = document.getElementById(fileInfo.statusId);
+            if (!statusElement) return;
+            
+            if (status === 'success') {
+                statusElement.textContent = '✅ Đã upload';
+                statusElement.className = 'status-badge status-uploaded';
+            } else if (status === 'error') {
+                statusElement.textContent = '❌ Lỗi';
+                statusElement.style.background = '#f8d7da';
+                statusElement.style.color = '#721c24';
+            }
+        }
+        
+        // ==================== HIỂN THỊ KẾT QUẢ ====================
+        function showResult(type, data) {
+            const container = document.getElementById('resultContainer');
+            container.style.display = 'block';
+            
+            if (type === 'success') {
+                container.className = 'result-container result-success';
+                container.innerHTML = `
+                    <div class="result-title">
+                        <i class="fas fa-check-circle" style="color:#4CAF50"></i>
+                        <h3>IMPORT THÀNH CÔNG!</h3>
+                    </div>
+                    <p><strong>File:</strong> ${data.details?.file_name || currentFile.name}</p>
+                    <p><strong>Chi bộ:</strong> ${data.details?.chi_bo || 'Tự động nhận diện'}</p>
+                    
+                    <div class="result-details">
+                        <div class="detail-row">
+                            <span>Tổng số bản ghi:</span>
+                            <strong>${data.details?.record_count || 'N/A'}</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Thời gian:</span>
+                            <strong>${new Date().toLocaleTimeString('vi-VN')}</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Trạng thái:</span>
+                            <strong style="color:#4CAF50">Đã thêm vào hệ thống</strong>
+                        </div>
+                    </div>
+                    
+                    <p style="margin-top: 15px; font-size: 14px;">
+                        <i class="fas fa-info-circle"></i> Dữ liệu đã được tự động cập nhật lên trang chủ.
+                        <a href="/" target="_blank" style="color:#1a237e; margin-left: 10px;">
+                            <i class="fas fa-external-link-alt"></i> Mở trang chủ ngay
+                        </a>
+                    </p>
+                `;
+            } else {
+                container.className = 'result-container result-error';
+                container.innerHTML = `
+                    <div class="result-title">
+                        <i class="fas fa-exclamation-triangle" style="color:#f44336"></i>
+                        <h3>IMPORT THẤT BẠI</h3>
+                    </div>
+                    <p><strong>Lỗi:</strong> ${data.error || 'Không xác định'}</p>
+                    <p><strong>File:</strong> ${currentFile.name}</p>
+                    
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 5px;">
+                        <p style="font-size: 14px; margin-bottom: 5px;"><strong>Khắc phục:</strong></p>
+                        <ul style="font-size: 13px; padding-left: 20px;">
+                            <li>Kiểm tra định dạng file JSON</li>
+                            <li>Đảm bảo file có cấu trúc mảng []</li>
+                            <li>Thử lại hoặc liên hệ quản trị viên</li>
                         </ul>
                     </div>
                 `;
-                console.error('Upload error:', error);
-            } finally {
-                btn.textContent = originalText;
-                btn.disabled = false;
             }
         }
         
-        // Hàm test API
-        async function testAPI() {
-            const testDiv = document.getElementById('testResult');
-            testDiv.innerHTML = '<p>Đang test...</p>';
+        // ==================== UPLOAD FILE TIẾP THEO ====================
+        function uploadNext() {
+            // Reset UI
+            document.getElementById('fileInput').value = '';
+            document.getElementById('uploadBtn').disabled = true;
+            document.getElementById('uploadBtn').innerHTML = '<i class="fas fa-file-import"></i> BẮT ĐẦU IMPORT';
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('actionsSection').style.display = 'none';
+            currentFile = null;
             
-            try {
-                const response = await fetch('/health');
-                const data = await response.json();
-                testDiv.innerHTML = `
-                    <div class="success">
-                        <h4>✅ Health Check OK</h4>
-                        <pre>${JSON.stringify(data, null, 2)}</pre>
-                    </div>
-                `;
-            } catch (error) {
-                testDiv.innerHTML = `<div class="error">❌ Health check failed: ${error.message}</div>`;
+            // Tìm file chưa upload
+            const nextFile = requiredFiles.find(f => !uploadedFiles.includes(f.filename));
+            if (nextFile) {
+                showNotification(`📤 Tiếp theo: ${nextFile.displayName}`, 'info');
+                highlightCurrentFile(nextFile.filename);
+            } else {
+                showNotification('🎉 Đã upload tất cả 5 file!', 'success');
             }
         }
         
-        // Hàm test upload mẫu
-        async function testUpload() {
-            const testDiv = document.getElementById('testResult');
-            testDiv.innerHTML = '<p>Đang test upload...</p>';
+        // ==================== ĐIỀU HƯỚNG ====================
+        function goToHomePage() {
+            // Đảm bảo thông báo cập nhật cuối cùng
+            localStorage.setItem('forceRefresh', 'true');
             
-            // Tạo file JSON mẫu
-            const sampleData = [
-                { "STT": 1, "Ho_va_Ten": "Nguyễn Văn Test", "So_the_Dang": "TEST-001" },
-                { "STT": 2, "Ho_va_Ten": "Trần Thị Demo", "So_the_Dang": "TEST-002" }
-            ];
+            // Mở trang chủ
+            window.open('/', '_blank');
             
-            const blob = new Blob([JSON.stringify(sampleData)], { type: 'application/json' });
-            const file = new File([blob], 'test-file.json');
-            
-            const formData = new FormData();
-            formData.append('jsonFile', file);
-            
-            try {
-                const response = await fetch('/api/upload-json', {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await response.json();
-                testDiv.innerHTML = `
-                    <div class="success">
-                        <h4>✅ Test Upload OK</h4>
-                        <pre>${JSON.stringify(result, null, 2)}</pre>
-                    </div>
-                `;
-            } catch (error) {
-                testDiv.innerHTML = `<div class="error">❌ Test upload failed: ${error.message}</div>`;
-            }
+            // Đóng tab upload sau 2 giây
+            setTimeout(() => {
+                window.close();
+            }, 2000);
         }
         
-        // Hàm xem dữ liệu mẫu
-        function viewSample() {
-            const sampleDiv = document.getElementById('sampleData');
-            sampleDiv.style.display = sampleDiv.style.display === 'none' ? 'block' : 'none';
+        // ==================== THÔNG BÁO ====================
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const icon = notification.querySelector('.notification-icon');
+            const content = notification.querySelector('.notification-content');
+            
+            // Set nội dung
+            content.textContent = message;
+            
+            // Set style theo type
+            notification.className = 'notification';
+            if (type === 'success') {
+                notification.classList.add('notification-success');
+                icon.className = 'notification-icon fas fa-check-circle';
+            } else if (type === 'error') {
+                notification.classList.add('notification-error');
+                icon.className = 'notification-icon fas fa-exclamation-triangle';
+            } else if (type === 'warning') {
+                notification.style.borderLeft = '4px solid #ff9800';
+                icon.className = 'notification-icon fas fa-exclamation-circle';
+            } else {
+                notification.style.borderLeft = '4px solid #2196F3';
+                icon.className = 'notification-icon fas fa-info-circle';
+            }
+            
+            // Hiển thị
+            notification.classList.add('show');
+            
+            // Tự động ẩn sau 5 giây
+            setTimeout(hideNotification, 5000);
         }
+        
+        function hideNotification() {
+            document.getElementById('notification').classList.remove('show');
+        }
+        
+        // ==================== DRAG & DROP ====================
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#4CAF50';
+            this.style.background = '#f0f7ff';
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#1a237e';
+            this.style.background = 'white';
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.style.borderColor = '#1a237e';
+            this.style.background = 'white';
+            
+            if (e.dataTransfer.files.length > 0) {
+                currentFile = e.dataTransfer.files[0];
+                document.getElementById('fileInput').files = e.dataTransfer.files;
+                validateAndPrepareUpload(currentFile);
+            }
+        });
+        
+        // ==================== AUTO-START (DEBUG) ====================
+        // Nếu muốn tự động bắt đầu upload file đầu tiên
+        // setTimeout(() => {
+        //     if (!currentFile && requiredFiles[0]) {
+        //         highlightCurrentFile(requiredFiles[0].filename);
+        //         showNotification(`Bắt đầu với: ${requiredFiles[0].displayName}`, 'info');
+        //     }
+        // }, 1000);
     </script>
-    
-    <p style="margin-top:30px;text-align:center">
-        <a href="/">← Quay lại trang chủ</a> | 
-        <a href="/import.html">Trang import đầy đủ</a>
-    </p>
 </body>
 </html>
