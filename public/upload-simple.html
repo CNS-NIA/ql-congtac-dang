@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body style="padding:20px;font-family:Arial">
+    <h2>📤 Upload File JSON (Phiên bản đơn giản)</h2>
+    
+    <input type="file" id="fileInput" accept=".json">
+    <button onclick="uploadFile()">Upload</button>
+    
+    <div id="result" style="margin-top:20px"></div>
+    
+    <script>
+    async function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        
+        if (!file) {
+            alert('Chọn file trước');
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('jsonFile', file);
+        
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '<p>Đang upload...</p>';
+        
+        try {
+            const response = await fetch('/api/upload-json', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            resultDiv.innerHTML = `
+                <div style="background:#d4edda;padding:15px;border-radius:5px">
+                    <h3>✅ Thành công!</h3>
+                    <p><strong>File:</strong> ${file.name}</p>
+                    <p><strong>Chi bộ:</strong> ${data.chi_bo}</p>
+                    <p><strong>Số bản ghi:</strong> ${data.count}</p>
+                    <p><strong>Thông báo:</strong> ${data.message}</p>
+                </div>
+            `;
+            
+        } catch (error) {
+            resultDiv.innerHTML = `
+                <div style="background:#f8d7da;padding:15px;border-radius:5px">
+                    <h3>❌ Lỗi</h3>
+                    <p>${error.message}</p>
+                    <p>Kiểm tra console (F12) để xem chi tiết</p>
+                </div>
+            `;
+            console.error('Upload error:', error);
+        }
+    }
+    </script>
+</body>
+</html>
