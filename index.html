@@ -49,7 +49,77 @@
             --border-radius-xl: 20px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+        <!-- Modal Sửa đảng viên -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Sửa thông tin đảng viên</h3>
+            <button class="modal-close" onclick="closeEditModal()">×</button>
+        </div>
+        <form id="editForm" onsubmit="saveEdit(); return false;">
+            <input type="hidden" id="editId">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="editHoTen">Họ và tên *</label>
+                    <input type="text" id="editHoTen" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSoTheDang">Số thẻ đảng</label>
+                    <input type="text" id="editSoTheDang" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editNgaySinh">Ngày sinh</label>
+                    <input type="date" id="editNgaySinh" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editChiBo">Chi bộ</label>
+                    <select id="editChiBo" class="form-control chi-bo-select">
+                        <option value="">-- Chọn chi bộ --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editChucVu">Chức vụ</label>
+                    <input type="text" id="editChucVu" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editTrinhDo">Trình độ</label>
+                    <input type="text" id="editTrinhDo" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="editQueQuan">Quê quán</label>
+                    <textarea id="editQueQuan" class="form-control" rows="2"></textarea>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 20px;">
+                <button type="button" class="btn-secondary" onclick="closeEditModal()">Hủy</button>
+                <button type="submit" class="btn-primary">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Xem chi tiết -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-user"></i> Chi tiết đảng viên</h3>
+            <button class="modal-close" onclick="closeDetailModal()">×</button>
+        </div>
+        <div id="detailContent"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn-secondary" onclick="closeDetailModal()">Đóng</button>
+        </div>
+    </div>
+</div>
+
+<!-- Loading indicator -->
+<div id="loading">
+    <div class="spinner"></div>
+    <p>Đang tải dữ liệu...</p>
+</div>
+
+<!-- Link đến JavaScript -->
+<script src="js/app.js"></script>
         body {
             font-family: 'Inter', 'Roboto', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
