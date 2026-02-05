@@ -1,99 +1,112 @@
-require('dotenv').config();
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
+const JsonImporter = require('./utils/json-importer');
+const multer = require('multer');
 const path = require('path');
+const fs = require('fs').promises;
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Kết nối MySQL
-const db = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'ql_cong_tac_dang',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
-
-// Kiểm tra kết nối database
-db.getConnection((err, connection) => {
-    if (err) {
-        console.error('❌ Lỗi kết nối MySQL:', err.message);
-    } else {
-        console.log('✅ Đã kết nối MySQL thành công');
-        connection.release();
+// Cấu hình upload file
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadDir = path.join(__dirname, 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
     }
 });
 
-// API: Lấy danh sách đảng viên
-app.get('/api/dangvien', (req, res) => {
-    const sql = 'SELECT * FROM dang_vien ORDER BY id DESC';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Lỗi truy vấn:', err);
-            return res.status(500).json({ error: 'Lỗi database' });
+const upload = multer({ 
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/json' || file.originalname.endsWith('.json')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Chỉ chấp nhận file JSON'), false);
         }
-        res.json(results);
-    });
-});
-
-// API: Thêm đảng viên mới
-app.post('/api/dangvien', (req, res) => {
-    const { ho_ten, ngay_sinh, so_the_dang, chi_bo, chuc_vu } = req.body;
-    
-    if (!ho_ten || !so_the_dang) {
-        return res.status(400).json({ error: 'Thiếu thông tin bắt buộc' });
     }
+});
 
-    const sql = 'INSERT INTO dang_vien (ho_ten, ngay_sinh, so_the_dang, chi_bo, chuc_vu) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [ho_ten, ngay_sinh || null, so_the_dang, chi_bo || '', chuc_vu || ''], (err, result) => {
-        if (err) {
-            console.error('Lỗi thêm đảng viên:', err);
-            return res.status(500).json({ error: 'Không thể thêm đảng viên' });
+// API upload file JSON
+app.post('/api/upload-json', upload.single('jsonFile'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'Vui lòng chọn file JSON' 
+            });
         }
-        res.json({ success: true, id: result.insertId, message: 'Đã thêm đảng viên thành công' });
-    });
-});
 
-// API: Lấy danh sách chi bộ
-app.get('/api/chibo', (req, res) => {
-    const sql = 'SELECT DISTINCT chi_bo FROM dang_vien WHERE chi_bo IS NOT NULL ORDER BY chi_bo';
-    db.query(sql, (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Lỗi database' });
+        const filePath = req.file.path;
+        const fileName = req.file.originalname;
+        
+        // Đọc file JSON
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const jsonData = JSON.parse(fileContent);
+
+        // Xác định chi bộ
+        let chiBoName = req.body.chiBo;
+        if (!chiBoName) {
+            chiBoName = JsonImporter.extractChiBoFromFileName(fileName);
         }
-        res.json(results.map(row => row.chi_bo));
-    });
+
+        // Import dữ liệu
+        const result = await JsonImporter.importFromJson(jsonData, fileName, chiBoName);
+
+        // Xóa file tạm
+        await fs.unlink(filePath);
+
+        res.json({
+            success: true,
+            message: `Đã import ${result.success}/${result.total} đảng viên`,
+            details: result
+        });
+
+    } catch (error) {
+        console.error('Lỗi upload:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        });
+    }
 });
 
-// Health check
-app.get('/health', (req, res) => {
-    res.json({ 
-        status: 'healthy', 
-        timestamp: new Date().toISOString(),
-        service: 'Quản lý Công tác Đảng'
-    });
+// API import từ URL (nếu bạn có file trên server)
+app.post('/api/import-from-url', async (req, res) => {
+    try {
+        const { url, chiBo } = req.body;
+        
+        if (!url) {
+            return res.status(400).json({ error: 'Thiếu URL' });
+        }
+
+        // Tải file từ URL
+        const response = await fetch(url);
+        const jsonData = await response.json();
+        
+        const fileName = path.basename(url);
+        const result = await JsonImporter.importFromJson(jsonData, fileName, chiBo);
+
+        res.json({
+            success: true,
+            message: `Đã import ${result.success} đảng viên từ ${fileName}`,
+            details: result
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-// Phục vụ frontend cho tất cả route khác
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Khởi động server
-app.listen(PORT, () => {
-    console.log(`🚀 Server chạy tại: http://localhost:${PORT}`);
-    console.log(`📡 API Endpoints:`);
-    console.log(`   GET  /api/dangvien     - Lấy danh sách đảng viên`);
-    console.log(`   POST /api/dangvien     - Thêm đảng viên mới`);
-    console.log(`   GET  /api/chibo        - Lấy danh sách chi bộ`);
-    console.log(`   GET  /health          - Kiểm tra tình trạng hệ thống`);
+// API lấy danh sách chi bộ từ database
+app.get('/api/danhsach-chibo', async (req, res) => {
+    try {
+        const [rows] = await db.execute(
+            'SELECT DISTINCT chi_bo, COUNT(*) as so_luong FROM dang_vien WHERE chi_bo IS NOT NULL GROUP BY chi_bo ORDER BY chi_bo'
+        );
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
