@@ -2739,19 +2739,19 @@
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number" id="totalMembers">156</div>
+                    <div class="stat-number" id="totalMembers">0</div>
                     <div class="stat-label">Tổng số đảng viên</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="totalDocuments">42</div>
+                    <div class="stat-number" id="totalDocuments">0</div>
                     <div class="stat-label">Văn bản đã xử lý</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="totalMeetings">8</div>
+                    <div class="stat-number" id="totalMeetings">0</div>
                     <div class="stat-label">Sinh hoạt tháng này</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="newMembers">3</div>
+                    <div class="stat-number" id="newMembers">0</div>
                     <div class="stat-label">Đảng viên mới</div>
                 </div>
             </div>
@@ -2784,29 +2784,15 @@
                     <div class="activity-item">
                         <i class="fas fa-user-check" style="color: var(--success);"></i>
                         <div class="activity-content">
-                            <p>Nguyễn Văn C đã được thêm vào hệ thống</p>
-                            <div class="activity-time">10 phút trước</div>
+                            <p>Hệ thống đã được khởi động</p>
+                            <div class="activity-time">Vừa xong</div>
                         </div>
                     </div>
                     <div class="activity-item">
-                        <i class="fas fa-file-signature" style="color: var(--info);"></i>
+                        <i class="fas fa-database" style="color: var(--info);"></i>
                         <div class="activity-content">
-                            <p>Nghị quyết tháng 12 đã được cập nhật</p>
-                            <div class="activity-time">1 giờ trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <i class="fas fa-calendar-alt" style="color: var(--warning);"></i>
-                        <div class="activity-content">
-                            <p>Đã lên lịch sinh hoạt chi bộ tháng 1</p>
-                            <div class="activity-time">2 giờ trước</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <i class="fas fa-chart-line" style="color: var(--primary-red);"></i>
-                        <div class="activity-content">
-                            <p>Báo cáo thống kê quý IV đã hoàn thành</p>
-                            <div class="activity-time">5 giờ trước</div>
+                            <p>Đang kết nối với cơ sở dữ liệu</p>
+                            <div class="activity-time">Vừa xong</div>
                         </div>
                     </div>
                 </div>
@@ -2910,6 +2896,9 @@
                         <button class="btn btn-secondary btn-sm" onclick="MembersManager.printList()">
                             <i class="fas fa-print"></i> In danh sách
                         </button>
+                        <button class="btn btn-secondary btn-sm" onclick="MembersManager.refreshMembers()">
+                            <i class="fas fa-sync-alt"></i> Làm mới
+                        </button>
                     </div>
                 </div>
                 
@@ -2930,6 +2919,12 @@
                         </thead>
                         <tbody id="membersTableBody">
                             <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                            <tr>
+                                <td colspan="9" class="empty-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Đang tải dữ liệu đảng viên...</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -2986,6 +2981,10 @@
 
             <div class="documents-grid" id="documentsGrid">
                 <!-- Documents will be loaded here -->
+                <div class="empty-state" style="grid-column: 1/-1;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Đang tải dữ liệu văn bản...</p>
+                </div>
             </div>
         </div>
 
@@ -3039,34 +3038,34 @@
                     <div class="progress-card">
                         <div class="progress-header">
                             <div class="progress-title">Đảng viên dự bị</div>
-                            <div class="progress-value">12</div>
+                            <div class="progress-value">0</div>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 60%"></div>
+                            <div class="progress-fill" style="width: 0%"></div>
                         </div>
-                        <div style="font-size: 14px; color: var(--medium-gray);">60% đã hoàn thành thủ tục</div>
+                        <div style="font-size: 14px; color: var(--medium-gray);">Đang tải dữ liệu...</div>
                     </div>
                     
                     <div class="progress-card">
                         <div class="progress-header">
                             <div class="progress-title">Cảm tình Đảng</div>
-                            <div class="progress-value">8</div>
+                            <div class="progress-value">0</div>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 40%"></div>
+                            <div class="progress-fill" style="width: 0%"></div>
                         </div>
-                        <div style="font-size: 14px; color: var(--medium-gray);">40% đã học lớp cảm tình</div>
+                        <div style="font-size: 14px; color: var(--medium-gray);">Đang tải dữ liệu...</div>
                     </div>
                     
                     <div class="progress-card">
                         <div class="progress-header">
                             <div class="progress-title">Đào tạo cán bộ</div>
-                            <div class="progress-value">15</div>
+                            <div class="progress-value">0</div>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: 75%"></div>
+                            <div class="progress-fill" style="width: 0%"></div>
                         </div>
-                        <div style="font-size: 14px; color: var(--medium-gray);">75% đã hoàn thành khóa học</div>
+                        <div style="font-size: 14px; color: var(--medium-gray);">Đang tải dữ liệu...</div>
                     </div>
                 </div>
             </div>
@@ -3455,6 +3454,10 @@
                     case 'settingsContent':
                         SettingsManager.init();
                         break;
+                    case 'dashboardContent':
+                        // Cập nhật thống kê dashboard
+                        updateDashboardStats();
+                        break;
                 }
             }
         }
@@ -3581,7 +3584,34 @@
             document.getElementById('fileInput').value = '';
         }
         
-        // ====== MEMBERS MANAGER ======
+        // ====== UPDATE DASHBOARD STATS ======
+        async function updateDashboardStats() {
+            try {
+                // Gọi API để lấy thống kê
+                const response = await fetch('/api/dangvien');
+                if (response.ok) {
+                    const members = await response.json();
+                    
+                    // Cập nhật thống kê dashboard
+                    document.getElementById('totalMembers').textContent = members.length || 0;
+                    
+                    // Tính đảng viên mới (trong vòng 1 năm)
+                    const currentYear = new Date().getFullYear();
+                    const newMembers = members.filter(m => {
+                        if (m.ngayVaoDang) {
+                            const partyYear = new Date(m.ngayVaoDang).getFullYear();
+                            return currentYear - partyYear <= 1;
+                        }
+                        return false;
+                    }).length;
+                    document.getElementById('newMembers').textContent = newMembers;
+                }
+            } catch (error) {
+                console.error('Lỗi khi cập nhật thống kê dashboard:', error);
+            }
+        }
+        
+        // ====== MEMBERS MANAGER (UPDATED WITH API CALLS) ======
         const MembersManager = {
             config: {
                 itemsPerPage: 10,
@@ -3591,64 +3621,90 @@
                 searchKeyword: ''
             },
 
-            sampleMembers: [
-                {
-                    id: 1,
-                    code: 'DV001',
-                    fullName: 'Nguyễn Văn A',
-                    birthDate: '15/03/1980',
-                    branch: 'VP',
-                    position: 'Bí thư',
-                    status: 'active',
-                    partyDate: '12/03/2005',
-                    phone: '0912345678',
-                    email: 'nguyenvana@example.com',
-                    address: 'Hà Nội',
-                    notes: 'Cấp ủy viên'
-                },
-                {
-                    id: 2,
-                    code: 'DV002',
-                    fullName: 'Trần Thị B',
-                    birthDate: '20/07/1985',
-                    branch: 'BT',
-                    position: 'Đảng viên',
-                    status: 'active',
-                    partyDate: '15/08/2010',
-                    phone: '0987654321',
-                    email: 'tranthib@example.com',
-                    address: 'Hà Nội',
-                    notes: ''
-                },
-                {
-                    id: 3,
-                    code: 'DV003',
-                    fullName: 'Phạm Văn C',
-                    birthDate: '10/05/1975',
-                    branch: 'MT',
-                    position: 'Phó Bí thư',
-                    status: 'active',
-                    partyDate: '20/06/2000',
-                    phone: '0977123456',
-                    email: 'phamvanc@example.com',
-                    address: 'Hà Nội',
-                    notes: 'Cấp ủy viên'
-                }
-            ],
+            members: [], // Lưu danh sách đảng viên từ API
 
             init: function() {
-                console.log('🔄 Khởi tạo Quản lý Đảng viên...');
-                this.loadMembers();
+                console.log('🔄 Khởi tạo Quản lý Đảng viên với API...');
                 this.setupEventListeners();
-                this.updateStatistics();
+                this.loadMembersFromAPI();
             },
 
-            loadMembers: function() {
-                if (!localStorage.getItem('partyMembers')) {
-                    localStorage.setItem('partyMembers', JSON.stringify(this.sampleMembers));
+            // Hàm gọi API để lấy danh sách đảng viên
+            loadMembersFromAPI: async function() {
+                try {
+                    // Hiển thị loading
+                    const tbody = document.getElementById('membersTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="9" class="empty-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Đang tải dữ liệu đảng viên từ server...</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+
+                    // Gọi API GET /api/dangvien
+                    const response = await fetch('/api/dangvien', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Lỗi API: ${response.status} ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // Lưu dữ liệu vào biến members
+                    this.members = Array.isArray(data) ? data : [];
+                    
+                    // Cập nhật giao diện
+                    this.renderMembersTable();
+                    this.updateStatistics();
+                    
+                    showToast(`Đã tải ${this.members.length} đảng viên từ hệ thống`, 'success');
+                    
+                } catch (error) {
+                    console.error('Lỗi khi tải dữ liệu đảng viên:', error);
+                    
+                    const tbody = document.getElementById('membersTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = `
+                            <tr>
+                                <td colspan="9" class="empty-state">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <p>Không thể kết nối đến server. Vui lòng kiểm tra kết nối!</p>
+                                    <button class="btn btn-primary" onclick="MembersManager.loadMembersFromAPI()">
+                                        <i class="fas fa-sync-alt"></i> Thử lại
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    
+                    showToast('Không thể tải danh sách đảng viên. Vui lòng thử lại sau!', 'error');
                 }
+            },
+
+            // Hàm refresh danh sách đảng viên
+            refreshMembers: function() {
+                showToast('Đang làm mới dữ liệu...', 'info');
+                this.config.currentPage = 1;
+                this.config.searchKeyword = '';
+                this.config.currentFilter = 'all';
+                this.config.currentStatus = 'all';
                 
-                this.renderMembersTable();
+                // Reset các control
+                document.getElementById('memberSearch').value = '';
+                document.getElementById('branchFilter').value = 'all';
+                document.getElementById('statusFilter').value = 'all';
+                
+                this.loadMembersFromAPI();
             },
 
             setupEventListeners: function() {
@@ -3703,23 +3759,23 @@
             },
 
             getFilteredMembers: function() {
-                let members = JSON.parse(localStorage.getItem('partyMembers')) || [];
+                let members = this.members;
                 
                 if (this.config.currentFilter !== 'all') {
-                    members = members.filter(member => member.branch === this.config.currentFilter);
+                    members = members.filter(member => member.chiBo === this.config.currentFilter);
                 }
                 
                 if (this.config.currentStatus !== 'all') {
-                    members = members.filter(member => member.status === this.config.currentStatus);
+                    members = members.filter(member => member.trangThai === this.config.currentStatus);
                 }
                 
                 if (this.config.searchKeyword) {
                     const keyword = this.config.searchKeyword;
                     members = members.filter(member => 
-                        member.fullName.toLowerCase().includes(keyword) ||
-                        member.code.toLowerCase().includes(keyword) ||
-                        (member.phone && member.phone.includes(keyword)) ||
-                        (member.email && member.email.toLowerCase().includes(keyword))
+                        member.hoTen && member.hoTen.toLowerCase().includes(keyword) ||
+                        member.soTheDangVien && member.soTheDangVien.toLowerCase().includes(keyword) ||
+                        member.dienThoai && member.dienThoai.includes(keyword) ||
+                        member.email && member.email.toLowerCase().includes(keyword)
                     );
                 }
                 
@@ -3761,39 +3817,41 @@
                 let html = '';
                 pageMembers.forEach((member, index) => {
                     const stt = startIndex + index + 1;
-                    const branchName = this.getBranchName(member.branch);
-                    const statusBadge = this.getStatusBadge(member.status);
-                    const phoneDisplay = member.phone || 'Chưa cập nhật';
+                    const branchName = this.getBranchName(member.chiBo);
+                    const statusBadge = this.getStatusBadge(member.trangThai || 'active');
+                    const phoneDisplay = member.dienThoai || 'Chưa cập nhật';
+                    const birthDate = member.ngaySinh ? this.formatDate(member.ngaySinh) : 'Chưa cập nhật';
+                    const partyDate = member.ngayVaoDang ? this.formatDate(member.ngayVaoDang) : 'Chưa cập nhật';
                     
                     html += `
-                        <tr data-member-id="${member.id}">
+                        <tr data-member-id="${member.id || member.maDangVien}">
                             <td>${stt}</td>
-                            <td><strong>${member.code}</strong></td>
+                            <td><strong>${member.soTheDangVien || 'Chưa có'}</strong></td>
                             <td>
-                                <div class="member-name">${member.fullName}</div>
+                                <div class="member-name">${member.hoTen || 'Chưa có tên'}</div>
                                 <div class="member-contact">${phoneDisplay}</div>
                             </td>
-                            <td>${member.birthDate}</td>
+                            <td>${birthDate}</td>
                             <td>
-                                <span class="branch-badge" data-branch="${member.branch}">
-                                    <i class="${this.getBranchIcon(member.branch)}"></i>
+                                <span class="branch-badge" data-branch="${member.chiBo || 'unknown'}">
+                                    <i class="${this.getBranchIcon(member.chiBo)}"></i>
                                     ${branchName}
                                 </span>
                             </td>
-                            <td>${member.position || 'Đảng viên'}</td>
+                            <td>${member.chucVu || 'Đảng viên'}</td>
                             <td>${statusBadge}</td>
-                            <td>${member.partyDate}</td>
+                            <td>${partyDate}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn-action btn-view" onclick="MembersManager.viewMemberDetail(${member.id})" 
+                                    <button class="btn-action btn-view" onclick="MembersManager.viewMemberDetail('${member.id || member.maDangVien}')" 
                                             title="Xem chi tiết">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button class="btn-action btn-edit" onclick="MembersManager.openEditMemberForm(${member.id})" 
+                                    <button class="btn-action btn-edit" onclick="MembersManager.openEditMemberForm('${member.id || member.maDangVien}')" 
                                             title="Sửa thông tin">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn-action btn-delete" onclick="MembersManager.confirmDeleteMember(${member.id})" 
+                                    <button class="btn-action btn-delete" onclick="MembersManager.confirmDeleteMember('${member.id || member.maDangVien}')" 
                                             title="Xóa">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -3807,6 +3865,19 @@
                 this.updatePaginationInfo(filteredMembers.length);
             },
 
+            formatDate: function(dateString) {
+                if (!dateString) return 'Chưa cập nhật';
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) {
+                        return dateString; // Trả về nguyên bản nếu không parse được
+                    }
+                    return date.toLocaleDateString('vi-VN');
+                } catch (error) {
+                    return dateString;
+                }
+            },
+
             updatePaginationInfo: function(totalMembers) {
                 const totalPages = this.getTotalPages();
                 
@@ -3815,7 +3886,7 @@
                 const currentPage = document.getElementById('currentPage');
                 const totalPagesSpan = document.getElementById('totalPages');
                 
-                if (currentCount) currentCount.textContent = Math.min(this.config.itemsPerPage, totalMembers);
+                if (currentCount) currentCount.textContent = Math.min(this.config.itemsPerPage, totalMembers - (this.config.currentPage - 1) * this.config.itemsPerPage);
                 if (totalCount) totalCount.textContent = totalMembers;
                 if (currentPage) currentPage.textContent = this.config.currentPage;
                 if (totalPagesSpan) totalPagesSpan.textContent = totalPages;
@@ -3833,97 +3904,81 @@
             },
 
             updateStatistics: function() {
-                const members = JSON.parse(localStorage.getItem('partyMembers')) || [];
+                const members = this.members;
                 
+                // Tổng số đảng viên
                 document.getElementById('totalMembersCount').textContent = members.length;
                 
-                const activeMembers = members.filter(m => m.status === 'active').length;
+                // Đang sinh hoạt (mặc định nếu không có trạng thái)
+                const activeMembers = members.filter(m => !m.trangThai || m.trangThai === 'active').length;
                 document.getElementById('activeMembersCount').textContent = activeMembers;
                 
+                // Đảng viên mới (trong vòng 1 năm)
                 const currentYear = new Date().getFullYear();
                 const newMembers = members.filter(m => {
-                    const partyYear = parseInt(m.partyDate.split('/')[2]);
-                    return currentYear - partyYear <= 1;
+                    if (m.ngayVaoDang) {
+                        try {
+                            const partyYear = new Date(m.ngayVaoDang).getFullYear();
+                            return currentYear - partyYear <= 1;
+                        } catch (e) {
+                            return false;
+                        }
+                    }
+                    return false;
                 }).length;
                 document.getElementById('newMembersCount').textContent = newMembers;
                 
+                // Cấp ủy viên (dựa trên chức vụ)
                 const highRankMembers = members.filter(m => 
-                    m.position && (m.position.includes('Bí thư') || m.position.includes('Phó Bí thư') || m.position.includes('Ủy viên'))
+                    m.chucVu && (
+                        m.chucVu.includes('Bí thư') || 
+                        m.chucVu.includes('Phó Bí thư') || 
+                        m.chucVu.includes('Ủy viên') ||
+                        m.chucVu.includes('Chi ủy')
+                    )
                 ).length;
                 document.getElementById('highRankCount').textContent = highRankMembers;
+                
+                // Cập nhật dashboard
+                document.getElementById('totalMembers').textContent = members.length;
+                document.getElementById('newMembers').textContent = newMembers;
             },
 
             openAddMemberForm: function() {
                 showToast('Mở form thêm đảng viên mới', 'info');
-                
-                const newMember = {
-                    id: Date.now(),
-                    code: 'DV' + (100 + Math.floor(Math.random() * 900)),
-                    fullName: 'Đảng viên Mới',
-                    birthDate: '01/01/1990',
-                    branch: 'VP',
-                    position: 'Đảng viên',
-                    status: 'active',
-                    partyDate: new Date().toLocaleDateString('vi-VN'),
-                    phone: '0900000000',
-                    email: 'newmember@example.com',
-                    address: 'Hà Nội',
-                    notes: ''
-                };
-                
-                this.addMember(newMember);
-            },
-
-            addMember: function(member) {
-                const members = JSON.parse(localStorage.getItem('partyMembers')) || [];
-                members.push(member);
-                localStorage.setItem('partyMembers', JSON.stringify(members));
-                
-                this.renderMembersTable();
-                this.updateStatistics();
-                showToast(`Đã thêm đảng viên ${member.fullName}`, 'success');
-            },
-
-            openEditMemberForm: function(memberId) {
-                const members = JSON.parse(localStorage.getItem('partyMembers')) || [];
-                const member = members.find(m => m.id === memberId);
-                
-                if (member) {
-                    showToast(`Mở form sửa thông tin đảng viên: ${member.fullName}`, 'info');
-                }
+                // TODO: Implement add member form
             },
 
             viewMemberDetail: function(memberId) {
-                const members = JSON.parse(localStorage.getItem('partyMembers')) || [];
-                const member = members.find(m => m.id === memberId);
+                const member = this.members.find(m => m.id === memberId || m.maDangVien === memberId);
                 
                 if (member) {
                     const detailHtml = `
                         <div class="member-detail">
                             <div class="detail-header">
-                                <h3>${member.fullName}</h3>
-                                <div class="member-code">Mã số: ${member.code}</div>
+                                <h3>${member.hoTen || 'Chưa có tên'}</h3>
+                                <div class="member-code">Mã số: ${member.soTheDangVien || 'Chưa có'}</div>
                             </div>
                             <div class="detail-grid">
                                 <div class="detail-item">
                                     <label><i class="fas fa-calendar-alt"></i> Ngày sinh:</label>
-                                    <span>${member.birthDate}</span>
+                                    <span>${this.formatDate(member.ngaySinh)}</span>
                                 </div>
                                 <div class="detail-item">
                                     <label><i class="fas fa-sitemap"></i> Chi bộ:</label>
-                                    <span>${this.getBranchName(member.branch)}</span>
+                                    <span>${this.getBranchName(member.chiBo)}</span>
                                 </div>
                                 <div class="detail-item">
                                     <label><i class="fas fa-user-tag"></i> Chức vụ:</label>
-                                    <span>${member.position || 'Đảng viên'}</span>
+                                    <span>${member.chucVu || 'Đảng viên'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <label><i class="fas fa-calendar-check"></i> Ngày vào Đảng:</label>
-                                    <span>${member.partyDate}</span>
+                                    <span>${this.formatDate(member.ngayVaoDang)}</span>
                                 </div>
                                 <div class="detail-item">
                                     <label><i class="fas fa-phone"></i> Điện thoại:</label>
-                                    <span>${member.phone || 'Chưa cập nhật'}</span>
+                                    <span>${member.dienThoai || 'Chưa cập nhật'}</span>
                                 </div>
                                 <div class="detail-item">
                                     <label><i class="fas fa-envelope"></i> Email:</label>
@@ -3931,17 +3986,38 @@
                                 </div>
                                 <div class="detail-item full-width">
                                     <label><i class="fas fa-map-marker-alt"></i> Địa chỉ:</label>
-                                    <span>${member.address || 'Chưa cập nhật'}</span>
+                                    <span>${member.diaChi || 'Chưa cập nhật'}</span>
                                 </div>
                                 <div class="detail-item full-width">
                                     <label><i class="fas fa-sticky-note"></i> Ghi chú:</label>
-                                    <span>${member.notes || 'Không có ghi chú'}</span>
+                                    <span>${member.ghiChu || 'Không có ghi chú'}</span>
                                 </div>
                             </div>
                         </div>
                     `;
                     
-                    showToast(`Xem chi tiết đảng viên: ${member.fullName}`, 'info');
+                    // Hiển thị modal chi tiết (sử dụng document detail modal tạm thời)
+                    const modalTitle = document.getElementById('docDetailTitle');
+                    const modalSubtitle = document.getElementById('docDetailSubtitle');
+                    const modalContent = document.getElementById('documentDetailContent');
+                    
+                    if (modalTitle && modalSubtitle && modalContent) {
+                        modalTitle.textContent = member.hoTen || 'Chi tiết đảng viên';
+                        modalSubtitle.textContent = `Mã số: ${member.soTheDangVien || 'N/A'} | Chi bộ: ${this.getBranchName(member.chiBo)}`;
+                        modalContent.innerHTML = detailHtml;
+                        openModal('documentDetailModal');
+                    }
+                    
+                    showToast(`Xem chi tiết đảng viên: ${member.hoTen || 'Không có tên'}`, 'info');
+                }
+            },
+
+            openEditMemberForm: function(memberId) {
+                const member = this.members.find(m => m.id === memberId || m.maDangVien === memberId);
+                
+                if (member) {
+                    showToast(`Mở form sửa thông tin đảng viên: ${member.hoTen || 'Không có tên'}`, 'info');
+                    // TODO: Implement edit member form
                 }
             },
 
@@ -3951,18 +4027,32 @@
                 }
             },
 
-            deleteMember: function(memberId) {
-                let members = JSON.parse(localStorage.getItem('partyMembers')) || [];
-                const memberIndex = members.findIndex(m => m.id === memberId);
-                
-                if (memberIndex !== -1) {
-                    const memberName = members[memberIndex].fullName;
-                    members.splice(memberIndex, 1);
-                    localStorage.setItem('partyMembers', JSON.stringify(members));
+            deleteMember: async function(memberId) {
+                try {
+                    showToast('Đang xóa đảng viên...', 'info');
                     
-                    this.renderMembersTable();
-                    this.updateStatistics();
-                    showToast(`Đã xóa đảng viên ${memberName}`, 'success');
+                    // Gọi API DELETE
+                    const response = await fetch(`/api/dangvien/${memberId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        // Xóa khỏi danh sách local
+                        this.members = this.members.filter(m => m.id !== memberId && m.maDangVien !== memberId);
+                        
+                        // Cập nhật giao diện
+                        this.renderMembersTable();
+                        this.updateStatistics();
+                        showToast('Đã xóa đảng viên thành công!', 'success');
+                    } else {
+                        throw new Error('Xóa không thành công');
+                    }
+                } catch (error) {
+                    console.error('Lỗi khi xóa đảng viên:', error);
+                    showToast('Không thể xóa đảng viên. Vui lòng thử lại!', 'error');
                 }
             },
 
@@ -3980,13 +4070,14 @@
 
             getBranchName: function(branchCode) {
                 const branches = {
-                    'VP': 'Văn phòng',
-                    'BT': 'Bảo trì',
-                    'MT': 'Môi trường',
-                    'CD': 'Cơ Điện',
-                    'TT': 'Thông tin'
+                    'VP': 'Văn phòng Trung tâm',
+                    'BT': 'Đội Bảo trì Sân đường',
+                    'MT': 'Đội Môi trường Khu bay',
+                    'CD': 'Đội Thiết bị Cơ, Điện, Đèn',
+                    'TT': 'Đội Thiết bị Thông tin Dẫn đường',
+                    'unknown': 'Không xác định'
                 };
-                return branches[branchCode] || 'Không xác định';
+                return branches[branchCode] || branchCode || 'Không xác định';
             },
 
             getBranchIcon: function(branchCode) {
@@ -3995,7 +4086,8 @@
                     'BT': 'fas fa-road',
                     'MT': 'fas fa-leaf',
                     'CD': 'fas fa-bolt',
-                    'TT': 'fas fa-satellite-dish'
+                    'TT': 'fas fa-satellite-dish',
+                    'unknown': 'fas fa-question-circle'
                 };
                 return icons[branchCode] || 'fas fa-question-circle';
             },
@@ -4007,1116 +4099,23 @@
                     'transferred': '<span class="badge badge-info">Chuyển đi</span>',
                     'inactive': '<span class="badge badge-secondary">Ngừng sinh hoạt</span>'
                 };
-                return badges[status] || '<span class="badge">Không xác định</span>';
+                return badges[status] || '<span class="badge badge-success">Đang sinh hoạt</span>';
             }
         };
 
-        // ====== DOCUMENTS MANAGER (WITH FILE UPLOAD) ======
+        // ====== DOCUMENTS MANAGER ======
         const DocumentsManager = {
-            documents: [],
-            
             init: function() {
-                console.log('📄 Khởi tạo Quản lý Văn bản (có upload file)...');
-                this.loadDocuments();
-                this.setupEventListeners();
-                this.renderDocuments();
-            },
-            
-            loadDocuments: function() {
-                const savedDocs = localStorage.getItem('partyDocuments');
-                if (!savedDocs) {
-                    // Sample documents with attachments
-                    this.documents = [
-                        {
-                            id: 1,
-                            type: 'resolution',
-                            code: 'NQ-2025-001',
-                            title: 'Nghị quyết Đại hội Chi bộ tháng 12/2025',
-                            description: 'Nghị quyết tổng kết công tác năm 2025 và phương hướng năm 2026',
-                            date: '2025-12-15',
-                            status: 'approved',
-                            tags: ['Đại hội', 'Tổng kết', 'Kế hoạch'],
-                            author: 'Chi bộ Văn phòng',
-                            createdAt: '2025-12-10',
-                            attachments: [
-                                {
-                                    id: 'file1',
-                                    name: 'Nghị quyết Đại hội 2025.pdf',
-                                    size: 2457600,
-                                    type: 'pdf',
-                                    uploadDate: '2025-12-10'
-                                }
-                            ]
-                        },
-                        {
-                            id: 2,
-                            type: 'report',
-                            code: 'BC-2025-Q4',
-                            title: 'Báo cáo công tác phát triển Đảng quý IV/2025',
-                            description: 'Báo cáo tổng hợp tình hình phát triển đảng viên mới và công tác đào tạo',
-                            date: '2025-12-20',
-                            status: 'pending',
-                            tags: ['Phát triển', 'Báo cáo', 'Quý IV'],
-                            author: 'Ban Tổ chức',
-                            createdAt: '2025-12-18',
-                            attachments: [
-                                {
-                                    id: 'file2',
-                                    name: 'Báo cáo phát triển Q4.docx',
-                                    size: 1843200,
-                                    type: 'docx',
-                                    uploadDate: '2025-12-18'
-                                }
-                            ]
-                        }
-                    ];
-                    localStorage.setItem('partyDocuments', JSON.stringify(this.documents));
-                } else {
-                    this.documents = JSON.parse(savedDocs);
-                }
-            },
-            
-            setupEventListeners: function() {
-                // Search input
-                const searchInput = document.getElementById('documentSearch');
-                if (searchInput) {
-                    searchInput.addEventListener('input', (e) => {
-                        documentSearchTerm = e.target.value.toLowerCase();
-                        this.renderDocuments();
-                    });
-                }
-                
-                // Filter buttons
-                const filterButtons = document.querySelectorAll('.doc-type-btn');
-                filterButtons.forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        filterButtons.forEach(b => b.classList.remove('active'));
-                        e.target.classList.add('active');
-                        currentDocumentFilter = e.target.dataset.type;
-                        this.renderDocuments();
-                    });
-                });
-                
-                // File upload area
-                const fileUploadArea = document.getElementById('fileUploadArea');
-                const fileInput = document.getElementById('fileInput');
-                
-                fileUploadArea.addEventListener('click', () => {
-                    fileInput.click();
-                });
-                
-                fileUploadArea.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    fileUploadArea.style.background = 'rgba(139, 0, 0, 0.1)';
-                    fileUploadArea.style.borderColor = 'var(--secondary-red)';
-                });
-                
-                fileUploadArea.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    fileUploadArea.style.background = 'rgba(139, 0, 0, 0.02)';
-                    fileUploadArea.style.borderColor = 'var(--primary-red)';
-                });
-                
-                fileUploadArea.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    fileUploadArea.style.background = 'rgba(139, 0, 0, 0.02)';
-                    fileUploadArea.style.borderColor = 'var(--primary-red)';
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        handleFileSelect(files[0]);
-                    }
-                });
-                
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        handleFileSelect(e.target.files[0]);
-                    }
-                });
-                
-                // Document upload form
-                const uploadForm = document.getElementById('documentUploadForm');
-                if (uploadForm) {
-                    uploadForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        this.saveDocument();
-                    });
-                }
-            },
-            
-            renderDocuments: function() {
-                const grid = document.getElementById('documentsGrid');
-                if (!grid) return;
-                
-                let filteredDocs = this.documents;
-                
-                // Apply type filter
-                if (currentDocumentFilter !== 'all') {
-                    filteredDocs = filteredDocs.filter(doc => doc.type === currentDocumentFilter);
-                }
-                
-                // Apply search filter
-                if (documentSearchTerm) {
-                    filteredDocs = filteredDocs.filter(doc => 
-                        doc.title.toLowerCase().includes(documentSearchTerm) ||
-                        doc.code.toLowerCase().includes(documentSearchTerm) ||
-                        doc.description.toLowerCase().includes(documentSearchTerm) ||
-                        (doc.tags && doc.tags.some(tag => tag.toLowerCase().includes(documentSearchTerm))) ||
-                        doc.author.toLowerCase().includes(documentSearchTerm)
-                    );
-                }
-                
-                // Sort by date (newest first)
-                filteredDocs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                
-                if (filteredDocs.length === 0) {
-                    grid.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1/-1;">
-                            <i class="fas fa-file-alt"></i>
-                            <p>Không tìm thấy văn bản nào</p>
-                            <button class="btn btn-primary" onclick="openDocumentUploadModal()">
-                                <i class="fas fa-plus"></i> Thêm văn bản đầu tiên
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = '';
-                filteredDocs.forEach(doc => {
-                    const typeIcons = {
-                        'resolution': 'fa-file-contract',
-                        'directive': 'fa-bullhorn',
-                        'report': 'fa-chart-bar',
-                        'decision': 'fa-gavel',
-                        'announcement': 'fa-bullhorn',
-                        'other': 'fa-file'
-                    };
-                    
-                    const statusText = {
-                        'draft': 'Bản nháp',
-                        'pending': 'Chờ duyệt',
-                        'approved': 'Đã duyệt',
-                        'archived': 'Đã lưu trữ'
-                    };
-                    
-                    const statusClass = {
-                        'draft': 'status-draft',
-                        'pending': 'status-pending',
-                        'approved': 'status-approved',
-                        'archived': 'status-draft'
-                    };
-                    
-                    const typeText = {
-                        'resolution': 'Nghị quyết',
-                        'directive': 'Chỉ thị',
-                        'report': 'Báo cáo',
-                        'decision': 'Quyết định',
-                        'announcement': 'Thông báo',
-                        'other': 'Văn bản khác'
-                    };
-                    
-                    const date = new Date(doc.date);
-                    const formattedDate = date.toLocaleDateString('vi-VN');
-                    
-                    html += `
-                        <div class="document-card">
-                            <div class="document-header">
-                                <div class="document-icon">
-                                    <i class="fas ${typeIcons[doc.type]}"></i>
-                                </div>
-                                <div class="document-info">
-                                    <div class="document-title">${doc.title}</div>
-                                    <div class="document-meta">
-                                        <span><i class="fas fa-hashtag"></i> ${doc.code}</span>
-                                        <span><i class="far fa-calendar"></i> ${formattedDate}</span>
-                                        <span><i class="fas fa-file-signature"></i> ${typeText[doc.type]}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="document-body">
-                                <div class="document-desc">${doc.description}</div>
-                                <div class="document-tags">
-                                    ${doc.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-                                </div>
-                                
-                                <!-- File attachments preview -->
-                                ${doc.attachments && doc.attachments.length > 0 ? `
-                                    <div class="file-attachment" style="margin-top: 15px;">
-                                        <div class="file-icon">
-                                            <i class="fas fa-${getFileIcon(doc.attachments[0].name)}"></i>
-                                        </div>
-                                        <div class="file-info">
-                                            <div class="file-name">${doc.attachments[0].name}</div>
-                                            <div class="file-size">${formatFileSize(doc.attachments[0].size)}</div>
-                                        </div>
-                                        <div class="file-actions">
-                                            <button class="file-btn" onclick="DocumentsManager.downloadFile(${doc.id}, '${doc.attachments[0].id}')" title="Tải xuống">
-                                                <i class="fas fa-download"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    ${doc.attachments.length > 1 ? 
-                                        `<div style="font-size: 12px; color: var(--medium-gray); margin-top: 5px;">
-                                            + ${doc.attachments.length - 1} file đính kèm khác
-                                        </div>` : ''
-                                    }
-                                ` : ''}
-                            </div>
-                            <div class="document-footer">
-                                <div class="document-author">
-                                    <i class="fas fa-user-edit"></i> ${doc.author}
-                                </div>
-                                <div class="document-status ${statusClass[doc.status]}">
-                                    ${statusText[doc.status]}
-                                </div>
-                            </div>
-                            <div style="padding: 15px 20px; border-top: 1px solid var(--light-gray); display: flex; gap: 10px;">
-                                <button class="btn-action btn-view" onclick="DocumentsManager.viewDocument(${doc.id})" title="Xem chi tiết">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-action btn-edit" onclick="DocumentsManager.editDocument(${doc.id})" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-action btn-delete" onclick="DocumentsManager.confirmDelete(${doc.id})" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                grid.innerHTML = html;
-            },
-            
-            saveDocument: function() {
-                // Validate required fields
-                const docType = document.getElementById('docType').value;
-                const docCode = document.getElementById('docCode').value.trim();
-                const docTitle = document.getElementById('docTitle').value.trim();
-                const docDate = document.getElementById('docDate').value;
-                const docStatus = document.getElementById('docStatus').value;
-                
-                if (!docType || !docCode || !docTitle || !docDate || !docStatus) {
-                    showToast('Vui lòng điền đầy đủ thông tin bắt buộc!', 'error');
-                    return;
-                }
-                
-                if (!selectedDocumentFile) {
-                    showToast('Vui lòng chọn file đính kèm!', 'error');
-                    return;
-                }
-                
-                // Show loading
-                const submitBtn = document.getElementById('submitDocumentBtn');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> Đang lưu...';
-                submitBtn.disabled = true;
-                
-                // Simulate upload delay
-                setTimeout(() => {
-                    // Create new document
-                    const newDoc = {
-                        id: Date.now(),
-                        type: docType,
-                        code: docCode,
-                        title: docTitle,
-                        description: document.getElementById('docDescription').value.trim(),
-                        date: docDate,
-                        status: docStatus,
-                        tags: document.getElementById('docTags').value
-                            .split(',')
-                            .map(tag => tag.trim())
-                            .filter(tag => tag.length > 0),
-                        author: currentUser ? currentUser.name : 'Người tạo',
-                        createdAt: new Date().toISOString().split('T')[0],
-                        attachments: [
-                            {
-                                id: 'file_' + Date.now(),
-                                name: selectedDocumentFile.name,
-                                size: selectedDocumentFile.size,
-                                type: selectedDocumentFile.type,
-                                uploadDate: new Date().toISOString().split('T')[0]
-                            }
-                        ]
-                    };
-                    
-                    // Add to documents array
-                    this.documents.unshift(newDoc);
-                    
-                    // Save to localStorage
-                    localStorage.setItem('partyDocuments', JSON.stringify(this.documents));
-                    
-                    // Reset form
-                    document.getElementById('documentUploadForm').reset();
-                    removeSelectedFile();
-                    document.getElementById('docDate').value = new Date().toISOString().split('T')[0];
-                    
-                    // Close modal
-                    closeModal('documentUploadModal');
-                    
-                    // Update UI
-                    this.renderDocuments();
-                    
-                    // Show success message
-                    showToast(`Đã thêm văn bản "${docTitle}" thành công!`, 'success');
-                    
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 1500);
-            },
-            
-            viewDocument: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc) return;
-                
-                const typeText = {
-                    'resolution': 'Nghị quyết',
-                    'directive': 'Chỉ thị',
-                    'report': 'Báo cáo',
-                    'decision': 'Quyết định',
-                    'announcement': 'Thông báo',
-                    'other': 'Văn bản khác'
-                };
-                
-                const statusText = {
-                    'draft': 'Bản nháp',
-                    'pending': 'Chờ duyệt',
-                    'approved': 'Đã duyệt',
-                    'archived': 'Đã lưu trữ'
-                };
-                
-                const statusClass = {
-                    'draft': 'badge-secondary',
-                    'pending': 'badge-warning',
-                    'approved': 'badge-success',
-                    'archived': 'badge-info'
-                };
-                
-                const date = new Date(doc.date);
-                const formattedDate = date.toLocaleDateString('vi-VN');
-                const createdDate = new Date(doc.createdAt).toLocaleDateString('vi-VN');
-                
-                let attachmentsHtml = '';
-                if (doc.attachments && doc.attachments.length > 0) {
-                    doc.attachments.forEach(attachment => {
-                        attachmentsHtml += `
-                            <div class="file-attachment">
-                                <div class="file-icon">
-                                    <i class="fas fa-${getFileIcon(attachment.name)}"></i>
-                                </div>
-                                <div class="file-info">
-                                    <div class="file-name">${attachment.name}</div>
-                                    <div class="file-size">${formatFileSize(attachment.size)}</div>
-                                </div>
-                                <div class="file-actions">
-                                    <button class="file-btn" onclick="DocumentsManager.downloadFile(${doc.id}, '${attachment.id}')" title="Tải xuống">
-                                        <i class="fas fa-download"></i>
-                                    </button>
-                                    <button class="file-btn" onclick="DocumentsManager.previewFile('${attachment.id}')" title="Xem trước">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    attachmentsHtml = '<p style="color: var(--medium-gray); font-style: italic;">Không có file đính kèm</p>';
-                }
-                
-                let tagsHtml = '';
-                if (doc.tags && doc.tags.length > 0) {
-                    tagsHtml = doc.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                } else {
-                    tagsHtml = '<span style="color: var(--medium-gray); font-style: italic;">Không có tag</span>';
-                }
-                
-                const detailHtml = `
-                    <div class="document-detail">
-                        <div style="margin-bottom: 30px;">
-                            <h3 style="color: var(--primary-red); margin-bottom: 15px; font-size: 22px;">${doc.title}</h3>
-                            <div style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
-                                <div style="background: var(--light-gray); padding: 10px 15px; border-radius: var(--border-radius);">
-                                    <div style="font-size: 12px; color: var(--medium-gray);">Số ký hiệu</div>
-                                    <div style="font-weight: 700; color: var(--dark-gray);">${doc.code}</div>
-                                </div>
-                                <div style="background: var(--light-gray); padding: 10px 15px; border-radius: var(--border-radius);">
-                                    <div style="font-size: 12px; color: var(--medium-gray);">Ngày ban hành</div>
-                                    <div style="font-weight: 700; color: var(--dark-gray);">${formattedDate}</div>
-                                </div>
-                                <div style="background: var(--light-gray); padding: 10px 15px; border-radius: var(--border-radius);">
-                                    <div style="font-size: 12px; color: var(--medium-gray);">Loại văn bản</div>
-                                    <div style="font-weight: 700; color: var(--dark-gray);">${typeText[doc.type]}</div>
-                                </div>
-                                <div style="background: var(--light-gray); padding: 10px 15px; border-radius: var(--border-radius);">
-                                    <div style="font-size: 12px; color: var(--medium-gray);">Trạng thái</div>
-                                    <div><span class="${statusClass[doc.status]}" style="padding: 4px 10px; border-radius: 12px; font-size: 12px;">${statusText[doc.status]}</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 25px;">
-                            <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">Mô tả/Nội dung:</h4>
-                            <div style="background: var(--light-gray); padding: 20px; border-radius: var(--border-radius); line-height: 1.6;">
-                                ${doc.description || '<span style="color: var(--medium-gray); font-style: italic;">Không có mô tả</span>'}
-                            </div>
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 25px;">
-                            <div>
-                                <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">Thông tin bổ sung:</h4>
-                                <div style="display: flex; flex-direction: column; gap: 12px;">
-                                    <div><strong>Người tạo:</strong> ${doc.author}</div>
-                                    <div><strong>Ngày tạo:</strong> ${createdDate}</div>
-                                    <div><strong>Số file đính kèm:</strong> ${doc.attachments ? doc.attachments.length : 0}</div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">Tags:</h4>
-                                <div class="document-tags">
-                                    ${tagsHtml}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: 25px;">
-                            <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">
-                                <i class="fas fa-paperclip"></i> File đính kèm (${doc.attachments ? doc.attachments.length : 0})
-                            </h4>
-                            <div class="attachments-list">
-                                ${attachmentsHtml}
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--light-gray);">
-                            <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thao tác:</h4>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button class="btn btn-primary" onclick="DocumentsManager.downloadAllFiles(${doc.id})">
-                                    <i class="fas fa-download"></i> Tải tất cả file
-                                </button>
-                                <button class="btn btn-secondary" onclick="DocumentsManager.printDocument(${doc.id})">
-                                    <i class="fas fa-print"></i> In văn bản
-                                </button>
-                                <button class="btn btn-secondary" onclick="DocumentsManager.shareDocument(${doc.id})">
-                                    <i class="fas fa-share"></i> Chia sẻ
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                document.getElementById('docDetailTitle').textContent = doc.title;
-                document.getElementById('docDetailSubtitle').textContent = `${doc.code} | ${typeText[doc.type]} | ${formattedDate}`;
-                document.getElementById('documentDetailContent').innerHTML = detailHtml;
-                openModal('documentDetailModal');
-            },
-            
-            editDocument: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc) return;
-                
-                // Fill form with document data
-                document.getElementById('docType').value = doc.type;
-                document.getElementById('docCode').value = doc.code;
-                document.getElementById('docTitle').value = doc.title;
-                document.getElementById('docDescription').value = doc.description || '';
-                document.getElementById('docDate').value = doc.date;
-                document.getElementById('docStatus').value = doc.status;
-                document.getElementById('docTags').value = doc.tags ? doc.tags.join(', ') : '';
-                
-                // TODO: Handle existing attachments
-                
-                openModal('documentUploadModal');
-                showToast(`Chỉnh sửa văn bản: ${doc.title}`, 'info');
-            },
-            
-            confirmDelete: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc) return;
-                
-                if (confirm(`Bạn có chắc chắn muốn xóa văn bản "${doc.title}"?`)) {
-                    this.deleteDocument(docId);
-                }
-            },
-            
-            deleteDocument: function(docId) {
-                const index = this.documents.findIndex(d => d.id === docId);
-                if (index !== -1) {
-                    const deletedDoc = this.documents[index];
-                    this.documents.splice(index, 1);
-                    localStorage.setItem('partyDocuments', JSON.stringify(this.documents));
-                    this.renderDocuments();
-                    showToast(`Đã xóa văn bản "${deletedDoc.title}"`, 'success');
-                }
-            },
-            
-            downloadFile: function(docId, fileId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc || !doc.attachments) return;
-                
-                const file = doc.attachments.find(f => f.id === fileId);
-                if (!file) return;
-                
-                showToast(`Đang tải xuống: ${file.name}`, 'info');
-                
-                // Simulate download
-                setTimeout(() => {
-                    showToast(`Đã tải xuống: ${file.name}`, 'success');
-                }, 1000);
-            },
-            
-            downloadAllFiles: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc || !doc.attachments || doc.attachments.length === 0) {
-                    showToast('Không có file để tải xuống', 'warning');
-                    return;
-                }
-                
-                showToast(`Đang tải xuống ${doc.attachments.length} file...`, 'info');
-                
-                // Simulate download
-                setTimeout(() => {
-                    showToast(`Đã tải xuống tất cả file của văn bản "${doc.title}"`, 'success');
-                }, 1500);
-            },
-            
-            previewFile: function(fileId) {
-                showToast('Chức năng xem trước file đang được phát triển', 'info');
-            },
-            
-            printDocument: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc) return;
-                
-                showToast('Đang chuẩn bị in...', 'info');
-                
-                // Create print window
-                const printWindow = window.open('', '_blank');
-                printWindow.document.write(`
-                    <html>
-                    <head>
-                        <title>${doc.title}</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; margin: 40px; }
-                            h1 { color: #8B0000; border-bottom: 2px solid #8B0000; padding-bottom: 10px; }
-                            .meta { background: #f5f5f5; padding: 15px; margin: 20px 0; border-radius: 5px; }
-                            .content { line-height: 1.6; }
-                            .footer { margin-top: 50px; text-align: right; font-style: italic; color: #666; }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>${doc.title}</h1>
-                        <div class="meta">
-                            <p><strong>Số/Ký hiệu:</strong> ${doc.code}</p>
-                            <p><strong>Ngày ban hành:</strong> ${new Date(doc.date).toLocaleDateString('vi-VN')}</p>
-                            <p><strong>Người tạo:</strong> ${doc.author}</p>
-                        </div>
-                        <div class="content">
-                            ${doc.description || '<p><em>Không có nội dung</em></p>'}
-                        </div>
-                        <div class="footer">
-                            <p>Trích từ: Hệ thống Quản lý Văn bản Đảng</p>
-                            <p>Ngày in: ${new Date().toLocaleDateString('vi-VN')}</p>
-                        </div>
-                    </body>
-                    </html>
-                `);
-                printWindow.document.close();
-                printWindow.focus();
-                
-                setTimeout(() => {
-                    printWindow.print();
-                    printWindow.close();
-                }, 500);
-            },
-            
-            shareDocument: function(docId) {
-                const doc = this.documents.find(d => d.id === docId);
-                if (!doc) return;
-                
-                const shareUrl = `${window.location.origin}?doc=${docId}`;
-                
-                if (navigator.share) {
-                    navigator.share({
-                        title: doc.title,
-                        text: doc.description,
-                        url: shareUrl
-                    });
-                } else {
-                    // Fallback for browsers that don't support Web Share API
-                    navigator.clipboard.writeText(shareUrl);
-                    showToast('Đã sao chép link chia sẻ vào clipboard!', 'success');
-                }
-            },
-            
-            exportDocuments: function() {
-                showToast('Đang xuất dữ liệu ra Excel...', 'info');
-                
-                // Create CSV content
-                let csv = 'STT,Số ký hiệu,Tiêu đề,Loại văn bản,Ngày ban hành,Trạng thái,Tác giả,Số file đính kèm\n';
-                
-                this.documents.forEach((doc, index) => {
-                    const typeText = {
-                        'resolution': 'Nghị quyết',
-                        'directive': 'Chỉ thị',
-                        'report': 'Báo cáo',
-                        'decision': 'Quyết định',
-                        'announcement': 'Thông báo',
-                        'other': 'Văn bản khác'
-                    };
-                    
-                    csv += `${index + 1},${doc.code},"${doc.title}",${typeText[doc.type]},${doc.date},${doc.status},${doc.author},${doc.attachments ? doc.attachments.length : 0}\n`;
-                });
-                
-                // Create download link
-                const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-                
-                link.setAttribute('href', url);
-                link.setAttribute('download', `van-ban-dang-${new Date().toISOString().split('T')[0]}.csv`);
-                link.style.visibility = 'hidden';
-                
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                setTimeout(() => {
-                    showToast('Đã xuất dữ liệu thành công!', 'success');
-                }, 1000);
+                console.log('📄 Khởi tạo Quản lý Văn bản...');
+                // TODO: Implement documents management
             }
         };
 
         // ====== MEETINGS MANAGER ======
         const MeetingsManager = {
-            currentDate: new Date(),
-            
             init: function() {
                 console.log('📅 Khởi tạo Quản lý Sinh hoạt...');
-                this.renderCalendar();
-                this.loadMeetings();
-                this.setupEventListeners();
-            },
-            
-            renderCalendar: function() {
-                const calendarGrid = document.getElementById('calendarGrid');
-                const monthYear = document.getElementById('currentMonth');
-                
-                if (!calendarGrid) return;
-                
-                const year = this.currentDate.getFullYear();
-                const month = this.currentDate.getMonth();
-                
-                // Cập nhật tháng năm
-                const monthNames = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-                                   'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
-                monthYear.textContent = `${monthNames[month]}, ${year}`;
-                
-                // Tạo lịch
-                let html = '';
-                
-                // Header các ngày trong tuần
-                const days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
-                days.forEach(day => {
-                    html += `<div class="calendar-day-header">${day}</div>`;
-                });
-                
-                // Tính ngày đầu tiên và số ngày trong tháng
-                const firstDay = new Date(year, month, 1);
-                const lastDay = new Date(year, month + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startDay = firstDay.getDay();
-                
-                // Thêm các ô trống cho những ngày đầu tháng
-                for (let i = 0; i < startDay; i++) {
-                    html += `<div class="calendar-day"></div>`;
-                }
-                
-                // Thêm các ngày trong tháng
-                const today = new Date();
-                const currentMeetings = this.getMeetingsForMonth(month, year);
-                
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const date = new Date(year, month, day);
-                    const isToday = date.getDate() === today.getDate() && 
-                                   date.getMonth() === today.getMonth() && 
-                                   date.getFullYear() === today.getFullYear();
-                    
-                    const dayMeetings = currentMeetings.filter(m => {
-                        const meetingDate = new Date(m.date);
-                        return meetingDate.getDate() === day;
-                    });
-                    
-                    html += `
-                        <div class="calendar-day ${isToday ? 'today' : ''}">
-                            <div class="day-number ${isToday ? 'today-number' : ''}">${day}</div>
-                            ${dayMeetings.map(meeting => `
-                                <div class="meeting-event" onclick="MeetingsManager.viewMeetingDetail(${meeting.id})">
-                                    <i class="fas fa-users"></i> ${meeting.title}
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
-                
-                calendarGrid.innerHTML = html;
-                this.renderUpcomingMeetings();
-            },
-            
-            getMeetingsForMonth: function(month, year) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                return meetings.filter(meeting => {
-                    const meetingDate = new Date(meeting.date);
-                    return meetingDate.getMonth() === month && 
-                           meetingDate.getFullYear() === year;
-                });
-            },
-            
-            loadMeetings: function() {
-                if (!localStorage.getItem('partyMeetings')) {
-                    const sampleMeetings = [
-                        {
-                            id: 1,
-                            title: 'Sinh hoạt Chi bộ tháng 1',
-                            date: '2026-01-15',
-                            time: '14:00',
-                            location: 'Phòng họp 301',
-                            type: 'regular',
-                            description: 'Sinh hoạt định kỳ chi bộ, bàn về kế hoạch công tác năm mới',
-                            participants: ['Tất cả đảng viên Chi bộ Văn phòng'],
-                            status: 'scheduled'
-                        }
-                    ];
-                    localStorage.setItem('partyMeetings', JSON.stringify(sampleMeetings));
-                }
-            },
-            
-            setupEventListeners: function() {
-                // Các event listeners sẽ được thêm ở đây
-            },
-            
-            prevMonth: function() {
-                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
-                this.renderCalendar();
-            },
-            
-            nextMonth: function() {
-                this.currentDate.setMonth(this.currentDate.getMonth() + 1);
-                this.renderCalendar();
-            },
-            
-            renderUpcomingMeetings: function() {
-                const container = document.getElementById('upcomingMeetings');
-                if (!container) return;
-                
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const now = new Date();
-                
-                // Lọc các cuộc họp sắp tới (trong vòng 30 ngày tới)
-                const upcoming = meetings.filter(meeting => {
-                    const meetingDate = new Date(meeting.date);
-                    const diffTime = meetingDate - now;
-                    const diffDays = diffTime / (1000 * 60 * 60 * 24);
-                    return diffDays >= 0 && diffDays <= 30;
-                }).sort((a, b) => new Date(a.date) - new Date(b.date));
-                
-                if (upcoming.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state" style="text-align: center; padding: 40px 20px;">
-                            <i class="fas fa-calendar-times" style="font-size: 48px; color: var(--light-gray); margin-bottom: 15px;"></i>
-                            <p style="color: var(--medium-gray); margin-bottom: 20px; font-size: 16px;">Không có cuộc họp nào sắp tới</p>
-                            <button class="btn btn-primary" onclick="MeetingsManager.openAddMeetingForm()">
-                                <i class="fas fa-plus"></i> Thêm cuộc họp mới
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = '';
-                upcoming.forEach(meeting => {
-                    const date = new Date(meeting.date);
-                    const day = date.getDate();
-                    const month = date.getMonth() + 1;
-                    
-                    const typeIcons = {
-                        'regular': 'fa-users',
-                        'committee': 'fa-user-tie',
-                        'congress': 'fa-flag',
-                        'training': 'fa-graduation-cap'
-                    };
-                    
-                    html += `
-                        <div class="meeting-item" onclick="MeetingsManager.viewMeetingDetail(${meeting.id})">
-                            <div class="meeting-time">
-                                <div class="date">${day}</div>
-                                <div class="month">Tháng ${month}</div>
-                            </div>
-                            <div class="meeting-content">
-                                <div class="meeting-title">
-                                    <i class="fas ${typeIcons[meeting.type] || 'fa-calendar'}"></i>
-                                    ${meeting.title}
-                                </div>
-                                <div class="meeting-desc">${meeting.description}</div>
-                                <div style="display: flex; gap: 15px; font-size: 13px; color: var(--medium-gray);">
-                                    <span><i class="far fa-clock"></i> ${meeting.time}</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> ${meeting.location}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-            },
-            
-            openAddMeetingForm: function() {
-                showToast('Mở form thêm cuộc họp mới', 'info');
-                
-                const newMeeting = {
-                    id: Date.now(),
-                    title: 'Cuộc họp mới',
-                    date: new Date().toISOString().split('T')[0],
-                    time: '14:00',
-                    location: 'Phòng họp',
-                    type: 'regular',
-                    description: 'Mô tả cuộc họp',
-                    participants: ['Đảng viên'],
-                    status: 'scheduled'
-                };
-                
-                this.addMeeting(newMeeting);
-            },
-            
-            addMeeting: function(meeting) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                meetings.push(meeting);
-                localStorage.setItem('partyMeetings', JSON.stringify(meetings));
-                
-                this.renderCalendar();
-                showToast(`Đã thêm cuộc họp: ${meeting.title}`, 'success');
-            },
-            
-            viewMeetingDetail: function(meetingId) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const meeting = meetings.find(m => m.id === meetingId);
-                
-                if (meeting) {
-                    const date = new Date(meeting.date);
-                    const formattedDate = date.toLocaleDateString('vi-VN');
-                    
-                    const typeText = {
-                        'regular': 'Sinh hoạt định kỳ',
-                        'committee': 'Họp Ban Chấp hành',
-                        'congress': 'Đại hội',
-                        'training': 'Đào tạo'
-                    };
-                    
-                    const statusText = {
-                        'planned': 'Đã lên kế hoạch',
-                        'scheduled': 'Đã lên lịch',
-                        'completed': 'Đã hoàn thành',
-                        'cancelled': 'Đã hủy'
-                    };
-                    
-                    const participantsList = Array.isArray(meeting.participants) 
-                        ? meeting.participants.map(p => `<li>${p}</li>`).join('')
-                        : `<li>${meeting.participants || 'Tất cả đảng viên'}</li>`;
-                    
-                    const detailHtml = `
-                        <div class="meeting-detail">
-                            <div class="detail-header" style="margin-bottom: 30px;">
-                                <h3 style="color: var(--primary-red); margin-bottom: 10px;">${meeting.title}</h3>
-                                <div style="display: flex; gap: 20px; color: var(--medium-gray); font-size: 14px;">
-                                    <span><i class="far fa-calendar"></i> Ngày: ${formattedDate}</span>
-                                    <span><i class="far fa-clock"></i> Giờ: ${meeting.time}</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> Địa điểm: ${meeting.location}</span>
-                                </div>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px;">
-                                <div>
-                                    <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thông tin chung:</h4>
-                                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                                        <div><strong>Loại cuộc họp:</strong> ${typeText[meeting.type] || meeting.type}</div>
-                                        <div><strong>Trạng thái:</strong> <span class="${meeting.status === 'completed' ? 'badge-success' : meeting.status === 'cancelled' ? 'badge-secondary' : 'badge-info'}" style="padding: 4px 8px; border-radius: 12px; font-size: 12px;">${statusText[meeting.status] || meeting.status}</span></div>
-                                        <div><strong>Thời gian:</strong> ${meeting.time}, ${formattedDate}</div>
-                                        <div><strong>Địa điểm:</strong> ${meeting.location}</div>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thành phần tham dự:</h4>
-                                    <div style="background: var(--light-gray); padding: 15px; border-radius: var(--border-radius); max-height: 200px; overflow-y: auto;">
-                                        <ul style="margin: 0; padding-left: 20px;">
-                                            ${participantsList}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 25px;">
-                                <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">Nội dung/Yêu cầu:</h4>
-                                <div style="background: var(--light-gray); padding: 20px; border-radius: var(--border-radius); line-height: 1.6;">
-                                    ${meeting.description || '<span style="color: var(--medium-gray); font-style: italic;">Không có mô tả chi tiết</span>'}
-                                </div>
-                            </div>
-                            
-                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--light-gray);">
-                                <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thao tác:</h4>
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                    <button class="btn btn-primary" onclick="MeetingsManager.editMeeting(${meeting.id})">
-                                        <i class="fas fa-edit"></i> Chỉnh sửa
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="MeetingsManager.printMeeting(${meeting.id})">
-                                        <i class="fas fa-print"></i> In thông tin
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="MeetingsManager.shareMeeting(${meeting.id})">
-                                        <i class="fas fa-share"></i> Chia sẻ
-                                    </button>
-                                    <button class="btn btn-danger" onclick="MeetingsManager.confirmDeleteMeeting(${meeting.id})">
-                                        <i class="fas fa-trash"></i> Xóa
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.getElementById('meetingModalTitle').textContent = meeting.title;
-                    document.getElementById('meetingModalSubtitle').textContent = `${formattedDate} | ${meeting.time} | ${meeting.location}`;
-                    document.getElementById('meetingDetailContent').innerHTML = detailHtml;
-                    openModal('meetingDetailModal');
-                }
-            },
-            
-            editMeeting: function(meetingId) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const meeting = meetings.find(m => m.id === meetingId);
-                
-                if (meeting) {
-                    showToast(`Mở form chỉnh sửa cuộc họp: ${meeting.title}`, 'info');
-                    // TODO: Tạo form chỉnh sửa cuộc họp
-                }
-            },
-            
-            confirmDeleteMeeting: function(meetingId) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const meeting = meetings.find(m => m.id === meetingId);
-                
-                if (meeting && confirm(`Bạn có chắc chắn muốn xóa cuộc họp "${meeting.title}"?`)) {
-                    this.deleteMeeting(meetingId);
-                }
-            },
-            
-            deleteMeeting: function(meetingId) {
-                let meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const index = meetings.findIndex(m => m.id === meetingId);
-                
-                if (index !== -1) {
-                    const deletedMeeting = meetings[index];
-                    meetings.splice(index, 1);
-                    localStorage.setItem('partyMeetings', JSON.stringify(meetings));
-                    
-                    this.renderCalendar();
-                    closeModal('meetingDetailModal');
-                    showToast(`Đã xóa cuộc họp: ${deletedMeeting.title}`, 'success');
-                }
-            },
-            
-            printMeeting: function(meetingId) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const meeting = meetings.find(m => m.id === meetingId);
-                
-                if (!meeting) return;
-                
-                const printWindow = window.open('', '_blank');
-                const date = new Date(meeting.date);
-                const formattedDate = date.toLocaleDateString('vi-VN');
-                
-                printWindow.document.write(`
-                    <html>
-                    <head>
-                        <title>${meeting.title}</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; margin: 40px; }
-                            .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #8B0000; padding-bottom: 20px; }
-                            h1 { color: #8B0000; margin-bottom: 10px; }
-                            .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; }
-                            .info-card { background: #f5f5f5; padding: 15px; border-radius: 5px; }
-                            .content { line-height: 1.6; margin: 30px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; }
-                            .footer { margin-top: 50px; text-align: right; font-style: italic; color: #666; border-top: 1px solid #ddd; padding-top: 20px; }
-                            .badge { padding: 4px 8px; border-radius: 12px; font-size: 12px; }
-                            .badge-success { background: #d4edda; color: #155724; }
-                            .badge-info { background: #d1ecf1; color: #0c5460; }
-                            .badge-secondary { background: #e2e3e5; color: #383d41; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="header">
-                            <h1>${meeting.title}</h1>
-                            <p>Thông tin chi tiết cuộc họp Đảng</p>
-                        </div>
-                        
-                        <div class="info-grid">
-                            <div class="info-card">
-                                <strong>Ngày:</strong> ${formattedDate}<br>
-                                <strong>Giờ:</strong> ${meeting.time}
-                            </div>
-                            <div class="info-card">
-                                <strong>Địa điểm:</strong> ${meeting.location}<br>
-                                <strong>Trạng thái:</strong> <span class="badge ${meeting.status === 'completed' ? 'badge-success' : meeting.status === 'cancelled' ? 'badge-secondary' : 'badge-info'}">${meeting.status}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="content">
-                            <h3>Nội dung/Yêu cầu:</h3>
-                            <p>${meeting.description || 'Không có mô tả chi tiết'}</p>
-                        </div>
-                        
-                        <div>
-                            <h3>Thành phần tham dự:</h3>
-                            <ul>
-                                ${Array.isArray(meeting.participants) ? meeting.participants.map(p => `<li>${p}</li>`).join('') : `<li>${meeting.participants || 'Tất cả đảng viên'}</li>`}
-                            </ul>
-                        </div>
-                        
-                        <div class="footer">
-                            <p>Trích từ: Hệ thống Quản lý Sinh hoạt Đảng</p>
-                            <p>Ngày in: ${new Date().toLocaleDateString('vi-VN')}</p>
-                        </div>
-                    </body>
-                    </html>
-                `);
-                
-                printWindow.document.close();
-                printWindow.focus();
-                
-                setTimeout(() => {
-                    printWindow.print();
-                    printWindow.close();
-                }, 500);
-            },
-            
-            shareMeeting: function(meetingId) {
-                const meetings = JSON.parse(localStorage.getItem('partyMeetings')) || [];
-                const meeting = meetings.find(m => m.id === meetingId);
-                
-                if (!meeting) return;
-                
-                const shareText = `Cuộc họp: ${meeting.title}\nNgày: ${new Date(meeting.date).toLocaleDateString('vi-VN')}\nGiờ: ${meeting.time}\nĐịa điểm: ${meeting.location}`;
-                
-                if (navigator.share) {
-                    navigator.share({
-                        title: meeting.title,
-                        text: shareText,
-                        url: window.location.href
-                    });
-                } else {
-                    navigator.clipboard.writeText(shareText);
-                    showToast('Đã sao chép thông tin cuộc họp vào clipboard!', 'success');
-                }
+                // TODO: Implement meetings management
             }
         };
 
@@ -5124,297 +4123,7 @@
         const DevelopmentManager = {
             init: function() {
                 console.log('📈 Khởi tạo Quản lý Phát triển Đảng...');
-                this.loadCandidates();
-                this.renderCandidates();
-            },
-
-            loadCandidates: function() {
-                if (!localStorage.getItem('partyCandidates')) {
-                    const sampleCandidates = [
-                        {
-                            id: 1,
-                            name: 'Nguyễn Thị D',
-                            code: 'DT001',
-                            branch: 'VP',
-                            stage: 'dự bị',
-                            progress: 60,
-                            joinDate: '2025-10-15',
-                            assignedTo: 'Nguyễn Văn A',
-                            notes: 'Đang hoàn thiện hồ sơ chính thức',
-                            status: 'active'
-                        },
-                        {
-                            id: 2,
-                            name: 'Trần Văn E',
-                            code: 'DT002',
-                            branch: 'BT',
-                            stage: 'cảm tình',
-                            progress: 40,
-                            joinDate: '2025-11-20',
-                            assignedTo: 'Trần Thị B',
-                            notes: 'Đã học xong lớp cảm tình Đảng',
-                            status: 'active'
-                        },
-                        {
-                            id: 3,
-                            name: 'Lê Văn F',
-                            code: 'DT003',
-                            branch: 'MT',
-                            stage: 'đào tạo',
-                            progress: 75,
-                            joinDate: '2025-09-01',
-                            assignedTo: 'Phạm Văn C',
-                            notes: 'Hoàn thành khóa đào tạo cán bộ',
-                            status: 'active'
-                        }
-                    ];
-                    localStorage.setItem('partyCandidates', JSON.stringify(sampleCandidates));
-                }
-            },
-
-            renderCandidates: function() {
-                const container = document.getElementById('candidatesList');
-                if (!container) return;
-                
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                
-                if (candidates.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state" style="text-align: center; padding: 40px 20px;">
-                            <i class="fas fa-user-friends" style="font-size: 48px; color: var(--light-gray); margin-bottom: 15px;"></i>
-                            <p style="color: var(--medium-gray); margin-bottom: 20px; font-size: 16px;">Chưa có ứng viên phát triển Đảng</p>
-                            <button class="btn btn-primary" onclick="DevelopmentManager.addCandidate()">
-                                <i class="fas fa-plus"></i> Thêm ứng viên đầu tiên
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = '';
-                candidates.forEach(candidate => {
-                    const stageColors = {
-                        'cảm tình': 'var(--warning)',
-                        'dự bị': 'var(--info)',
-                        'đào tạo': 'var(--success)',
-                        'chính thức': 'var(--primary-red)'
-                    };
-                    
-                    const stageText = {
-                        'cảm tình': 'Cảm tình Đảng',
-                        'dự bị': 'Đảng viên dự bị',
-                        'đào tạo': 'Đào tạo cán bộ',
-                        'chính thức': 'Đảng viên chính thức'
-                    };
-                    
-                    html += `
-                        <div class="candidate-item" onclick="DevelopmentManager.viewCandidateDetail(${candidate.id})">
-                            <div class="candidate-avatar">
-                                ${candidate.name.charAt(0)}
-                            </div>
-                            <div class="candidate-info">
-                                <div class="candidate-name">${candidate.name}</div>
-                                <div class="candidate-stage" style="color: ${stageColors[candidate.stage] || 'var(--medium-gray)'}">
-                                    <i class="fas fa-circle" style="font-size: 8px;"></i>
-                                    ${stageText[candidate.stage] || candidate.stage}
-                                </div>
-                                <div style="font-size: 13px; color: var(--medium-gray); margin-top: 5px;">
-                                    <i class="fas fa-sitemap"></i> Chi bộ: ${MembersManager.getBranchName(candidate.branch)} • 
-                                    <i class="fas fa-user-check"></i> Người hướng dẫn: ${candidate.assignedTo}
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="progress-value" style="font-size: 20px;">${candidate.progress}%</div>
-                                <div class="progress-bar" style="width: 100px; margin-top: 5px;">
-                                    <div class="progress-fill" style="width: ${candidate.progress}%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-            },
-
-            viewCandidateDetail: function(candidateId) {
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                const candidate = candidates.find(c => c.id === candidateId);
-                
-                if (candidate) {
-                    const joinDate = new Date(candidate.joinDate);
-                    const formattedDate = joinDate.toLocaleDateString('vi-VN');
-                    
-                    const stageText = {
-                        'cảm tình': 'Cảm tình Đảng',
-                        'dự bị': 'Đảng viên dự bị',
-                        'đào tạo': 'Đào tạo cán bộ',
-                        'chính thức': 'Đảng viên chính thức'
-                    };
-                    
-                    const detailHtml = `
-                        <div class="candidate-detail">
-                            <div class="detail-header" style="margin-bottom: 30px;">
-                                <h3 style="color: var(--primary-red); margin-bottom: 10px;">${candidate.name}</h3>
-                                <div style="display: flex; gap: 20px; color: var(--medium-gray); font-size: 14px;">
-                                    <span><i class="fas fa-hashtag"></i> Mã số: ${candidate.code}</span>
-                                    <span><i class="fas fa-sitemap"></i> Chi bộ: ${MembersManager.getBranchName(candidate.branch)}</span>
-                                    <span><i class="far fa-calendar-alt"></i> Ngày tham gia: ${formattedDate}</span>
-                                </div>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px;">
-                                <div>
-                                    <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thông tin ứng viên:</h4>
-                                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                                        <div><strong>Giai đoạn:</strong> ${stageText[candidate.stage] || candidate.stage}</div>
-                                        <div><strong>Tiến độ:</strong> ${candidate.progress}%</div>
-                                        <div><strong>Người hướng dẫn:</strong> ${candidate.assignedTo}</div>
-                                        <div><strong>Trạng thái:</strong> <span class="${candidate.status === 'active' ? 'badge-success' : 'badge-secondary'}" style="padding: 4px 8px; border-radius: 12px; font-size: 12px;">${candidate.status === 'active' ? 'Đang theo dõi' : 'Đã kết thúc'}</span></div>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Tiến độ chi tiết:</h4>
-                                    <div style="background: var(--light-gray); padding: 20px; border-radius: var(--border-radius);">
-                                        <div class="progress-bar" style="height: 20px; margin-bottom: 15px;">
-                                            <div class="progress-fill" style="width: ${candidate.progress}%"></div>
-                                        </div>
-                                        <div style="text-align: center; font-weight: 600; color: var(--primary-red);">
-                                            ${candidate.progress}% hoàn thành
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 25px;">
-                                <h4 style="color: var(--dark-gray); margin-bottom: 10px; font-weight: 600;">Ghi chú/Đánh giá:</h4>
-                                <div style="background: var(--light-gray); padding: 20px; border-radius: var(--border-radius); line-height: 1.6;">
-                                    ${candidate.notes || '<span style="color: var(--medium-gray); font-style: italic;">Không có ghi chú</span>'}
-                                </div>
-                            </div>
-                            
-                            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--light-gray);">
-                                <h4 style="color: var(--dark-gray); margin-bottom: 15px; font-weight: 600;">Thao tác:</h4>
-                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                    <button class="btn btn-primary" onclick="DevelopmentManager.updateProgress(${candidate.id})">
-                                        <i class="fas fa-chart-line"></i> Cập nhật tiến độ
-                                    </button>
-                                    <button class="btn btn-secondary" onclick="DevelopmentManager.editCandidate(${candidate.id})">
-                                        <i class="fas fa-edit"></i> Chỉnh sửa
-                                    </button>
-                                    <button class="btn btn-danger" onclick="DevelopmentManager.confirmDeleteCandidate(${candidate.id})">
-                                        <i class="fas fa-trash"></i> Xóa
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Hiển thị modal chi tiết ứng viên
-                    const modalTitle = document.getElementById('docDetailTitle');
-                    const modalSubtitle = document.getElementById('docDetailSubtitle');
-                    const modalContent = document.getElementById('documentDetailContent');
-                    
-                    if (modalTitle && modalSubtitle && modalContent) {
-                        modalTitle.textContent = candidate.name;
-                        modalSubtitle.textContent = `Ứng viên phát triển Đảng • ${stageText[candidate.stage] || candidate.stage}`;
-                        modalContent.innerHTML = detailHtml;
-                        openModal('documentDetailModal');
-                    }
-                }
-            },
-
-            addCandidate: function() {
-                showToast('Mở form thêm ứng viên mới', 'info');
-                
-                const newCandidate = {
-                    id: Date.now(),
-                    name: 'Ứng viên Mới',
-                    code: 'DT' + (100 + Math.floor(Math.random() * 900)),
-                    branch: 'VP',
-                    stage: 'cảm tình',
-                    progress: 10,
-                    joinDate: new Date().toISOString().split('T')[0],
-                    assignedTo: 'Người hướng dẫn',
-                    notes: 'Ứng viên mới tham gia',
-                    status: 'active'
-                };
-                
-                this.saveCandidate(newCandidate);
-            },
-
-            saveCandidate: function(candidate) {
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                candidates.push(candidate);
-                localStorage.setItem('partyCandidates', JSON.stringify(candidates));
-                
-                this.renderCandidates();
-                showToast(`Đã thêm ứng viên: ${candidate.name}`, 'success');
-            },
-
-            updateProgress: function(candidateId) {
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                const candidate = candidates.find(c => c.id === candidateId);
-                
-                if (candidate) {
-                    const newProgress = prompt(`Cập nhật tiến độ cho ${candidate.name} (0-100%):`, candidate.progress);
-                    if (newProgress !== null) {
-                        const progressValue = parseInt(newProgress);
-                        if (!isNaN(progressValue) && progressValue >= 0 && progressValue <= 100) {
-                            candidate.progress = progressValue;
-                            
-                            // Nếu tiến độ 100%, tự động chuyển sang giai đoạn tiếp theo
-                            if (progressValue === 100) {
-                                const nextStage = {
-                                    'cảm tình': 'dự bị',
-                                    'dự bị': 'đào tạo',
-                                    'đào tạo': 'chính thức',
-                                    'chính thức': 'chính thức'
-                                };
-                                candidate.stage = nextStage[candidate.stage] || candidate.stage;
-                            }
-                            
-                            localStorage.setItem('partyCandidates', JSON.stringify(candidates));
-                            this.renderCandidates();
-                            showToast(`Đã cập nhật tiến độ cho ${candidate.name}`, 'success');
-                        } else {
-                            showToast('Vui lòng nhập số từ 0 đến 100', 'error');
-                        }
-                    }
-                }
-            },
-
-            editCandidate: function(candidateId) {
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                const candidate = candidates.find(c => c.id === candidateId);
-                
-                if (candidate) {
-                    showToast(`Mở form chỉnh sửa ứng viên: ${candidate.name}`, 'info');
-                    // TODO: Tạo form chỉnh sửa ứng viên
-                }
-            },
-
-            confirmDeleteCandidate: function(candidateId) {
-                const candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                const candidate = candidates.find(c => c.id === candidateId);
-                
-                if (candidate && confirm(`Bạn có chắc chắn muốn xóa ứng viên "${candidate.name}"?`)) {
-                    this.deleteCandidate(candidateId);
-                }
-            },
-
-            deleteCandidate: function(candidateId) {
-                let candidates = JSON.parse(localStorage.getItem('partyCandidates')) || [];
-                const index = candidates.findIndex(c => c.id === candidateId);
-                
-                if (index !== -1) {
-                    const deletedCandidate = candidates[index];
-                    candidates.splice(index, 1);
-                    localStorage.setItem('partyCandidates', JSON.stringify(candidates));
-                    
-                    this.renderCandidates();
-                    showToast(`Đã xóa ứng viên: ${deletedCandidate.name}`, 'success');
-                }
+                // TODO: Implement development management
             }
         };
 
@@ -5422,235 +4131,7 @@
         const ReportsManager = {
             init: function() {
                 console.log('📊 Khởi tạo Quản lý Báo cáo...');
-                this.setupCharts();
-            },
-
-            setupCharts: function() {
-                // Chart 1: Phân bố Đảng viên theo Chi bộ
-                const branchCtx = document.getElementById('branchChart');
-                if (branchCtx) {
-                    const branchData = {
-                        labels: ['Văn phòng', 'Bảo trì', 'Môi trường', 'Cơ Điện', 'Thông tin'],
-                        datasets: [{
-                            data: [35, 28, 22, 25, 46],
-                            backgroundColor: [
-                                'rgba(139, 0, 0, 0.8)',
-                                'rgba(169, 50, 38, 0.8)',
-                                'rgba(212, 175, 55, 0.8)',
-                                'rgba(84, 110, 122, 0.8)',
-                                'rgba(44, 62, 80, 0.8)'
-                            ],
-                            borderColor: [
-                                'rgba(139, 0, 0, 1)',
-                                'rgba(169, 50, 38, 1)',
-                                'rgba(212, 175, 55, 1)',
-                                'rgba(84, 110, 122, 1)',
-                                'rgba(44, 62, 80, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    };
-                    
-                    new Chart(branchCtx, {
-                        type: 'pie',
-                        data: branchData,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'right',
-                                    labels: {
-                                        font: {
-                                            size: 12,
-                                            family: "'Inter', sans-serif"
-                                        },
-                                        color: 'var(--dark-gray)'
-                                    }
-                                },
-                                title: {
-                                    display: false
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // Chart 2: Tình hình Phát triển Đảng viên
-                const devCtx = document.getElementById('developmentChart');
-                if (devCtx) {
-                    const devData = {
-                        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-                        datasets: [
-                            {
-                                label: 'Cảm tình Đảng',
-                                data: [2, 3, 1, 2, 3, 2, 1, 2, 3, 2, 3, 2],
-                                borderColor: 'rgba(255, 193, 7, 1)',
-                                backgroundColor: 'rgba(255, 193, 7, 0.1)',
-                                tension: 0.3
-                            },
-                            {
-                                label: 'Đảng viên dự bị',
-                                data: [1, 2, 2, 1, 2, 3, 2, 1, 2, 3, 2, 3],
-                                borderColor: 'rgba(23, 162, 184, 1)',
-                                backgroundColor: 'rgba(23, 162, 184, 0.1)',
-                                tension: 0.3
-                            },
-                            {
-                                label: 'Chính thức',
-                                data: [1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1],
-                                borderColor: 'rgba(40, 167, 69, 1)',
-                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                                tension: 0.3
-                            }
-                        ]
-                    };
-                    
-                    new Chart(devCtx, {
-                        type: 'line',
-                        data: devData,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    position: 'top',
-                                    labels: {
-                                        font: {
-                                            size: 12,
-                                            family: "'Inter', sans-serif"
-                                        },
-                                        color: 'var(--dark-gray)'
-                                    }
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    grid: {
-                                        color: 'rgba(0, 0, 0, 0.05)'
-                                    }
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                    grid: {
-                                        color: 'rgba(0, 0, 0, 0.05)'
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            },
-
-            generateMemberReport: function() {
-                showToast('Đang tạo báo cáo đảng viên...', 'info');
-                
-                setTimeout(() => {
-                    this.downloadReport('party_members_report.pdf', 'Báo cáo Đảng viên');
-                }, 1500);
-            },
-
-            generateMeetingReport: function() {
-                showToast('Đang tạo báo cáo sinh hoạt...', 'info');
-                
-                setTimeout(() => {
-                    this.downloadReport('party_meetings_report.pdf', 'Báo cáo Sinh hoạt');
-                }, 1500);
-            },
-
-            generateDocumentReport: function() {
-                showToast('Đang tạo báo cáo văn bản...', 'info');
-                
-                setTimeout(() => {
-                    this.downloadReport('party_documents_report.pdf', 'Báo cáo Văn bản');
-                }, 1500);
-            },
-
-            generateDevelopmentReport: function() {
-                showToast('Đang tạo báo cáo phát triển...', 'info');
-                
-                setTimeout(() => {
-                    this.downloadReport('party_development_report.pdf', 'Báo cáo Phát triển');
-                }, 1500);
-            },
-
-            downloadReport: function(filename, title) {
-                // Tạo nội dung báo cáo mẫu
-                const reportContent = `
-                    <html>
-                    <head>
-                        <title>${title}</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; margin: 40px; }
-                            .header { text-align: center; margin-bottom: 40px; }
-                            h1 { color: #8B0000; }
-                            .info { background: #f5f5f5; padding: 20px; margin-bottom: 30px; border-radius: 5px; }
-                            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                            th { background: #8B0000; color: white; padding: 12px; text-align: left; }
-                            td { padding: 10px 12px; border-bottom: 1px solid #ddd; }
-                            .footer { margin-top: 50px; text-align: center; font-style: italic; color: #666; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="header">
-                            <h1>${title}</h1>
-                            <p>Trung tâm Khai thác Khu bay Nội Bài</p>
-                            <p>Ngày xuất báo cáo: ${new Date().toLocaleDateString('vi-VN')}</p>
-                        </div>
-                        
-                        <div class="info">
-                            <p><strong>Phạm vi báo cáo:</strong> Toàn bộ hệ thống</p>
-                            <p><strong>Thời gian:</strong> ${new Date().getFullYear()}</p>
-                            <p><strong>Tổng số bản ghi:</strong> 156 đảng viên / 42 văn bản / 8 cuộc họp</p>
-                        </div>
-                        
-                        <h3>Thống kê tổng quan</h3>
-                        <table>
-                            <tr>
-                                <th>Chỉ số</th>
-                                <th>Số lượng</th>
-                                <th>Tỷ lệ</th>
-                            </tr>
-                            <tr>
-                                <td>Tổng số đảng viên</td>
-                                <td>156</td>
-                                <td>100%</td>
-                            </tr>
-                            <tr>
-                                <td>Đảng viên đang sinh hoạt</td>
-                                <td>145</td>
-                                <td>93%</td>
-                            </tr>
-                            <tr>
-                                <td>Đảng viên mới trong năm</td>
-                                <td>12</td>
-                                <td>8%</td>
-                            </tr>
-                            <tr>
-                                <td>Số cuộc họp đã tổ chức</td>
-                                <td>8</td>
-                                <td>100% kế hoạch</td>
-                            </tr>
-                        </table>
-                        
-                        <div class="footer">
-                            <p>--- Hết báo cáo ---</p>
-                            <p>Báo cáo được tạo tự động từ Hệ thống Quản lý Công tác Đảng</p>
-                        </div>
-                    </body>
-                    </html>
-                `;
-                
-                // Tạo file PDF ảo để tải xuống
-                const blob = new Blob([reportContent], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                
-                a.href = url;
-                a.download = filename;
-                a.click();
-                
-                showToast(`Đã tạo báo cáo: ${title}`, 'success');
+                // TODO: Implement reports management
             }
         };
 
@@ -5658,59 +4139,7 @@
         const SettingsManager = {
             init: function() {
                 console.log('⚙️ Khởi tạo Cài đặt Hệ thống...');
-                this.setupEventListeners();
-            },
-
-            showTab: function(tabId) {
-                // Ẩn tất cả các tab
-                const tabs = document.querySelectorAll('.settings-tab');
-                const panels = document.querySelectorAll('.settings-panel');
-                
-                tabs.forEach(tab => tab.classList.remove('active'));
-                panels.forEach(panel => panel.classList.remove('active'));
-                
-                // Hiển thị tab được chọn
-                const activeTab = document.querySelector(`[onclick="SettingsManager.showTab('${tabId}')"]`);
-                const activePanel = document.getElementById(tabId + 'Settings');
-                
-                if (activeTab) activeTab.classList.add('active');
-                if (activePanel) activePanel.classList.add('active');
-                
-                showToast(`Mở tab: ${this.getTabName(tabId)}`, 'info');
-            },
-
-            getTabName: function(tabId) {
-                const names = {
-                    'general': 'Cài đặt chung',
-                    'users': 'Quản lý người dùng',
-                    'permissions': 'Phân quyền',
-                    'backup': 'Sao lưu & Khôi phục',
-                    'system': 'Hệ thống'
-                };
-                return names[tabId] || tabId;
-            },
-
-            setupEventListeners: function() {
-                // Các sự kiện cho cài đặt
-                const saveBtn = document.querySelector('[onclick="SettingsManager.saveSettings()"]');
-                if (saveBtn) {
-                    saveBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.saveSettings();
-                    });
-                }
-            },
-
-            saveSettings: function() {
-                // Hiển thị loading
-                const loadingOverlay = document.getElementById('loading-overlay');
-                loadingOverlay.classList.add('active');
-                
-                // Mô phỏng lưu cài đặt
-                setTimeout(() => {
-                    loadingOverlay.classList.remove('active');
-                    showToast('Đã lưu cài đặt thành công!', 'success');
-                }, 1000);
+                // TODO: Implement settings management
             }
         };
 
@@ -5965,4 +4394,3 @@
     </script>
 </body>
 </html>
-
