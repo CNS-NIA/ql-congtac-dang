@@ -6,6 +6,86 @@
     <title>Quản lý Đảng viên</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- JavaScript với hàm GLOBAL -->
+    <script>
+        // ========== HÀM GLOBAL - Gọi từ onclick trong HTML ==========
+        
+        // BIẾN TOÀN CỤC
+        window.API_BASE = 'http://localhost:3000/api';
+        window.API_TOKEN = 'Bearer admin123';
+        
+        // 1. Hàm mở form chỉnh sửa - QUAN TRỌNG NHẤT
+        window.editDangVien = function(id, ho_ten, ngay_sinh, chuc_vu, chi_bo, ngay_vao_dang, trang_thai) {
+            console.log('DEBUG: Gọi hàm editDangVien với ID:', id);
+            
+            // Hiển thị form container
+            const formContainer = document.getElementById('formContainer');
+            if (formContainer) {
+                formContainer.style.display = 'block';
+                
+                // Điền dữ liệu vào form
+                document.getElementById('dangvienId').value = id;
+                document.getElementById('ho_ten').value = ho_ten || '';
+                
+                // Format ngày tháng cho input type="date"
+                document.getElementById('ngay_sinh').value = ngay_sinh ? formatDateForInput(ngay_sinh) : '';
+                document.getElementById('ngay_vao_dang').value = ngay_vao_dang ? formatDateForInput(ngay_vao_dang) : '';
+                
+                document.getElementById('chuc_vu').value = chuc_vu || '';
+                document.getElementById('chi_bo').value = chi_bo || '';
+                document.getElementById('trang_thai').value = trang_thai || 'hoat_dong';
+                
+                // Thay đổi tiêu đề
+                document.getElementById('formTitle').textContent = 'Chỉnh sửa Đảng viên';
+                document.getElementById('submitText').textContent = 'Cập nhật';
+                
+                // Cuộn đến form
+                window.scrollTo({
+                    top: formContainer.offsetTop - 50,
+                    behavior: 'smooth'
+                });
+                
+                console.log('DEBUG: Form đã hiển thị');
+            } else {
+                alert('Lỗi: Không tìm thấy form!');
+            }
+        };
+        
+        // 2. Hàm hiển thị modal xóa
+        window.showDeleteModal = function(id, name) {
+            window.dangvienToDelete = id;
+            document.getElementById('deleteMessage').textContent = 
+                `Bạn có chắc chắn muốn xóa đảng viên "${name}"?`;
+            document.getElementById('deleteModal').style.display = 'flex';
+        };
+        
+        // 3. Hàm chuyển trang
+        window.changePage = function(page) {
+            if (window.fetchDangVien) {
+                window.currentPage = page;
+                window.fetchDangVien(page, window.currentSearch || '');
+            }
+        };
+        
+        // 4. Hàm format ngày cho input
+        function formatDateForInput(dateString) {
+            if (!dateString) return '';
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return dateString.split('T')[0] || '';
+                return date.toISOString().split('T')[0];
+            } catch (e) {
+                return dateString.split('T')[0] || '';
+            }
+        }
+        
+        // 5. Hàm escape string cho JavaScript
+        function escapeJS(str) {
+            if (!str) return '';
+            return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -25,7 +105,7 @@
 
         <!-- Main Content -->
         <div class="content-wrapper">
-            <!-- Form thêm/chỉnh sửa (ẨN/HIỆN) -->
+            <!-- Form chỉnh sửa (ẩn mặc định) -->
             <div class="card" id="formContainer" style="display: none;">
                 <h2><i class="fas fa-edit"></i> <span id="formTitle">Thêm Đảng viên Mới</span></h2>
                 <form id="dangvienForm">
@@ -144,7 +224,7 @@
                 
                 <!-- Phân trang -->
                 <div class="pagination" id="pagination">
-                    <!-- Phân trang sẽ được tạo bằng JS -->
+                    <!-- JS sẽ tạo phân trang -->
                 </div>
             </div>
         </div>
@@ -167,7 +247,7 @@
         </div>
     </div>
 
-    <script src="/script.js"></script>
+    <!-- JavaScript chính -->
     <script src="/dangvien.js"></script>
 </body>
 </html>
