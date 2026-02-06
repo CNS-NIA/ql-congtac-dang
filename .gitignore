@@ -1,35 +1,14 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Thư mục upload
+uploads/
+uploads_backup/
 
-# Environment variables
+# File dữ liệu mẫu (nếu muốn bỏ hoàn toàn)
+data/*.json
+
+# File môi trường & dependencies
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+node_modules/
 
-# Uploads (chỉ giữ thư mục, không giữ file tạm)
-uploads/*.json
-uploads/*.tmp
-uploads/*.txt
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
+# File log, cache của hệ thống
 *.log
-logs/
-
-# Database files (trừ file SQL khởi tạo)
-*.db
-*.sqlite
+.DS_Store
