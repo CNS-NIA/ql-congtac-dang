@@ -58,6 +58,22 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (dang_vien_id) REFERENCES dang_vien(id)
 );
+-- Thêm cột cho soft delete
+ALTER TABLE dang_vien 
+ADD COLUMN deleted_at TIMESTAMP NULL DEFAULT NULL;
+
+-- Tạo index cho tìm kiếm
+CREATE INDEX idx_dangvien_search ON dang_vien(ho_ten, chi_bo, chuc_vu);
+
+-- Tạo bảng logs (tùy chọn)
+CREATE TABLE system_logs (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    action VARCHAR(100),
+    user_id INT,
+    details TEXT,
+    ip_address VARCHAR(45),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Chèn tài khoản admin mẫu (mật khẩu: admin123)
 INSERT INTO users (username, password_hash, full_name, role) VALUES
