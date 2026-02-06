@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Đảng viên</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1><i class="fas fa-users"></i> Quản lý Đảng viên</h1>
+            <p>Quản lý thông tin đảng viên trong chi bộ</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-menu">
+            <a href="/"><i class="fas fa-home"></i> Trang chủ</a>
+            <a href="/dangvien.html" class="active"><i class="fas fa-users"></i> Đảng viên</a>
+            <a href="/sinhhoat.html"><i class="fas fa-calendar-alt"></i> Sinh hoạt</a>
+            <a href="/upload-simple.html"><i class="fas fa-upload"></i> Upload</a>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <!-- Form thêm/chỉnh sửa (ẨN/HIỆN) -->
+            <div class="card" id="formContainer" style="display: none;">
+                <h2><i class="fas fa-edit"></i> <span id="formTitle">Thêm Đảng viên Mới</span></h2>
+                <form id="dangvienForm">
+                    <input type="hidden" id="dangvienId" value="">
+                    
+                    <div class="form-group">
+                        <label for="ho_ten"><i class="fas fa-user"></i> Họ và tên *</label>
+                        <input type="text" id="ho_ten" name="ho_ten" required placeholder="Nhập họ tên đầy đủ">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ngay_sinh"><i class="fas fa-birthday-cake"></i> Ngày sinh</label>
+                            <input type="date" id="ngay_sinh" name="ngay_sinh">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ngay_vao_dang"><i class="fas fa-calendar-check"></i> Ngày vào Đảng</label>
+                            <input type="date" id="ngay_vao_dang" name="ngay_vao_dang">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="chuc_vu"><i class="fas fa-briefcase"></i> Chức vụ</label>
+                            <select id="chuc_vu" name="chuc_vu">
+                                <option value="">-- Chọn chức vụ --</option>
+                                <option value="Bí thư Chi bộ">Bí thư Chi bộ</option>
+                                <option value="Phó Bí thư">Phó Bí thư</option>
+                                <option value="Ủy viên">Ủy viên</option>
+                                <option value="Đảng viên">Đảng viên</option>
+                                <option value="Dự bị">Dự bị Đảng viên</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="chi_bo"><i class="fas fa-building"></i> Chi bộ</label>
+                            <select id="chi_bo" name="chi_bo">
+                                <option value="">-- Chọn chi bộ --</option>
+                                <option value="Chi bộ 1">Chi bộ 1</option>
+                                <option value="Chi bộ 2">Chi bộ 2</option>
+                                <option value="Chi bộ 3">Chi bộ 3</option>
+                                <option value="Chi bộ 4">Chi bộ 4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="trang_thai"><i class="fas fa-circle"></i> Trạng thái</label>
+                        <select id="trang_thai" name="trang_thai">
+                            <option value="hoat_dong">Đang hoạt động</option>
+                            <option value="nghi_huu">Đã nghỉ hưu</option>
+                            <option value="chuyen_cong_tac">Chuyển công tác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> <span id="submitText">Thêm Đảng viên</span>
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">
+                            <i class="fas fa-times"></i> Hủy bỏ
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Thanh công cụ -->
+            <div class="card toolbar">
+                <div class="toolbar-left">
+                    <button class="btn btn-success" id="addBtn">
+                        <i class="fas fa-plus"></i> Thêm Đảng viên
+                    </button>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm đảng viên...">
+                        <button class="btn-search" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn btn-info" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Làm mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Danh sách đảng viên -->
+            <div class="card">
+                <h2><i class="fas fa-list"></i> Danh sách Đảng viên</h2>
+                <div class="table-responsive">
+                    <table class="table" id="dangvienTable">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Họ tên</th>
+                                <th>Ngày sinh</th>
+                                <th>Chức vụ</th>
+                                <th>Chi bộ</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Dữ liệu sẽ được load bằng JS -->
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    <div class="loading">
+                                        <i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Phân trang -->
+                <div class="pagination" id="pagination">
+                    <!-- Phân trang sẽ được tạo bằng JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Hệ thống Quản lý Công tác Đảng &copy; 2026 - Phiên bản 1.0.0</p>
+        </footer>
+    </div>
+
+    <!-- Modal xác nhận xóa -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> Xác nhận xóa</h3>
+            <p id="deleteMessage">Bạn có chắc chắn muốn xóa đảng viên này?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-danger" id="confirmDelete">Xóa</button>
+                <button class="btn btn-secondary" id="cancelDelete">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+    <script src="/dangvien.js"></script>
+</body>
+</html>
