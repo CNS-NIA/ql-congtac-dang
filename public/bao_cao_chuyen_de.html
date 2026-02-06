@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng Hợp Mẫu Báo Cáo Chuyên Đề</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .files-list {
+            padding: 30px 40px;
+        }
+        
+        h2 {
+            color: #1a73e8;
+            border-bottom: 2px solid #e8f0fe;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .file-card {
+            background-color: #f8f9fa;
+            border-left: 5px solid #1a73e8;
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .file-icon {
+            background-color: #1a73e8;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .file-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a237e;
+        }
+        
+        .file-content {
+            padding-left: 65px;
+        }
+        
+        .file-section {
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            color: #1a73e8;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 8px;
+        }
+        
+        .section-content {
+            padding-left: 24px;
+            color: #555;
+        }
+        
+        .highlight {
+            background-color: #e8f0fe;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 3px solid #1a73e8;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f1f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .stat-item h3 {
+            color: #1a73e8;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #f1f8ff;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .files-list {
+                padding: 20px;
+            }
+            
+            .file-content {
+                padding-left: 0;
+            }
+            
+            .file-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .file-icon {
+                margin-bottom: 10px;
+            }
+            
+            .stats {
+                flex-direction: column;
+            }
+            
+            .stat-item {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-folder-open"></i> Tổng Hợp Mẫu Báo Cáo Chuyên Đề</h1>
+            <p class="subtitle">Trang này tổng hợp các mẫu báo cáo chuyên đề về chuyển đổi số trong quản lý trang thiết bị thông tin dẫn đường và đảm bảo an toàn hàng không</p>
+        </header>
+        
+        <div class="files-list">
+            <h2><i class="fas fa-file-alt"></i> Danh sách báo cáo</h2>
+            
+            <!-- File 1 -->
+            <div class="file-card" onclick="showDetails('file1')">
+                <div class="file-title">
+                    <div class="file-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-name">Bao cao chuyen de 6.25.docx</div>
+                </div>
+                <div class="file-content">
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-tag"></i> Loại văn bản:</div>
+                        <div class="section-content">Nghị quyết chuyên đề về đẩy mạnh công tác chuyển đổi số</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-calendar-alt"></i> Ngày thông qua:</div>
+                        <div class="section-content">03 tháng 05 năm 2025</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-info-circle"></i> Nội dung chính:</div>
+                        <div class="section-content">
+                            <ul>
+                                <li>Khái niệm và bối cảnh chuyển đổi số</li>
+                                <li>Mục tiêu tổng quát và cụ thể</li>
+                                <li>Nội dung và giải pháp thực hiện</li>
+                                <li>Tổ chức thực hiện</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="highlight">
+                        <strong>Đơn vị ban hành:</strong> Đảng bộ Trung tâm Khai thác Khu bay Nội Bài - Chi bộ Đội Thiết bị Thông tin Dẫn đường
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File 2 -->
+            <div class="file-card" onclick="showDetails('file2')">
+                <div class="file-title">
+                    <div class="file-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-name">Báo cáo chuyên đề 3.6.2025.docx</div>
+                </div>
+                <div class="file-content">
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-tag"></i> Chủ đề:</div>
+                        <div class="section-content">Ứng dụng chuyển đổi số trong quản lý trang thiết bị thông tin dẫn đường</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-info-circle"></i> Nội dung chính:</div>
+                        <div class="section-content">
+                            <ul>
+                                <li>Giới thiệu về chuyển đổi số và tầm quan trọng</li>
+                                <li>Mô hình chuyển đổi số 4 giai đoạn</li>
+                                <li>Lợi ích và khó khăn trong áp dụng</li>
+                                <li>Kết quả đã làm được và đề xuất</li>
+                                <li>Bảng so sánh hiệu quả trước và sau chuyển đổi số</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File 3 -->
+            <div class="file-card" onclick="showDetails('file3')">
+                <div class="file-title">
+                    <div class="file-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-name">BÁO CÁO CHUYÊN ĐỀ (5.25).docx</div>
+                </div>
+                <div class="file-content">
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-tag"></i> Chủ đề:</div>
+                        <div class="section-content">Ứng dụng chuyển đổi số trong quản lý trang thiết bị thông tin dẫn đường (Bản cập nhật)</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-info-circle"></i> Điểm mới:</div>
+                        <div class="section-content">
+                            <ul>
+                                <li>Nhấn mạnh chính sách quốc gia về chuyển đổi số</li>
+                                <li>Chi tiết hóa các loại trang thiết bị</li>
+                                <li>Cập nhật mô hình 4 giai đoạn với mục tiêu rõ ràng</li>
+                                <li>Bổ sung sơ đồ minh họa chi tiết</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File 4 -->
+            <div class="file-card" onclick="showDetails('file4')">
+                <div class="file-title">
+                    <div class="file-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-name">BÁO CÁO CHUYÊN ĐỀ Quý 3.docx</div>
+                </div>
+                <div class="file-content">
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-tag"></i> Chủ đề:</div>
+                        <div class="section-content">Công tác đảm bảo an toàn trong lĩnh vực hàng không</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-calendar-alt"></i> Thời gian:</div>
+                        <div class="section-content">09/2025</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-user"></i> Người thực hiện:</div>
+                        <div class="section-content">Phạm Minh Quang</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-info-circle"></i> Nội dung chính:</div>
+                        <div class="section-content">
+                            <ul>
+                                <li>An toàn tại khu vực sân đỗ máy bay</li>
+                                <li>An toàn tại đường băng</li>
+                                <li>An toàn trang thiết bị mặt đất</li>
+                                <li>Công tác giám sát, đào tạo và văn hóa an toàn</li>
+                                <li>Kết luận và kiến nghị chung</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- File 5 -->
+            <div class="file-card" onclick="showDetails('file5')">
+                <div class="file-title">
+                    <div class="file-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="file-name">Báo cáo chuyên đề.docx</div>
+                </div>
+                <div class="file-content">
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-tag"></i> Chủ đề:</div>
+                        <div class="section-content">Ứng dụng chuyển đổi số trong quản lý trang thiết bị thông tin dẫn đường (Bản tổng hợp)</div>
+                    </div>
+                    <div class="file-section">
+                        <div class="section-title"><i class="fas fa-info-circle"></i> Nội dung chính:</div>
+                        <div class="section-content">
+                            <ul>
+                                <li>Khái quát về chuyển đổi số và chính sách quốc gia</li>
+                                <li>Tổng quan trang thiết bị thông tin dẫn đường</li>
+                                <li>Mô hình chuyển đổi số 4 giai đoạn</li>
+                                <li>Lợi ích, khó khăn và đề xuất</li>
+                                <li>Bảng so sánh hiệu quả trước và sau chuyển đổi số</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>5</h3>
+                    <p>Mẫu báo cáo</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2</h3>
+                    <p>Chủ đề chính</p>
+                </div>
+                <div class="stat-item">
+                    <h3>4</h3>
+                    <p>Giai đoạn chuyển đổi số</p>
+                </div>
+                <div class="stat-item">
+                    <h3>2025</h3>
+                    <p>Năm báo cáo</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><i class="fas fa-info-circle"></i> Trang này hiển thị thông tin tổng hợp từ các mẫu báo cáo chuyên đề đã cung cấp</p>
+            <p>Đơn vị: Đảng bộ Trung tâm Khai thác Khu bay Nội Bài - Chi bộ Đội Thiết bị Thông tin Dẫn đường</p>
+        </footer>
+    </div>
+    
+    <script>
+        function showDetails(fileId) {
+            const fileNames = {
+                'file1': 'Bao cao chuyen de 6.25.docx',
+                'file2': 'Báo cáo chuyên đề 3.6.2025.docx',
+                'file3': 'BÁO CÁO CHUYÊN ĐỀ (5.25).docx',
+                'file4': 'BÁO CÁO CHUYÊN ĐỀ Quý 3.docx',
+                'file5': 'Báo cáo chuyên đề.docx'
+            };
+            
+            alert(`Bạn đã chọn xem chi tiết file: ${fileNames[fileId]}\n\nChức năng xem chi tiết đầy đủ có thể được tích hợp thêm tùy theo yêu cầu.`);
+        }
+    </script>
+</body>
+</html>
